@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Timeline Title</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-family: Georgia, sans-serif;
+            font-size: 4.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        /* Main Content Wrapper */
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .content-section p {
+            text-align: justify;
+        }
+
+        /* Timeline Embed */
+        .timeline-container {
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .timeline-container iframe {
+            width: 100%;
+            height: 650px;
+            border: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            color: #777;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            .content-section h2 {
+                font-size: 1.5em;
+            }
+
+            .timeline-container iframe {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-container iframe {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>OUR AI TIMELINE</h1>
+        <p>A look into the AI revolution of the 2020's</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Introductory Information Above Timeline -->
+        <section class="content-section">
+            <h2>Introduction</h2>
+            <p>
+            </p>
+        </section>
+    </div>
+
+    <!-- Interactive Timeline -->
+    <section class="timeline-container">
+    <!-- should adjust default zoom to make timeline more zoomed out -->
+        <!-- 1 -->
+        <link title="timeline-styles" rel="stylesheet" 
+              href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+
+        <!-- 2 -->
+        <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+
+        <div id='timeline-embed' style="width: 100%; height: 600px"></div>
+
+        <!-- 3 -->
+        <script type="text/javascript">
+            fetch('timeline.json')
+                .then(response => response.json())
+                .then(timeline_json => {
+                    window.timeline = new TL.Timeline('timeline-embed', timeline_json);
+                })
+                .catch(error => console.error('Error loading the JSON file:', error));
+        </script>
+    </section>
+
+    <div class="main-content">
+        <!-- Additional Information Below Timeline -->
+        <section class="content-section">
+            <h2>Key Highlights</h2>
+            <p>
+                Highlight some of the key events or milestones featured in your timeline. This section can provide summaries or insights that complement the interactive elements of the timeline.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>Conclusion</h2>
+            <p>
+                Conclude your website with final thoughts, future directions, or calls to action related to the timeline content.
+            </p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Your Name or Your Organization. All rights reserved.
+    </footer>
+</body>
+</html>
