@@ -111,7 +111,7 @@
 <body>
     <!-- Header Section -->
     <header>
-        <h1>OUR AI TIMELINE</h1>
+        <h1>OUR AGI TIMELINE</h1>
         <p>A look into the AI revolution of the 2020's</p>
     </header>
 
@@ -127,7 +127,6 @@
 
     <!-- Interactive Timeline -->
     <section class="timeline-container">
-    <!-- should adjust default zoom to make timeline more zoomed out -->
         <!-- 1 -->
         <link title="timeline-styles" rel="stylesheet" 
               href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
@@ -139,10 +138,14 @@
 
         <!-- 3 -->
         <script type="text/javascript">
+            var options = {
+                initial_zoom: 0.5,
+                scale_factor: 0.5
+            };
             fetch('timeline.json')
                 .then(response => response.json())
                 .then(timeline_json => {
-                    window.timeline = new TL.Timeline('timeline-embed', timeline_json);
+                    window.timeline = new TL.Timeline('timeline-embed', timeline_json, options);
                 })
                 .catch(error => console.error('Error loading the JSON file:', error));
         </script>
