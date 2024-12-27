@@ -1,176 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Timeline Title</title>
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta charset="UTF-8" />
+    <title>AGI Revolution Timeline (Dark Theme)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        /* Body Styling */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+    <!-- EB Garamond font -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet" />
 
-        /* Header */
-        header {
-            background-color: #fff;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
 
-        header h1 {
-            font-family: Georgia, sans-serif;
-            font-size: 4.5em;
-            margin-bottom: 10px;
-        }
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
 
-        header p {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        /* Main Content Wrapper */
-        .main-content {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* Content Sections */
-        .content-section {
-            margin-bottom: 30px;
-        }
-
-        .content-section h2 {
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        .content-section p {
-            text-align: justify;
-        }
-
-        /* Timeline Embed */
-        .timeline-container {
-            width: 100%;
-            margin: 40px 0;
-        }
-
-        .timeline-container iframe {
-            width: 100%;
-            height: 650px;
-            border: 0;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #fff;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #ddd;
-            color: #777;
-            margin-top: 40px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-
-            header p {
-                font-size: 1em;
-            }
-
-            .content-section h2 {
-                font-size: 1.5em;
-            }
-
-            .timeline-container iframe {
-                height: 500px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .timeline-container iframe {
-                height: 400px;
-            }
-        }
-    </style>
+    <!-- GSAP for scrolling animations -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>OUR AGI TIMELINE</h1>
-        <p>A look into the AI revolution of the 2020's</p>
-    </header>
+    <!-- 3D Canvas for the binary star background -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Introductory Information Above Timeline -->
-        <section class="content-section">
-            <h2>Introduction</h2>
-            <p>
-            </p>
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <img src="assets/images/time100cover.jpg" alt="TIME 100 AI 2023 Cover" class="hero-image" />
+                <div class="hero-text">
+                    <h1>Inside the AGI Revolution <br />2022 - 2024</h1>
+                    <p>
+                        The last three years of AI have happened fast.
+                        This timeline attempts to tell its story.
+                    </p>
+                </div>
+            </div>
         </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline">
+            <!-- Spine + Ticks + Circle (sticky on the left) -->
+            <div class="timeline-spine" id="timeline-spine">
+                <div class="timeline-circle" id="timeline-circle"></div>
+                <div id="ticks-container"></div>
+            </div>
+
+            <!-- Events container (cards on the right) -->
+            <div class="events" id="events-container">
+                <!-- Event cards injected by script.js -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 AI Timeline. By James Campbell and Emiliano Garcia-Lopez</p>
+        </footer>
     </div>
 
-    <!-- Interactive Timeline -->
-    <section class="timeline-container">
-        <!-- 1 -->
-        <link title="timeline-styles" rel="stylesheet" 
-              href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
-
-        <!-- 2 -->
-        <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
-
-        <div id='timeline-embed' style="width: 100%; height: 600px"></div>
-
-        <!-- 3 -->
-        <script type="text/javascript">
-            var options = {
-                initial_zoom: 0.5,
-                scale_factor: 0.5
-            };
-            fetch('timeline.json')
-                .then(response => response.json())
-                .then(timeline_json => {
-                    window.timeline = new TL.Timeline('timeline-embed', timeline_json, options);
-                })
-                .catch(error => console.error('Error loading the JSON file:', error));
-        </script>
-    </section>
-
-    <div class="main-content">
-        <!-- Additional Information Below Timeline -->
-        <section class="content-section">
-            <h2>Key Highlights</h2>
-            <p>
-                Highlight some of the key events or milestones featured in your timeline. This section can provide summaries or insights that complement the interactive elements of the timeline.
-            </p>
-        </section>
-
-        <section class="content-section">
-            <h2>Conclusion</h2>
-            <p>
-                Conclude your website with final thoughts, future directions, or calls to action related to the timeline content.
-            </p>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 Your Name or Your Organization. All rights reserved.
-    </footer>
+    <!-- Scripts -->
+    <script src="timelineData.js"></script>
+    <script src="three-bg.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
