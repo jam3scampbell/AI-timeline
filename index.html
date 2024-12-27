@@ -3,53 +3,49 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>AGI Revolution Timeline (Dark Theme)</title>
+    <title>AGI Revolution Timeline (Pinned Spine)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- EB Garamond font -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- Styles -->
+    <!-- Main Styles -->
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Three.js -->
+    <!-- Three.js (if you want the star background) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
 
-    <!-- GSAP for scrolling animations -->
+    <!-- GSAP (for optional smooth circle movement) -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
 </head>
 
 <body>
-    <!-- 3D Canvas for the binary star background -->
+    <!-- (Optional) Background starfield -->
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
-        <!-- Hero Section -->
+        <!-- Hero Section at top -->
         <section id="hero">
             <div class="hero-content">
                 <img src="assets/images/time100cover.jpg" alt="TIME 100 AI 2023 Cover" class="hero-image" />
                 <div class="hero-text">
-                    <h1>Inside the AGI Revolution <br />2022 - 2024</h1>
-                    <p>
-                        The last three years of AI have happened fast.
-                        This timeline attempts to tell its story.
-                    </p>
+                    <h1>Inside the AGI Revolution<br>2022 - 2024</h1>
+                    <p>The last few years of AI have happened fast. This timeline attempts to tell its story.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Timeline Section -->
+        <!-- Timeline Section (2-column grid) -->
         <section id="timeline">
-            <!-- Spine + Ticks + Circle (sticky on the left) -->
+            <!-- Left column: pinned spine -->
             <div class="timeline-spine" id="timeline-spine">
                 <div class="timeline-circle" id="timeline-circle"></div>
                 <div id="ticks-container"></div>
             </div>
 
-            <!-- Events container (cards on the right) -->
+            <!-- Right column: container for all event cards -->
             <div class="events" id="events-container">
-                <!-- Event cards injected by script.js -->
+                <!-- Cards injected by script.js -->
             </div>
         </section>
 
@@ -61,6 +57,7 @@
 
     <!-- Scripts -->
     <script src="timelineData.js"></script>
+    <!-- three-bg.js if needed for starfield -->
     <script src="three-bg.js"></script>
     <script src="script.js"></script>
 </body>
