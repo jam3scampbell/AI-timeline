@@ -3,20 +3,11 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>AGI Revolution Timeline (Pinned Spine)</title>
+    <title>AGI Revolution Timeline (Vite)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- EB Garamond font -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet" />
-
-    <!-- Main Styles -->
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Three.js (if you want the star background) -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
-
-    <!-- GSAP (for optional smooth circle movement) -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
 </head>
 
 <body>
@@ -27,7 +18,8 @@
         <!-- Hero Section at top -->
         <section id="hero">
             <div class="hero-content">
-                <img src="assets/images/time100cover.jpg" alt="TIME 100 AI 2023 Cover" class="hero-image" />
+                <!-- Note: path uses /assets/... because "public" folder is served at root -->
+                <img src="/assets/images/time100cover.jpg" alt="TIME 100 AI 2023 Cover" class="hero-image" />
                 <div class="hero-text">
                     <h1>Inside the AGI Revolution<br>2022 - 2024</h1>
                     <p>The last few years of AI have happened fast. This timeline attempts to tell its story.</p>
@@ -55,11 +47,8 @@
         </footer>
     </div>
 
-    <!-- Scripts -->
-    <script src="timelineData.js"></script>
-    <!-- three-bg.js if needed for starfield -->
-    <script src="three-bg.js"></script>
-    <script src="script.js"></script>
+    <!-- Our main entry script (Vite will bundle everything) -->
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

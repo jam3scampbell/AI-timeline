@@ -1,0 +1,35 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Check out the repository
+      - uses: actions/checkout@v3
+
+      # 2) Set up Node.js
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3) Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4) Build the project
+      - name: Build project
+        run: npm run build
+
+      # 5) Deploy the dist folder to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
