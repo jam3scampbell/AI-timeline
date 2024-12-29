@@ -3,52 +3,15 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>AGI Revolution Timeline (Vite)</title>
+    <title>AGI Revolution Timeline</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- EB Garamond font -->
+    <!-- EB Garamond -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 
-<body>
-    <!-- (Optional) Background starfield -->
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="container">
-        <!-- Hero Section at top -->
-        <section id="hero">
-            <div class="hero-content">
-                <!-- Note: path uses /assets/... because "public" folder is served at root -->
-                <img src="/assets/images/time100cover.jpg" alt="TIME 100 AI 2023 Cover" class="hero-image" />
-                <div class="hero-text">
-                    <h1>Inside the AGI Revolution<br>2022 - 2024</h1>
-                    <p>The last few years of AI have happened fast. This timeline attempts to tell its story.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline Section (2-column grid) -->
-        <section id="timeline">
-            <!-- Left column: pinned spine -->
-            <div class="timeline-spine" id="timeline-spine">
-                <div class="timeline-circle" id="timeline-circle"></div>
-                <div id="ticks-container"></div>
-            </div>
-
-            <!-- Right column: container for all event cards -->
-            <div class="events" id="events-container">
-                <!-- Cards injected by script.js -->
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <p>© 2024 AI Timeline. By James Campbell and Emiliano Garcia-Lopez</p>
-        </footer>
-    </div>
-
-    <!-- Our main entry script (Vite will bundle everything) -->
-    <script type="module" src="/src/main.js"></script>
+<body class="bg-[#0a0a0f]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
