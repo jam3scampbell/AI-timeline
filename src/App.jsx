@@ -17,12 +17,13 @@ export default function App() {
                             alt="TIME 100 AI 2023 Cover"
                             className="w-[120px] mb-5 border border-gray-600 shadow-lg"
                         />
-                        <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
+
+                        <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
                             Inside the AGI Revolution
                             <br />
                             2022 - 2024
                         </h1>
-                        <p className="text-gray-300 max-w-xl text-base">
+                        <p className="text-gray-300 max-w-xl text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.
                         </p>
                     </div>
