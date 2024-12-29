@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Node.js CI and Deploy
 
 on:
   push:
@@ -16,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
@@ -27,3 +23,30 @@ jobs:
           cache: "npm"
       - run: npm install
       - run: npm run build --if-present
+
+      # Only run deployment on Node.js 18.x to avoid multiple deployments
+      - name: Deploy to GitHub Pages
+        if: matrix.node-version == '18.x' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+
+      # Copy CNAME file to dist folder
+      - name: Copy CNAME file
+        if: matrix.node-version == '18.x' && github.ref == 'refs/heads/main'
+        run: |
+          cp assets/CNAME dist/CNAME
+
+      # Optional: Add custom domain configuration
+      - name: Configure custom domain
+        if: matrix.node-version == '18.x' && github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v3
+        with:
+          enablement: true
+          custom_domain: agitimeline.org
+
+permissions:
+  contents: write
+  pages: write
