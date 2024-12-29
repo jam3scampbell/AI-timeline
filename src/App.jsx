@@ -36,7 +36,7 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400">
-                    © 2024 AI Timeline. By James Campbell and Emiliano Garcia-Lopez
+                    © 2024 AI Timeline. By James Campbell, Emiliano Garcia-Lopez
                 </footer>
             </div>
         </>
