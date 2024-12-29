@@ -23,7 +23,7 @@ export default function App() {
                         <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
                             Inside the AGI Revolution
                             <br />
-                            2022 - 2024
+                            2022 - 2025
                         </h1>
                         <p className="text-gray-300 max-w-xl text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.

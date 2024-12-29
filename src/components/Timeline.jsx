@@ -88,7 +88,7 @@ export default function ImprovedTimeline() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 100 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed top-20 right-4 w-48 bg-black/30 backdrop-blur-md rounded-lg p-4 shadow-xl border border-white/10 z-40"
+                        className="fixed top-20 right-4 w-48 bg-black/30 backdrop-blur-sm rounded-lg p-4 shadow-xl border border-white/10 z-40"
                     >
                         <div className="text-sm font-medium mb-3 text-white/80">Timeline Overview</div>
                         <div className="space-y-1.5">
@@ -112,14 +112,16 @@ export default function ImprovedTimeline() {
             {/* Main timeline */}
             <section
                 ref={timelineRef}
-                className="grid grid-cols-[80px_1fr] gap-12 mb-16 relative"
+                className="grid grid-cols-[84px_1fr] gap-12 mb-16 relative"
             >
                 {/* Left column: Timeline spine */}
-                <div className="sticky top-0 h-screen">
+                <div className="sticky top-0 h-screen ml-auto">
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-white/30" />
                     {/* Moving dot - positioned based on actual date */}
                     <div
                         className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                        // Inside Timeline.jsx, modify the dot position calculation:
+
                         style={{
                             top: `${(() => {
                                 const activeDate = new Date(
@@ -127,18 +129,17 @@ export default function ImprovedTimeline() {
                                     events[activeEventIndex].start_date.month - 1,
                                     events[activeEventIndex].start_date.day
                                 );
-                                const firstDate = new Date(2022, 6, 1); // Start from mid-2022 to position Late 2022 correctly
-                                const lastDate = new Date(
-                                    events[events.length - 1].start_date.year,
-                                    11,
-                                    31
-                                );
+                                // Start from beginning of November 2022 (first event)
+                                const firstDate = new Date(2022, 10, 1); // November 2022
+                                // End at end of December 2024 (last event)
+                                const lastDate = new Date(2025, 2, 31); // End of March 2025
 
                                 // Calculate position within the timeline
-                                const totalDays = (lastDate - firstDate) / (1000 * 60 * 60 * 24);
-                                const daysSinceStart = (activeDate - firstDate) / (1000 * 60 * 60 * 24);
+                                const totalTime = lastDate - firstDate;
+                                const elapsedTime = activeDate - firstDate;
 
-                                return (daysSinceStart / totalDays) * 84 + 8;
+                                // Return a percentage between 8% (top) and 92% (bottom)
+                                return (elapsedTime / totalTime) * 84 + 8;
                             })()}%`
                         }}
                     />
@@ -146,6 +147,8 @@ export default function ImprovedTimeline() {
                     {(() => {
                         // Get all years from events
                         const years = [...new Set(events.map(event => event.start_date.year))];
+                        // Inside Timeline.jsx, in the seasonal markers calculation:
+
                         const markers = [
                             // Start with Late 2022
                             { label: 'Late 2022', date: new Date(2022, 6, 1) }
@@ -178,13 +181,19 @@ export default function ImprovedTimeline() {
                             });
                         });
 
+                        // Add Early 2025 as the final marker
+                        markers.push({
+                            label: 'Early 2025',
+                            date: new Date(2025, 2, 1)  // March 2025
+                        });
+
                         return markers.map((marker, index) => {
                             const position = (index / (markers.length - 1)) * 84 + 8;
 
                             return (
                                 <div
                                     key={`${marker.date.getTime()}`}
-                                    className="absolute left-1/2 transform -translate-x-full pr-6 text-right w-24"
+                                    className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
                                     style={{
                                         top: `${position}%`,
                                         transform: 'translate(-100%, -50%)'
