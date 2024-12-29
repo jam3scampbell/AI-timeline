@@ -1,38 +1,109 @@
-import React, { useEffect } from "react";
-import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect } from 'react';
+import * as THREE from 'three';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Starfield() {
+export default function NeuralBackground() {
     useEffect(() => {
         let scene, camera, renderer;
-        let star1, star2;
-        let angle1 = 0;
-        let angle2 = 0;
-        const baseSpeed1 = 0.003;
-        const baseSpeed2 = 0.005;
-        let globalSpeedFactor = 1;
+        let nodes = [];
+        let connections = [];
         let animationFrameId;
+        const nodeCount = 50;
+        const connectionDistance = 150;
+        let time = 0;
+
+        class Node {
+            constructor() {
+                const geometry = new THREE.SphereGeometry(2, 16, 16);
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0x4a9eff,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.4,
+                    (Math.random() - 0.5) * 0.4,
+                    (Math.random() - 0.5) * 0.4
+                );
+                this.mesh.position.set(
+                    (Math.random() - 0.5) * 500,
+                    (Math.random() - 0.5) * 500,
+                    (Math.random() - 0.5) * 500
+                );
+            }
+
+            update() {
+                this.mesh.position.add(this.velocity);
+
+                // Boundary check and bounce
+                ['x', 'y', 'z'].forEach(axis => {
+                    if (Math.abs(this.mesh.position[axis]) > 250) {
+                        this.velocity[axis] *= -1;
+                    }
+                });
+
+                // Subtle position modification based on sine wave
+                this.mesh.position.y += Math.sin(time * 2 + this.mesh.position.x) * 0.3;
+            }
+        }
+
+        class Connection {
+            constructor(startNode, endNode) {
+                const geometry = new THREE.BufferGeometry().setFromPoints([
+                    startNode.mesh.position,
+                    endNode.mesh.position
+                ]);
+
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x4a9eff,
+                    transparent: true,
+                    opacity: 0.2
+                });
+
+                this.line = new THREE.Line(geometry, material);
+                this.startNode = startNode;
+                this.endNode = endNode;
+            }
+
+            update() {
+                const distance = this.startNode.mesh.position.distanceTo(this.endNode.mesh.position);
+                if (distance < connectionDistance) {
+                    // Update line positions
+                    const points = [
+                        this.startNode.mesh.position,
+                        this.endNode.mesh.position
+                    ];
+                    this.line.geometry.setFromPoints(points);
+
+                    // Update opacity based on distance
+                    const opacity = 0.5 * (1 - distance / connectionDistance);
+                    this.line.material.opacity = opacity;
+                    this.line.visible = true;
+                } else {
+                    this.line.visible = false;
+                }
+            }
+        }
 
         function init() {
-            const container = document.getElementById("bg-canvas");
+            const container = document.getElementById('neural-canvas');
             if (!container) return;
 
+            // Scene setup
             scene = new THREE.Scene();
-
-            // Initial camera setup
             camera = new THREE.PerspectiveCamera(
-                45,
+                75,
                 window.innerWidth / window.innerHeight,
-                1,
-                3000
+                0.1,
+                2000
             );
-            camera.position.set(400, 300, 400);
-            camera.lookAt(0, 0, 0);
+            camera.position.z = 500;
 
-            // Initialize renderer
+            // Renderer setup
             renderer = new THREE.WebGLRenderer({
                 canvas: container,
                 alpha: true,
@@ -41,77 +112,59 @@ export default function Starfield() {
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            createBinaryStars();
-            addLights();
-            setupStarFlicker();
-            animate();
-        }
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                const node = new Node();
+                nodes.push(node);
+                scene.add(node.mesh);
 
-        function createBinaryStars() {
-            // First star
-            const geometry1 = new THREE.SphereGeometry(30, 32, 32);
-            const material1 = new THREE.MeshStandardMaterial({
-                color: 0x8a2be2,
-                emissive: 0x8a2be2,
-                emissiveIntensity: 0.3,
-                roughness: 0.4,
-                metalness: 0.2
-            });
-            star1 = new THREE.Mesh(geometry1, material1);
-            scene.add(star1);
+                // Pulse animation
+                gsap.to(node.mesh.scale, {
+                    x: 1.5,
+                    y: 1.5,
+                    z: 1.5,
+                    duration: 1 + Math.random(),
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: Math.random() * 2
+                });
+            }
 
-            // Second star
-            const geometry2 = new THREE.SphereGeometry(20, 32, 32);
-            const material2 = new THREE.MeshStandardMaterial({
-                color: 0x4169e1,
-                emissive: 0x4169e1,
-                emissiveIntensity: 0.3,
-                roughness: 0.4,
-                metalness: 0.2
-            });
-            star2 = new THREE.Mesh(geometry2, material2);
-            scene.add(star2);
-        }
+            // Create connections
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const connection = new Connection(nodes[i], nodes[j]);
+                    connections.push(connection);
+                    scene.add(connection.line);
+                }
+            }
 
-        function addLights() {
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-            directionalLight.position.set(0, 200, 300);
-            scene.add(directionalLight);
-        }
-
-        function setupStarFlicker() {
-            gsap.to(star1.material, {
-                emissiveIntensity: 0.9,
-                duration: 1.2,
-                yoyo: true,
-                repeat: -1,
-                ease: "sine.inOut"
-            });
-            gsap.to(star2.material, {
-                emissiveIntensity: 0.9,
-                duration: 1.0,
-                yoyo: true,
-                repeat: -1,
-                ease: "sine.inOut"
+            // Add subtle rotation to camera based on scroll
+            ScrollTrigger.create({
+                trigger: document.body,
+                start: "top top",
+                end: "bottom bottom",
+                onUpdate: (self) => {
+                    camera.position.y = -100 + (self.progress * 200);
+                    camera.lookAt(0, 0, 0);
+                }
             });
         }
 
         function animate() {
             animationFrameId = requestAnimationFrame(animate);
+            time += 0.01;
 
-            angle1 += baseSpeed1 * globalSpeedFactor;
-            angle2 += baseSpeed2 * globalSpeedFactor;
+            // Update nodes
+            nodes.forEach(node => node.update());
 
-            const radius1 = 80;
-            star1.position.x = radius1 * Math.cos(angle1);
-            star1.position.z = radius1 * Math.sin(angle1);
+            // Update connections
+            connections.forEach(connection => connection.update());
 
-            const radius2 = 120;
-            star2.position.x = radius2 * Math.cos(angle2);
-            star2.position.z = radius2 * Math.sin(angle2);
+            // Rotate camera slightly
+            camera.position.x = Math.sin(time * 0.1) * 50;
+            camera.lookAt(0, 0, 0);
 
             renderer.render(scene, camera);
         }
@@ -126,22 +179,11 @@ export default function Starfield() {
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
 
-        function setupScrollAnimations() {
-            ScrollTrigger.create({
-                trigger: document.body,
-                start: "top top",
-                end: "bottom bottom",
-                onUpdate: (self) => {
-                    globalSpeedFactor = 1 + (self.progress * 4);
-                }
-            });
-        }
-
-        // Initialize everything
+        // Initialize and start animation
         init();
-        setupScrollAnimations();
+        animate();
 
-        // Add event listener
+        // Handle window resize
         window.addEventListener('resize', handleResize);
 
         // Cleanup
@@ -172,7 +214,7 @@ export default function Starfield() {
 
     return (
         <canvas
-            id="bg-canvas"
+            id="neural-canvas"
             className="fixed top-0 left-0 w-full h-full z-0"
         />
     );

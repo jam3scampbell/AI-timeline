@@ -1,202 +1,133 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import { TIMELINE_DATA } from "../data/timelineData";
-import gsap from "gsap";
 
-export default function Timeline() {
-    const events = useMemo(() => {
-        // Sort by date once
-        const sorted = [...TIMELINE_DATA.events].sort(
-            (a, b) => toDateObj(a.start_date) - toDateObj(b.start_date)
-        );
-        return sorted;
-    }, []);
+export default function ImprovedTimeline() {
+    const [activeEventIndex, setActiveEventIndex] = useState(0);
+    const [showMiniMap, setShowMiniMap] = useState(true);
+    const timelineRef = useRef(null);
+    const events = [...TIMELINE_DATA.events].sort(
+        (a, b) => new Date(a.start_date.year, a.start_date.month - 1) -
+            new Date(b.start_date.year, b.start_date.month - 1)
+    );
 
-    const [closestEventDate, setClosestEventDate] = useState(null);
-    const ticksContainerRef = useRef(null);
-    const circleRef = useRef(null);
-
-    // Generate seasonal ticks
-    const seasonalTicks = useMemo(() => {
-        if (!events.length) return [];
-        const minDate = toDateObj(events[0].start_date);
-        const maxDate = toDateObj(events[events.length - 1].start_date);
-        return generateSeasonalTicks(minDate, maxDate);
-    }, [events]);
-
+    // Calculate which event is in view
     useEffect(() => {
-        function handleScroll() {
-            // The vertical center of the viewport
-            const viewportMid = window.innerHeight / 2;
-            // Find all event-card elements
-            const cards = document.querySelectorAll(".event-card");
-            let closestCard = null;
-            let closestDist = Infinity;
+        const handleScroll = () => {
+            if (!timelineRef.current) return;
 
-            cards.forEach((card) => {
+            const cards = timelineRef.current.getElementsByClassName('event-card');
+            const viewportHeight = window.innerHeight;
+            const scrollTop = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight;
+
+            // Handle edge cases first
+            if (scrollTop <= viewportHeight * 0.1) {
+                // We're at the top
+                setActiveEventIndex(0);
+                return;
+            }
+
+            if (scrollTop + viewportHeight >= documentHeight - viewportHeight * 0.1) {
+                // We're at the bottom
+                setActiveEventIndex(events.length - 1);
+                return;
+            }
+
+            // For all other cases, find the card closest to the middle
+            const viewportMiddle = scrollTop + (viewportHeight / 2);
+            let closestCard = 0;
+            let minDistance = Infinity;
+
+            Array.from(cards).forEach((card, index) => {
                 const rect = card.getBoundingClientRect();
-                const cardMid = rect.top + rect.height / 2;
-                const dist = Math.abs(cardMid - viewportMid);
-                if (dist < closestDist) {
-                    closestDist = dist;
-                    closestCard = card;
+                const cardMiddle = scrollTop + rect.top + (rect.height / 2);
+                const distance = Math.abs(cardMiddle - viewportMiddle);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCard = index;
                 }
             });
 
-            if (!closestCard) return;
-            setClosestEventDate(closestCard.dataset.eventDate);
-        }
-
-        window.addEventListener("scroll", handleScroll);
-        // On mount, run once
-        handleScroll();
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
+            setActiveEventIndex(closestCard);
         };
-    }, []);
 
-    useEffect(() => {
-        if (!closestEventDate || !ticksContainerRef.current || !circleRef.current)
-            return;
-
-        // Map date to fraction
-        const cardDate = parseYYYYMMDD(closestEventDate);
-        const minDate = toDateObj(events[0].start_date);
-        const maxDate = toDateObj(events[events.length - 1].start_date);
-        const fraction = (cardDate - minDate) / (maxDate - minDate);
-
-        // Circle position
-        const maxY = ticksContainerRef.current.offsetHeight - 24; // circle is 24px tall
-        const yVal = fraction * maxY;
-
-        gsap.to(circleRef.current, {
-            duration: 0.3,
-            y: yVal,
-            ease: "power2.out"
-        });
-    }, [closestEventDate, events]);
+        window.addEventListener('scroll', handleScroll);
+        // Trigger initial calculation
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [events.length]);
 
     return (
-        <section
-            id="timeline"
-            className="relative grid grid-cols-[80px_1fr] gap-12 mb-16"
-        >
-            {/* Left column: pinned spine */}
-            <div className="sticky top-0 h-screen bg-transparent">
-                {/* The vertical line behind ticks/circle */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-white/30 z-[-1]" />
+        <div className="relative">
+            {/* Mini-map toggle button */}
+            <button
+                onClick={() => setShowMiniMap(!showMiniMap)}
+                className="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md backdrop-blur-sm transition-all"
+            >
+                {showMiniMap ? 'Hide' : 'Show'} Overview
+            </button>
 
-                {/* The circle that moves */}
-                <div
-                    ref={circleRef}
-                    className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full"
-                />
-
-                {/* Container for ticks */}
-                <div
-                    ref={ticksContainerRef}
-                    className="absolute top-5 left-1/2 transform -translate-x-1/2 w-[2px] h-[calc(100%-40px)]"
-                >
-                    {seasonalTicks.map((tick, i) => {
-                        const topPercent = i / (seasonalTicks.length - 1 || 1) * 100;
-                        return (
-                            <div
-                                key={`${tick.year}-${tick.seasonIndex}`}
-                                className="absolute left-1/2 transform -translate-x-1/2 w-[6px] h-[6px] bg-white/60 rounded-full"
-                                style={{ top: `${topPercent}%` }}
+            {/* Mini-map */}
+            {showMiniMap && (
+                <div className="fixed top-20 right-4 w-48 bg-black/30 backdrop-blur-md rounded-lg p-4 shadow-xl border border-white/10 z-40">
+                    <div className="text-sm font-bold mb-2 text-white/80">Timeline Overview</div>
+                    <div className="space-y-1">
+                        {events.map((event, index) => (
+                            <button
+                                key={index}
+                                onClick={() => scrollToEvent(index)}
+                                className={`w-full text-left p-2 text-xs rounded transition-all ${index === activeEventIndex
+                                    ? 'bg-white/20 text-white'
+                                    : 'text-white/60 hover:bg-white/10'
+                                    }`}
                             >
-                                <div className="absolute left-[10px] -translate-y-1/2 text-xs text-gray-300 font-light whitespace-nowrap">
-                                    {seasonLabel(tick.seasonIndex)} {tick.year}
-                                </div>
-                            </div>
-                        );
-                    })}
+                                {event.text.headline}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
-            {/* Right column: event cards */}
-            <div className="relative">
-                {events.map((ev) => {
-                    const { year, month, day } = ev.start_date;
-                    const dateStr = formatDate(year, month, day);
-                    return (
+            {/* Main timeline */}
+            <section
+                ref={timelineRef}
+                className="grid grid-cols-[80px_1fr] gap-12 mb-16 relative"
+            >
+                {/* Left column: Timeline spine */}
+                <div className="sticky top-0 h-screen">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-white/30" />
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                        style={{
+                            top: `${(activeEventIndex / (events.length - 1)) * 90 + 5}%`
+                        }}
+                    />
+                </div>
+
+                {/* Right column: Event cards */}
+                <div className="space-y-12 py-16">
+                    {events.map((event, index) => (
                         <div
-                            key={`${year}-${month}-${day}`}
-                            className="event-card my-10 p-5 w-full bg-white/10 
-                         backdrop-blur-md rounded-md border border-white/10 
-                         shadow-md hover:shadow-xl transition-shadow"
-                            data-event-date={`${year}-${month}-${day}`}
+                            key={index}
+                            className={`event-card transition-all duration-300 p-6 rounded-lg border ${index === activeEventIndex
+                                ? 'bg-white/15 border-white/20 shadow-lg scale-105'
+                                : 'bg-white/5 border-white/5 hover:bg-white/10'
+                                }`}
                         >
-                            <div className="event-date text-gray-300 text-base mb-1">
-                                {dateStr}
+                            <div className="text-sm text-white/60 mb-1">
+                                {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
                             </div>
-                            <div className="event-title text-xl font-bold text-white mb-2">
-                                {ev.text.headline}
-                            </div>
-                            {/* Dangerously set inner HTML to preserve the original <p> etc. */}
+                            <h3 className="text-xl font-bold text-white mb-2">
+                                {event.text.headline}
+                            </h3>
                             <div
-                                className="event-text text-gray-200 text-sm"
-                                dangerouslySetInnerHTML={{ __html: ev.text.text }}
+                                className="text-white/80"
+                                dangerouslySetInnerHTML={{ __html: event.text.text }}
                             />
                         </div>
-                    );
-                })}
-            </div>
-        </section>
+                    ))}
+                </div>
+            </section>
+        </div>
     );
-}
-
-/* ------------- Utilities ------------- */
-function toDateObj({ year, month, day }) {
-    return new Date(+year, +month - 1, +day);
-}
-
-function parseYYYYMMDD(str) {
-    const [y, m, d] = str.split("-").map(Number);
-    return new Date(y, m - 1, d);
-}
-
-function formatDate(year, month, day) {
-    const months = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
-    return `${months[month - 1]} ${day}, ${year}`;
-}
-
-function dateToSeason(d) {
-    const m = d.getMonth() + 1;
-    const y = d.getFullYear();
-    if (m === 12 || m === 1 || m === 2) return [y, 0]; // Winter
-    if (m >= 3 && m <= 5) return [y, 1]; // Spring
-    if (m >= 6 && m <= 8) return [y, 2]; // Summer
-    return [y, 3];                       // Fall
-}
-
-function nextSeason(y, s) {
-    if (s < 3) return [y, s + 1];
-    return [y + 1, 0];
-}
-
-function seasonLabel(seasonIndex) {
-    switch (seasonIndex) {
-        case 0: return "Winter";
-        case 1: return "Spring";
-        case 2: return "Summer";
-        case 3: return "Fall";
-        default: return "Unknown";
-    }
-}
-
-function generateSeasonalTicks(minDate, maxDate) {
-    const ticks = [];
-    let [cy, cs] = dateToSeason(minDate);
-    const [ey, es] = dateToSeason(maxDate);
-
-    while (true) {
-        ticks.push({ year: cy, seasonIndex: cs });
-        if (cy === ey && cs === es) break;
-        [cy, cs] = nextSeason(cy, cs);
-    }
-    return ticks;
 }
