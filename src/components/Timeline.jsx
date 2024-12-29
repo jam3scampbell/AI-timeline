@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TIMELINE_DATA } from "../data/timelineData";
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 export default function ImprovedTimeline() {
     const [activeEventIndex, setActiveEventIndex] = useState(0);
@@ -60,34 +62,42 @@ export default function ImprovedTimeline() {
 
     return (
         <div className="relative">
-            {/* Mini-map toggle button */}
+            {/* Fixed-width button */}
             <button
                 onClick={() => setShowMiniMap(!showMiniMap)}
-                className="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md backdrop-blur-sm transition-all"
+                className="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md backdrop-blur-sm transition-all w-[140px]"
             >
                 {showMiniMap ? 'Hide' : 'Show'} Overview
             </button>
 
-            {/* Mini-map */}
-            {showMiniMap && (
-                <div className="fixed top-20 right-4 w-48 bg-black/30 backdrop-blur-md rounded-lg p-4 shadow-xl border border-white/10 z-40">
-                    <div className="text-sm font-bold mb-2 text-white/80">Timeline Overview</div>
-                    <div className="space-y-1">
-                        {events.map((event, index) => (
-                            <button
-                                key={index}
-                                onClick={() => scrollToEvent(index)}
-                                className={`w-full text-left p-2 text-xs rounded transition-all ${index === activeEventIndex
-                                    ? 'bg-white/20 text-white'
-                                    : 'text-white/60 hover:bg-white/10'
-                                    }`}
-                            >
-                                {event.text.headline}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {/* Animated mini-map */}
+            <AnimatePresence>
+                {showMiniMap && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed top-20 right-4 w-48 bg-black/30 backdrop-blur-md rounded-lg p-4 shadow-xl border border-white/10 z-40"
+                    >
+                        <div className="text-sm font-bold mb-2 text-white/80">Timeline Overview</div>
+                        <div className="space-y-1">
+                            {events.map((event, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => scrollToEvent(index)}
+                                    className={`w-full text-left p-2 text-xs rounded transition-all ${index === activeEventIndex
+                                        ? 'bg-white/20 text-white'
+                                        : 'text-white/60 hover:bg-white/10'
+                                        }`}
+                                >
+                                    {event.text.headline}
+                                </button>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Main timeline */}
             <section
