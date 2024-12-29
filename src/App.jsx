@@ -15,7 +15,7 @@ export default function App() {
                 <section id="hero" className="py-16 text-center">
                     <div className="flex flex-col items-center">
                         <img
-                            src="public/time100cover.jpg"
+                            src="time100cover.jpg"
                             alt="TIME 100 AI 2023 Cover"
                             className="w-[120px] mb-5 border border-gray-600 shadow-lg"
                         />
