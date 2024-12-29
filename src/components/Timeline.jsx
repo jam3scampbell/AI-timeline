@@ -97,8 +97,8 @@ export default function ImprovedTimeline() {
                                     key={index}
                                     onClick={() => scrollToEvent(index)}
                                     className={`w-full text-left p-2 text-xs rounded transition-all ${index === activeEventIndex
-                                            ? 'bg-white/20 text-white font-medium'
-                                            : 'text-white/60 hover:bg-white/10'
+                                        ? 'bg-white/20 text-white'
+                                        : 'text-white/60 hover:bg-white/10'
                                         }`}
                                 >
                                     {event.text.headline}
@@ -112,19 +112,92 @@ export default function ImprovedTimeline() {
             {/* Main timeline */}
             <section
                 ref={timelineRef}
-                className="grid grid-cols-[80px_1fr] gap-8 mb-16 relative"
+                className="grid grid-cols-[80px_1fr] gap-12 mb-16 relative"
             >
                 {/* Left column: Timeline spine */}
                 <div className="sticky top-0 h-screen">
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-white/30" />
+                    {/* Moving dot - positioned based on actual date */}
                     <div
                         className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full transition-all duration-300"
                         style={{
-                            top: `${(activeEventIndex / (events.length - 1)) * 90 + 5}%`
+                            top: `${(() => {
+                                const activeDate = new Date(
+                                    events[activeEventIndex].start_date.year,
+                                    events[activeEventIndex].start_date.month - 1,
+                                    events[activeEventIndex].start_date.day
+                                );
+                                const firstDate = new Date(2022, 6, 1); // Start from mid-2022 to position Late 2022 correctly
+                                const lastDate = new Date(
+                                    events[events.length - 1].start_date.year,
+                                    11,
+                                    31
+                                );
+
+                                // Calculate position within the timeline
+                                const totalDays = (lastDate - firstDate) / (1000 * 60 * 60 * 24);
+                                const daysSinceStart = (activeDate - firstDate) / (1000 * 60 * 60 * 24);
+
+                                return (daysSinceStart / totalDays) * 84 + 8;
+                            })()}%`
                         }}
                     />
-                </div>
+                    {/* Seasonal markers */}
+                    {(() => {
+                        // Get all years from events
+                        const years = [...new Set(events.map(event => event.start_date.year))];
+                        const markers = [
+                            // Start with Late 2022
+                            { label: 'Late 2022', date: new Date(2022, 6, 1) }
+                        ];
 
+                        // Add markers for subsequent years
+                        years.slice(1).forEach(year => {
+                            // Check if there are events in the first half of the year
+                            const hasFirstHalf = events.some(event =>
+                                event.start_date.year === year && event.start_date.month <= 6
+                            );
+
+                            // Check if there are events in the second half of the year
+                            const hasSecondHalf = events.some(event =>
+                                event.start_date.year === year && event.start_date.month > 6
+                            );
+
+                            // Add mid-year marker if there are events around it
+                            if (hasFirstHalf || hasSecondHalf) {
+                                markers.push({
+                                    label: `Mid ${year}`,
+                                    date: new Date(year, 5, 1)
+                                });
+                            }
+
+                            // Add late-year marker
+                            markers.push({
+                                label: `Late ${year}`,
+                                date: new Date(year, 11, 1)
+                            });
+                        });
+
+                        return markers.map((marker, index) => {
+                            const position = (index / (markers.length - 1)) * 84 + 8;
+
+                            return (
+                                <div
+                                    key={`${marker.date.getTime()}`}
+                                    className="absolute left-1/2 transform -translate-x-full pr-6 text-right w-24"
+                                    style={{
+                                        top: `${position}%`,
+                                        transform: 'translate(-100%, -50%)'
+                                    }}
+                                >
+                                    <span className="text-sm text-white/70 font-medium whitespace-nowrap">
+                                        {marker.label}
+                                    </span>
+                                </div>
+                            );
+                        });
+                    })()}
+                </div>
                 {/* Right column: Event cards */}
                 <div className="space-y-8 py-12">
                     {events.map((event, index) => (
