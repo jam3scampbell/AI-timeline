@@ -4,41 +4,35 @@ import { TIMELINE_DATA } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Constants
-const MIN_COLUMN_WIDTH = 200;
-const COLUMN_GAP = 16;
-const TIME_MARKER_WIDTH = 100;
-const Z_INDEX_BASE = 20; // Update this constant at the top
-const Z_INDEX_HOVER = 100; // Keep this the same
-const MIN_CARD_HEIGHT = 80;
-const PIXELS_PER_DAY = 1.5;
+const MIN_CARD_WIDTH = 250;
+const ROW_GAP = 0;
+const TIME_MARKER_HEIGHT = 40;
+const Z_INDEX_BASE = 20;
+const Z_INDEX_HOVER = 100;
+const MIN_CARD_HEIGHT = 140;
+const PIXELS_PER_DAY = 3;
 
 const EventCard = ({
     event,
     position,
-    column,
-    totalColumns,
+    row,
+    totalRows,
     isHovered,
     onHover,
-    containerWidth,
-    columnIndex,
-    totalInColumn
+    rowHeight,
 }) => {
-    const height = MIN_CARD_HEIGHT + (event.importance * 40);
-    const availableWidth = containerWidth;
-    const columnWidth = (availableWidth - (COLUMN_GAP * (totalColumns - 1))) / totalColumns;
-    const leftPos = column * (columnWidth + COLUMN_GAP);
-
-    const baseZIndex = Z_INDEX_BASE + (column * totalInColumn) + columnIndex;
+    const width = MIN_CARD_WIDTH + (event.importance * 40);
+    const topPos = (row * rowHeight) + TIME_MARKER_HEIGHT + (ROW_GAP * row);
 
     return (
         <motion.div
             className="absolute"
             style={{
-                top: `${position}px`,
-                left: `${leftPos}px`,
-                width: `${columnWidth}px`,
-                height: `${height}px`,
-                zIndex: isHovered ? Z_INDEX_HOVER : baseZIndex,
+                left: `${position}px`,
+                top: `${topPos}px`,
+                width: `${width}px`,
+                height: `${MIN_CARD_HEIGHT}px`,
+                zIndex: isHovered ? Z_INDEX_HOVER : Z_INDEX_BASE,
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -51,11 +45,11 @@ const EventCard = ({
         >
             <div
                 className={`
-        h-full rounded-lg border p-2 sm:p-4 transition-all duration-200
-        ${isHovered ? 'border-white/20 shadow-xl' : 'border-white/5'}
-        ${event.importance >= 2.5 ? 'border-white/30' : ''}
-        ${isHovered ? 'transform translate-y-1' : ''}
-    `}
+                    h-full rounded-lg border p-2 sm:p-4 transition-all duration-200
+                    ${isHovered ? 'border-white/20 shadow-xl' : 'border-white/5'}
+                    ${event.importance >= 2.5 ? 'border-white/30' : ''}
+                    ${isHovered ? 'transform translate-y-1' : ''}
+                `}
                 style={{
                     backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.03)',
                     backgroundImage: isHovered
@@ -70,43 +64,58 @@ const EventCard = ({
                         : 'linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)',
                 }}
             >
-                <h3
-                    className={`
-                        font-serif leading-snug mb-1 pointer-events-none
-                        ${event.importance >= 2.5 ? 'text-2xl' : 'text-xl'}
-                        ${isHovered ? 'text-white' : 'text-white/90'}
-                    `}
-                >
-                    {event.text.headline}
-                </h3>
-                <div className="text-sm font-sans text-white/60 font-medium pointer-events-none">
-                    {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
+                <div
+                    className="absolute inset-0 rounded-lg transition-opacity duration-200"
+                    style={{
+                        background: `
+                            radial-gradient(
+                                circle at 50% 50%,
+                                rgba(255, 255, 255, ${isHovered ? '0.1' : '0.05'}) 0%,
+                                transparent 70%
+                            )
+                        `,
+                        opacity: isHovered ? 1 : 0,
+                    }}
+                />
+                <div className="relative z-10"> {/* Added container for content */}
+                    <h3
+                        className={`
+                            font-serif leading-snug mb-1 pointer-events-none
+                            ${event.importance >= 2.5 ? 'text-2xl' : 'text-xl'}
+                            ${isHovered ? 'text-white' : 'text-white/90'}
+                        `}
+                    >
+                        {event.text.headline}
+                    </h3>
+                    <div className="text-sm font-sans text-white/60 font-medium pointer-events-none">
+                        {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
+                    </div>
+                    <AnimatePresence>
+                        {isHovered && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="text-sm font-sans text-white/80 mt-1 overflow-hidden pointer-events-none"
+                                dangerouslySetInnerHTML={{ __html: event.text.text }}
+                            />
+                        )}
+                    </AnimatePresence>
                 </div>
-                <AnimatePresence>
-                    {isHovered && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="text-sm font-sans text-white/80 mt-1 overflow-hidden pointer-events-none"
-                            dangerouslySetInnerHTML={{ __html: event.text.text }}
-                        />
-                    )}
-                </AnimatePresence>
             </div>
         </motion.div>
     );
 };
 const TimeMarker = ({ date, position }) => (
     <div
-        className="absolute left-0 w-full select-none pointer-events-none z-0"
-        style={{ top: `${position}px` }}
+        className="absolute top-0 h-full select-none pointer-events-none z-0"
+        style={{ left: `${position}px` }}
     >
         <div className="relative">
-            <div className="absolute left-0 w-[100px] text-right text-sm font-sans text-white/40 font-medium whitespace-nowrap transform -translate-y-1/2 -translate-x-[10px]">
+            <div className="absolute top-0 text-sm font-sans text-white/40 font-medium whitespace-nowrap transform -translate-x-1/2">
                 {`${date.toLocaleDateString('en-US', { month: 'short' })} '${date.getFullYear().toString().slice(2)}`}
             </div>
-            <div className="absolute left-[100px] right-0 border-t border-white/10" />
+            <div className="absolute top-[30px] h-full border-l border-white/10" />
         </div>
     </div>
 );
@@ -115,6 +124,8 @@ export default function Timeline() {
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
+    const ROW_COUNT = 4; // Fixed number of rows
+    const ROW_HEIGHT = 160; // Fixed height for each row
 
     useEffect(() => {
         const updateWidth = () => {
@@ -128,15 +139,6 @@ export default function Timeline() {
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
-    const columnCount = useMemo(() => {
-        if (!containerWidth) return 3;
-        if (containerWidth < 480) return 2; // For very small phones
-
-        const availableWidth = containerWidth - TIME_MARKER_WIDTH;
-        const possibleColumns = Math.floor((availableWidth + COLUMN_GAP) / (MIN_COLUMN_WIDTH + COLUMN_GAP));
-        return Math.min(4, Math.max(3, possibleColumns));
-    }, [containerWidth]);
-
     const events = useMemo(() => {
         return [...TIMELINE_DATA.events].sort((a, b) => {
             const dateA = new Date(a.start_date.year, a.start_date.month - 1, a.start_date.day);
@@ -147,7 +149,7 @@ export default function Timeline() {
 
     const positionedEvents = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
-        const columns = Array(columnCount).fill().map(() => []);
+        const rows = Array(ROW_COUNT).fill().map(() => []);
 
         return events.map(event => {
             const date = new Date(
@@ -157,50 +159,24 @@ export default function Timeline() {
             );
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * PIXELS_PER_DAY;
-            const eventHeight = MIN_CARD_HEIGHT + (event.importance * 40);
 
-            let bestColumn = 0;
-            let minConflict = Infinity;
+            // Simple row assignment - distribute events evenly
+            const bestRow = rows.reduce((minRow, row, index) => {
+                return row.length < rows[minRow].length ? index : minRow;
+            }, 0);
 
-            for (let i = 0; i < columnCount; i++) {
-                const conflictScore = columns[i].reduce((score, existingEvent) => {
-                    const overlapStart = Math.max(existingEvent.position, position);
-                    const overlapEnd = Math.min(
-                        existingEvent.position + existingEvent.height,
-                        position + eventHeight
-                    );
-
-                    if (overlapEnd - overlapStart > 0) {
-                        return score + (overlapEnd - overlapStart) *
-                            (existingEvent.importance + 1);
-                    }
-                    return score;
-                }, 0);
-
-                const distanceFromOptimal = Math.abs(i - columnCount / 2);
-                const totalScore = conflictScore + (distanceFromOptimal * 10);
-
-                if (totalScore < minConflict) {
-                    minConflict = totalScore;
-                    bestColumn = i;
-                }
-            }
-
-            columns[bestColumn].push({
+            rows[bestRow].push({
                 position,
-                height: eventHeight,
-                importance: event.importance
+                width: MIN_CARD_WIDTH + (event.importance * 40)
             });
 
             return {
                 ...event,
                 position,
-                column: bestColumn,
-                columnIndex: columns[bestColumn].length - 1,
-                totalInColumn: columns[bestColumn].length
+                row: bestRow
             };
         });
-    }, [events, columnCount]);
+    }, [events]);
 
     const timeMarkers = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
@@ -219,7 +195,7 @@ export default function Timeline() {
         return markers;
     }, []);
 
-    const totalHeight = useMemo(() => {
+    const totalWidth = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
         const endDate = new Date(2025, 2, 31);
         const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
@@ -229,9 +205,16 @@ export default function Timeline() {
     return (
         <div
             ref={containerRef}
-            className="relative mx-auto max-w-[1400px] pl-2 sm:pl-4 md:pl-8 pl-16"
+            className="relative mx-auto max-w-[1400px] overflow-x-auto timeline-container"
         >
-            <div className="relative" style={{ height: `${totalHeight}px` }}>
+            <div
+                className="relative"
+                style={{
+                    width: `${totalWidth}px`,
+                    height: `${(ROW_COUNT * ROW_HEIGHT) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * ROW_GAP)}px`
+                }}
+            >
+                {/* Time markers */}
                 <div className="absolute inset-0 z-0">
                     {timeMarkers.map((marker, index) => (
                         <TimeMarker
@@ -242,23 +225,18 @@ export default function Timeline() {
                     ))}
                 </div>
 
-                <div className="relative z-10 ml-[100px]">
+                {/* Events */}
+                <div className="relative z-10">
                     {positionedEvents.map((event, index) => (
                         <EventCard
                             key={index}
                             event={event}
                             position={event.position}
-                            column={event.column}
-                            totalColumns={columnCount}
+                            row={event.row}
+                            totalRows={ROW_COUNT}
                             isHovered={hoveredEvent === event}
                             onHover={setHoveredEvent}
-                            containerWidth={
-                                containerWidth
-                                    ? containerWidth - TIME_MARKER_WIDTH - 32
-                                    : 0
-                            }
-                            columnIndex={event.columnIndex}
-                            totalInColumn={event.totalInColumn}
+                            rowHeight={ROW_HEIGHT}
                         />
                     ))}
                 </div>

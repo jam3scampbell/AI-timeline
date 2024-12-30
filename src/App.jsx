@@ -31,8 +31,11 @@ export default function App() {
                     </div>
                 </section>
 
-                {/* Timeline Section */}
-                <Timeline />
+                {/* Timeline Section
+                // In App.jsx, update the Timeline section wrapper */}
+                <div className="px-4 py-8">
+                    <Timeline />
+                </div>
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
