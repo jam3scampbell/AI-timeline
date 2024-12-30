@@ -51,16 +51,29 @@ const EventCard = ({
         >
             <div
                 className={`
-                    h-full rounded-lg border p-2 sm:p-4 transition-all backdrop-blur-sm
-                    ${isHovered ? 'bg-white/15 border-white/20 shadow-xl' : 'bg-white/5 border-white/5 hover:bg-white/10'}
-                    ${event.importance >= 2.5 ? 'border-white/30' : ''}
-                    ${isHovered ? 'transform translate-y-1' : ''}
-                `}
+        h-full rounded-lg border p-2 sm:p-4 transition-all duration-200
+        ${isHovered ? 'border-white/20 shadow-xl' : 'border-white/5'}
+        ${event.importance >= 2.5 ? 'border-white/30' : ''}
+        ${isHovered ? 'transform translate-y-1' : ''}
+    `}
+                style={{
+                    backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.03)',
+                    backgroundImage: isHovered
+                        ? 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.08) 1px)'
+                        : 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.05) 1px)',
+                    backgroundSize: '4px 4px',
+                    WebkitMaskImage: isHovered
+                        ? 'none'
+                        : 'linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)',
+                    maskImage: isHovered
+                        ? 'none'
+                        : 'linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)',
+                }}
             >
                 <h3
                     className={`
                         font-serif leading-snug mb-1
-                        ${event.importance >= 2.5 ? 'text-xl' : 'text-lg'}
+                        ${event.importance >= 2.5 ? 'text-2xl' : 'text-xl'}
                         ${isHovered ? 'text-white' : 'text-white/90'}
                     `}
                 >
@@ -75,7 +88,7 @@ const EventCard = ({
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="text-sm font-sans text-white/80 overflow-hidden"
+                            className="text-sm font-sans text-white/80 mt-1 overflow-hidden"
                             dangerouslySetInnerHTML={{ __html: event.text.text }}
                         />
                     )}
@@ -216,7 +229,7 @@ export default function Timeline() {
     return (
         <div
             ref={containerRef}
-            className="relative mx-auto max-w-[1400px] px-2 sm:px-4 md:px-8 pb-16"
+            className="relative mx-auto max-w-[1400px] pl-2 sm:pl-4 md:pl-8 pl-16"
         >
             <div className="relative" style={{ height: `${totalHeight}px` }}>
                 <div className="absolute inset-0 z-0">
