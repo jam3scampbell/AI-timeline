@@ -141,7 +141,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2024", month: "10", "day": "22" },
             text: {
-                headline: "Claude UI",
+                headline: "Claude Computer Use",
                 text: "<p>Claude gains ability to use computer interfaces</p>"
             },
             importance: 2,
@@ -149,7 +149,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2024", month: "12", "day": "04" },
             text: {
-                headline: "AI Czar",
+                headline: "David Sacks is AI Czar",
                 text: "<p>Appointment of new regulatory position</p>"
             },
             importance: 1.5,
