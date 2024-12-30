@@ -75,7 +75,7 @@ const EventCard = ({
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="text-sm font-sans text-white/80 mt-2 overflow-hidden"
+                            className="text-sm font-sans text-white/80 overflow-hidden"
                             dangerouslySetInnerHTML={{ __html: event.text.text }}
                         />
                     )}
