@@ -72,14 +72,14 @@ const EventCard = ({
             >
                 <h3
                     className={`
-                        font-serif leading-snug mb-1
+                        font-serif leading-snug mb-1 pointer-events-none
                         ${event.importance >= 2.5 ? 'text-2xl' : 'text-xl'}
                         ${isHovered ? 'text-white' : 'text-white/90'}
                     `}
                 >
                     {event.text.headline}
                 </h3>
-                <div className="text-sm font-sans text-white/60 font-medium">
+                <div className="text-sm font-sans text-white/60 font-medium pointer-events-none">
                     {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
                 </div>
                 <AnimatePresence>
@@ -88,7 +88,7 @@ const EventCard = ({
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="text-sm font-sans text-white/80 mt-1 overflow-hidden"
+                            className="text-sm font-sans text-white/80 mt-1 overflow-hidden pointer-events-none"
                             dangerouslySetInnerHTML={{ __html: event.text.text }}
                         />
                     )}
