@@ -10,9 +10,9 @@ export default function App() {
             {/* Starfield canvas behind everything */}
             <Starfield />
 
-            <div className="relative z-10 max-w-[800px] mx-auto px-4">
+            <div className="relative z-10  mx-auto px-4">
                 {/* Hero Section */}
-                <section id="hero" className="py-16 text-center">
+                <section id="hero" className="py-16 text-center mx-auto max-w-[800px]">
                     <div className="flex flex-col items-center">
                         <img
                             src="time100cover.jpg"
@@ -25,7 +25,7 @@ export default function App() {
                             <br />
                             2022 - 2025
                         </h1>
-                        <p className="text-gray-300 max-w-xl text-lg leading-relaxed">
+                        <p className="text-gray-300 font-sans max-w-xl text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.
                         </p>
                     </div>
@@ -35,8 +35,8 @@ export default function App() {
                 <Timeline />
 
                 {/* Footer */}
-                <footer className="text-center py-8 text-sm text-gray-400">
-                    © 2024 AI Timeline. By James Campbell, Emiliano Garcia-Lopez
+                <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
+                    © { } AGI Timeline. By <a className="underline" href="https://x.com/jam3scampbell">James Campbell</a>, Website by <a className="underline" href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
                 </footer>
             </div>
         </>
