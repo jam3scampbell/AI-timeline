@@ -37,7 +37,7 @@ const EventCard = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{
-                scale: 1.02,
+                scale: 1.03, // Slightly increased scale
                 zIndex: Z_INDEX_HOVER,
             }}
             onMouseEnter={() => onHover(event)}
@@ -46,14 +46,14 @@ const EventCard = ({
             <div
                 className={`
                     h-full rounded-lg border p-2 sm:p-4 transition-all duration-200
-                    ${isHovered ? 'border-white/20 shadow-xl' : 'border-white/5'}
+                    ${isHovered ? 'border-white/30' : 'border-white/5'}
                     ${event.importance >= 2.5 ? 'border-white/30' : ''}
-                    ${isHovered ? 'transform translate-y-1' : ''}
+                    ${isHovered ? 'transform -translate-y-1' : ''} 
                 `}
                 style={{
-                    backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.03)',
+                    backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
                     backgroundImage: isHovered
-                        ? 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.08) 1px)'
+                        ? 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.12) 1px)'
                         : 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.05) 1px)',
                     backgroundSize: '4px 4px',
                     WebkitMaskImage: isHovered
@@ -62,22 +62,45 @@ const EventCard = ({
                     maskImage: isHovered
                         ? 'none'
                         : 'linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)',
+                    boxShadow: isHovered
+                        ? `
+                            0 0 0 1px rgba(255, 255, 255, 0.1),
+                            0 4px 6px -1px rgba(0, 0, 0, 0.2),
+                            0 12px 24px -4px rgba(0, 0, 0, 0.5),
+                            0 0 20px rgba(255, 255, 255, 0.1),
+                            inset 0 0 20px rgba(255, 255, 255, 0.05)
+                          `
+                        : 'none',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
             >
+                {/* Glow effect overlay */}
                 <div
                     className="absolute inset-0 rounded-lg transition-opacity duration-200"
                     style={{
                         background: `
                             radial-gradient(
                                 circle at 50% 50%,
-                                rgba(255, 255, 255, ${isHovered ? '0.1' : '0.05'}) 0%,
+                                rgba(255, 255, 255, ${isHovered ? '0.15' : '0.05'}) 0%,
                                 transparent 70%
                             )
                         `,
                         opacity: isHovered ? 1 : 0,
+                        filter: 'blur(4px)',
                     }}
                 />
-                <div className="relative z-10"> {/* Added container for content */}
+
+                {/* Highlight line */}
+                {isHovered && (
+                    <div
+                        className="absolute inset-x-0 h-[1px] top-0 opacity-50"
+                        style={{
+                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                        }}
+                    />
+                )}
+
+                <div className="relative z-10">
                     <h3
                         className={`
                             font-serif leading-snug mb-1 pointer-events-none
@@ -106,6 +129,8 @@ const EventCard = ({
         </motion.div>
     );
 };
+
+
 const TimeMarker = ({ date, position }) => (
     <div
         className="absolute top-0 h-full select-none pointer-events-none z-0"
