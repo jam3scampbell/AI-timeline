@@ -1,16 +1,18 @@
 // src/components/Timeline.jsx
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { TIMELINE_DATA } from "../data/timelineData";
+import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Constants
 const MIN_CARD_WIDTH = 250;
-const ROW_GAP = 0;
+const ROW_GAP = 10;
 const TIME_MARKER_HEIGHT = 40;
 const Z_INDEX_BASE = 20;
 const Z_INDEX_HOVER = 100;
-const MIN_CARD_HEIGHT = 140;
-const PIXELS_PER_DAY = 3;
+const MIN_CARD_HEIGHT = 70;
+const EXPANDED_CARD_HEIGHT = 140;
+const ROW_HEIGHT = 70;
+const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
 const EventCard = ({
     event,
@@ -28,16 +30,17 @@ const EventCard = ({
         <motion.div
             className="absolute"
             style={{
-                left: `${position}px`,
+                left: `${position - (width / 2)}px`,
                 top: `${topPos}px`,
                 width: `${width}px`,
-                height: `${MIN_CARD_HEIGHT}px`,
+                height: isHovered ? `${EXPANDED_CARD_HEIGHT}px` : `${MIN_CARD_HEIGHT}px`,
+                transition: 'height 0.3s ease-out',
                 zIndex: isHovered ? Z_INDEX_HOVER : Z_INDEX_BASE,
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{
-                scale: 1.03, // Slightly increased scale
+                scale: 1.03,
                 zIndex: Z_INDEX_HOVER,
             }}
             onMouseEnter={() => onHover(event)}
@@ -45,13 +48,15 @@ const EventCard = ({
         >
             <div
                 className={`
-                    h-full rounded-lg border p-2 sm:p-4 transition-all duration-200
+                    h-full rounded-lg border p-2 transition-all duration-200
                     ${isHovered ? 'border-white/30' : 'border-white/5'}
                     ${event.importance >= 2.5 ? 'border-white/30' : ''}
                     ${isHovered ? 'transform -translate-y-1' : ''} 
                 `}
                 style={{
-                    backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+                    backgroundColor: isHovered
+                        ? 'rgba(58, 58, 102, 0.95)'
+                        : 'rgba(255, 255, 255, 0.06)',
                     backgroundImage: isHovered
                         ? 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.12) 1px)'
                         : 'radial-gradient(transparent 1px, rgba(255, 255, 255, 0.05) 1px)',
@@ -74,44 +79,20 @@ const EventCard = ({
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
             >
-                {/* Glow effect overlay */}
-                <div
-                    className="absolute inset-0 rounded-lg transition-opacity duration-200"
-                    style={{
-                        background: `
-                            radial-gradient(
-                                circle at 50% 50%,
-                                rgba(255, 255, 255, ${isHovered ? '0.15' : '0.05'}) 0%,
-                                transparent 70%
-                            )
-                        `,
-                        opacity: isHovered ? 1 : 0,
-                        filter: 'blur(4px)',
-                    }}
-                />
-
-                {/* Highlight line */}
-                {isHovered && (
-                    <div
-                        className="absolute inset-x-0 h-[1px] top-0 opacity-50"
-                        style={{
-                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
-                        }}
-                    />
-                )}
-
                 <div className="relative z-10">
                     <h3
                         className={`
-                            font-serif leading-snug mb-1 pointer-events-none
-                            ${event.importance >= 2.5 ? 'text-2xl' : 'text-xl'}
+                            font-serif leading-snug mb-1 pointer-events-none text-lg
                             ${isHovered ? 'text-white' : 'text-white/90'}
                         `}
                     >
                         {event.text.headline}
                     </h3>
                     <div className="text-sm font-sans text-white/60 font-medium pointer-events-none">
-                        {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
+                        {`${String(event.start_date.month).padStart(2, '0')}/${String(event.start_date.day).padStart(2, '0')}/${event.start_date.year}`}
+                    </div>
+                    <div className="text-xs font-sans text-white/40 mt-1">
+                        {event.category}
                     </div>
                     <AnimatePresence>
                         {isHovered && (
@@ -129,7 +110,6 @@ const EventCard = ({
         </motion.div>
     );
 };
-
 
 const TimeMarker = ({ date, position }) => (
     <div
@@ -149,8 +129,19 @@ export default function Timeline() {
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
-    const ROW_COUNT = 4; // Fixed number of rows
-    const ROW_HEIGHT = 160; // Fixed height for each row
+    const [zoomIndex, setZoomIndex] = useState(2);
+    const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
+    const ROW_COUNT = 5;
+    const [activeCategories, setActiveCategories] = useState(
+        Object.values(CATEGORIES).reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
+    );
+
+    const toggleCategory = (category) => {
+        setActiveCategories(prev => ({
+            ...prev,
+            [category]: !prev[category]
+        }));
+    };
 
     useEffect(() => {
         const updateWidth = () => {
@@ -173,27 +164,24 @@ export default function Timeline() {
     }, []);
 
     const positionedEvents = useMemo(() => {
+        const filteredEvents = events.filter(event => activeCategories[event.category]);
         const startDate = new Date(2022, 10, 1);
         const rows = Array(ROW_COUNT).fill().map(() => []);
 
-        return events.map(event => {
+        return filteredEvents.map(event => {
             const date = new Date(
                 event.start_date.year,
                 event.start_date.month - 1,
                 event.start_date.day
             );
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
-            const position = daysSinceStart * PIXELS_PER_DAY;
+            const position = daysSinceStart * pixelsPerDay;
 
-            // Simple row assignment - distribute events evenly
             const bestRow = rows.reduce((minRow, row, index) => {
                 return row.length < rows[minRow].length ? index : minRow;
             }, 0);
 
-            rows[bestRow].push({
-                position,
-                width: MIN_CARD_WIDTH + (event.importance * 40)
-            });
+            rows[bestRow].push({ position });
 
             return {
                 ...event,
@@ -201,7 +189,7 @@ export default function Timeline() {
                 row: bestRow
             };
         });
-    }, [events]);
+    }, [events, pixelsPerDay, activeCategories]);
 
     const timeMarkers = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
@@ -212,60 +200,120 @@ export default function Timeline() {
         while (currentDate <= endDate) {
             markers.push({
                 date: new Date(currentDate),
-                position: ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * PIXELS_PER_DAY
+                position: ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay
             });
             currentDate.setMonth(currentDate.getMonth() + 2);
         }
 
         return markers;
-    }, []);
+    }, [pixelsPerDay]);
 
     const totalWidth = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
         const endDate = new Date(2025, 2, 31);
         const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-        return totalDays * PIXELS_PER_DAY;
-    }, []);
+        return totalDays * pixelsPerDay + 200;
+    }, [pixelsPerDay]);
+
+    const zoomIn = () => {
+        setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
+    };
+    const zoomOut = () => {
+        setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    };
+
+    const handleWheel = (e) => {
+        e.preventDefault();
+
+        if (e.ctrlKey || e.metaKey) {
+            if (e.deltaY < 0) {
+                setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
+            } else {
+                setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
+            }
+        } else {
+            const scrollAmount = e.shiftKey ? e.deltaY : e.deltaY;
+            containerRef.current.scrollLeft += scrollAmount;
+        }
+    };
 
     return (
-        <div
-            ref={containerRef}
-            className="relative mx-auto max-w-[1400px] overflow-x-auto timeline-container"
-        >
-            <div
-                className="relative"
-                style={{
-                    width: `${totalWidth}px`,
-                    height: `${(ROW_COUNT * ROW_HEIGHT) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * ROW_GAP)}px`
-                }}
-            >
-                {/* Time markers */}
-                <div className="absolute inset-0 z-0">
-                    {timeMarkers.map((marker, index) => (
-                        <TimeMarker
-                            key={index}
-                            date={marker.date}
-                            position={marker.position}
-                        />
+        <>
+            <div className="my-2 flex items-center gap-2 sticky top-0 z-20 py-2 lg:mx-12">
+                <div className="flex gap-2 items-center flex-wrap">
+                    {Object.values(CATEGORIES).map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => toggleCategory(category)}
+                            className={`
+                                px-3 py-1 rounded-full text-sm font-sans transition-all
+                                ${activeCategories[category]
+                                    ? 'bg-white/20 text-white'
+                                    : 'bg-white/5 text-white/40'}
+                                hover:bg-white/30
+                            `}
+                        >
+                            {category}
+                        </button>
                     ))}
                 </div>
-
-                {/* Events */}
-                <div className="relative z-10">
-                    {positionedEvents.map((event, index) => (
-                        <EventCard
-                            key={index}
-                            event={event}
-                            position={event.position}
-                            row={event.row}
-                            totalRows={ROW_COUNT}
-                            isHovered={hoveredEvent === event}
-                            onHover={setHoveredEvent}
-                            rowHeight={ROW_HEIGHT}
-                        />
-                    ))}
+                <div className="ml-auto flex items-center gap-2 font-sans text-sm">
+                    <button
+                        className="bg-white/10 text-white px-4 py-1 rounded hover:bg-white/20 transition whitespace-nowrap"
+                        onClick={zoomOut}
+                    >
+                        Zoom Out
+                    </button>
+                    <button
+                        className="bg-white/10 text-white px-4 py-1 rounded hover:bg-white/20 transition whitespace-nowrap"
+                        onClick={zoomIn}
+                    >
+                        Zoom In
+                    </button>
+                    <span className="text-white/60 ml-2">
+                        {`Zoom: ${pixelsPerDay}px/day`}
+                    </span>
                 </div>
             </div>
-        </div>
+            <div
+                ref={containerRef}
+                className="relative mx-auto max-w-[1400px] overflow-x-scroll timeline-container"
+                onWheel={handleWheel}
+            >
+                <div
+                    className="relative"
+                    style={{
+                        width: `${totalWidth}px`,
+                        height: `${(ROW_COUNT * ROW_HEIGHT) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * ROW_GAP)}px`,
+                        padding: '0 2rem'
+                    }}
+                >
+                    <div className="absolute inset-0 z-0">
+                        {timeMarkers.map((marker, index) => (
+                            <TimeMarker
+                                key={index}
+                                date={marker.date}
+                                position={marker.position}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="relative z-10">
+                        {positionedEvents.map((event, index) => (
+                            <EventCard
+                                key={index}
+                                event={event}
+                                position={event.position}
+                                row={event.row}
+                                totalRows={ROW_COUNT}
+                                isHovered={hoveredEvent === event}
+                                onHover={setHoveredEvent}
+                                rowHeight={ROW_HEIGHT}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

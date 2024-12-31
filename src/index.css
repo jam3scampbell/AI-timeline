@@ -17,18 +17,18 @@ body {
 }
 
 
-/* Add to existing index.css */
 .timeline-container {
-    overflow-x: auto;
+    overflow-x: scroll !important;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    padding: 1rem;
+    padding: 1rem 5rem 6rem;
 }
 
 .timeline-container::-webkit-scrollbar {
     height: 8px;
+    display: block !important;
 }
 
 .timeline-container::-webkit-scrollbar-track {
