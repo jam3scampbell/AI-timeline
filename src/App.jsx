@@ -1,8 +1,10 @@
-import React from "react";
+// src/App.jsx
+import React, { Suspense, lazy } from "react";
 import Starfield from "./components/Starfield";
-import Timeline from "./components/Timeline";
+// import Timeline from "./components/Timeline"; // REMOVE this import
 
-
+// LAZY import for Timeline
+const Timeline = lazy(() => import("./components/Timeline"));
 
 export default function App() {
     return (
@@ -10,7 +12,7 @@ export default function App() {
             {/* Starfield canvas behind everything */}
             <Starfield />
 
-            <div className="relative z-10  mx-auto px-4">
+            <div className="relative z-10 mx-auto px-4">
                 {/* Hero Section */}
                 <section id="hero" className="py-16 text-center mx-auto max-w-[800px]">
                     <div className="flex flex-col items-center">
@@ -31,10 +33,11 @@ export default function App() {
                     </div>
                 </section>
 
-                {/* Timeline Section
-                // In App.jsx, update the Timeline section wrapper */}
+                {/* Timeline Section */}
                 <div className="px-4 py-8">
-                    <Timeline />
+                    <Suspense fallback={<div className="text-white">Loading timeline...</div>}>
+                        <Timeline />
+                    </Suspense>
                 </div>
 
                 {/* Footer */}

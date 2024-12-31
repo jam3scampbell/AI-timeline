@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Constants
 const MIN_CARD_WIDTH = 250;
 const ROW_GAP = 10;
 const TIME_MARKER_HEIGHT = 40;
@@ -14,15 +13,19 @@ const EXPANDED_CARD_HEIGHT = 140;
 const ROW_HEIGHT = 70;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
-const EventCard = ({
+/* 
+  Use React.memo on EventCard to avoid re-renders 
+  unless the key props (event, isHovered, row, etc.) change
+*/
+const EventCard = React.memo(function EventCard({
     event,
     position,
     row,
     totalRows,
     isHovered,
     onHover,
-    rowHeight,
-}) => {
+    rowHeight
+}) {
     const width = MIN_CARD_WIDTH + (event.importance * 40);
     const topPos = (row * rowHeight) + TIME_MARKER_HEIGHT + (ROW_GAP * row);
 
@@ -109,21 +112,26 @@ const EventCard = ({
             </div>
         </motion.div>
     );
-};
+});
 
-const TimeMarker = ({ date, position }) => (
-    <div
-        className="absolute top-0 h-full select-none pointer-events-none z-0"
-        style={{ left: `${position}px` }}
-    >
-        <div className="relative">
-            <div className="absolute top-0 text-sm font-sans text-white/40 font-medium whitespace-nowrap transform -translate-x-1/2">
-                {`${date.toLocaleDateString('en-US', { month: 'short' })} '${date.getFullYear().toString().slice(2)}`}
+/* 
+  Use React.memo on TimeMarker for the same reason.
+*/
+const TimeMarker = React.memo(function TimeMarker({ date, position }) {
+    return (
+        <div
+            className="absolute top-0 h-full select-none pointer-events-none z-0"
+            style={{ left: `${position}px` }}
+        >
+            <div className="relative">
+                <div className="absolute top-0 text-sm font-sans text-white/40 font-medium whitespace-nowrap transform -translate-x-1/2">
+                    {`${date.toLocaleDateString('en-US', { month: 'short' })} '${date.getFullYear().toString().slice(2)}`}
+                </div>
+                <div className="absolute top-[30px] h-full border-l border-white/10" />
             </div>
-            <div className="absolute top-[30px] h-full border-l border-white/10" />
         </div>
-    </div>
-);
+    );
+});
 
 export default function Timeline() {
     const [hoveredEvent, setHoveredEvent] = useState(null);
@@ -137,9 +145,9 @@ export default function Timeline() {
     );
 
     const toggleCategory = (category) => {
-        setActiveCategories(prev => ({
+        setActiveCategories((prev) => ({
             ...prev,
-            [category]: !prev[category]
+            [category]: !prev[category],
         }));
     };
 
@@ -149,12 +157,12 @@ export default function Timeline() {
                 setContainerWidth(containerRef.current.offsetWidth);
             }
         };
-
         updateWidth();
         window.addEventListener('resize', updateWidth);
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
+    // Sort events just once and store
     const events = useMemo(() => {
         return [...TIMELINE_DATA.events].sort((a, b) => {
             const dateA = new Date(a.start_date.year, a.start_date.month - 1, a.start_date.day);
@@ -163,12 +171,13 @@ export default function Timeline() {
         });
     }, []);
 
+    // Filter + position events
     const positionedEvents = useMemo(() => {
-        const filteredEvents = events.filter(event => activeCategories[event.category]);
+        const filteredEvents = events.filter((event) => activeCategories[event.category]);
         const startDate = new Date(2022, 10, 1);
         const rows = Array(ROW_COUNT).fill().map(() => []);
 
-        return filteredEvents.map(event => {
+        return filteredEvents.map((event) => {
             const date = new Date(
                 event.start_date.year,
                 event.start_date.month - 1,
@@ -177,6 +186,7 @@ export default function Timeline() {
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * pixelsPerDay;
 
+            // naive row assignment
             const bestRow = rows.reduce((minRow, row, index) => {
                 return row.length < rows[minRow].length ? index : minRow;
             }, 0);
@@ -186,11 +196,12 @@ export default function Timeline() {
             return {
                 ...event,
                 position,
-                row: bestRow
+                row: bestRow,
             };
         });
     }, [events, pixelsPerDay, activeCategories]);
 
+    // Time markers
     const timeMarkers = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
         const endDate = new Date(2025, 2, 31);
@@ -200,7 +211,7 @@ export default function Timeline() {
         while (currentDate <= endDate) {
             markers.push({
                 date: new Date(currentDate),
-                position: ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay
+                position: ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay,
             });
             currentDate.setMonth(currentDate.getMonth() + 2);
         }
@@ -208,6 +219,7 @@ export default function Timeline() {
         return markers;
     }, [pixelsPerDay]);
 
+    // Computed total timeline width
     const totalWidth = useMemo(() => {
         const startDate = new Date(2022, 10, 1);
         const endDate = new Date(2025, 2, 31);
@@ -222,6 +234,7 @@ export default function Timeline() {
         setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
     };
 
+    // Handle horizontal scrolling and pinch zoom
     const handleWheel = (e) => {
         e.preventDefault();
 
@@ -232,8 +245,7 @@ export default function Timeline() {
                 setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
             }
         } else {
-            const scrollAmount = e.shiftKey ? e.deltaY : e.deltaY;
-            containerRef.current.scrollLeft += scrollAmount;
+            containerRef.current.scrollLeft += e.deltaY;
         }
     };
 
