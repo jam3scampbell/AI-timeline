@@ -23,7 +23,7 @@ body {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    padding: 1rem 5rem 6rem;
+    padding: 1rem 5rem 5.5rem;
 }
 
 .timeline-container::-webkit-scrollbar {
@@ -38,4 +38,15 @@ body {
 .timeline-container::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
+}
+
+a {
+    text-decoration: underline;
+}
+
+.year-glow {
+    text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.18),
+        0 0 6px rgba(255, 255, 255, 0.12),
+        0 0 12px rgba(255, 255, 255, 0.06);
 }
