@@ -25,7 +25,7 @@ export default function App() {
                         <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
                             Inside the AGI Revolution
                             <br />
-                            2022 - 2025
+                            2022 - {new Date().getFullYear()}
                         </h1>
                         <p className="text-gray-300 font-sans max-w-xl px-2 text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.
@@ -42,7 +42,8 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
-                    © { } AGI Timeline. By <a href="https://x.com/jam3scampbell">James Campbell</a>, Website by <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
+                    © {new Date().getFullYear()} AGI Timeline. By <a href="https://x.com/jam3scampbell">James Campbell</a>, Website by <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
+
                 </footer>
             </div>
         </>
