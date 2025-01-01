@@ -152,7 +152,7 @@ const TimeMarker = React.memo(function TimeMarker({ date, position }) {
 const YearMarker = React.memo(function YearMarker({ year, position }) {
     return (
         <div
-            className="absolute -bottom-8 select-none pointer-events-none z-0"
+            className="absolute -bottom-14 select-none pointer-events-none z-0"
             style={{ left: `${position}px` }}
         >
             <div className="relative">
@@ -174,8 +174,8 @@ const YearMarker = React.memo(function YearMarker({ year, position }) {
 const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEvent }) {
     return (
         <div
-            className="absolute select-none pointer-events-none z-0"
-            style={{ left: `${position}px`, bottom: isYearTick ? '-8px' : '-8px' }}
+            className="absolute select-none pointer-events-none z-0 -bottom-8"
+            style={{ left: `${position}px` }}
         >
             <div className="relative">
                 <div
@@ -189,7 +189,7 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
                 />
                 {hasEvent && (
                     <div
-                        className="absolute w-[6px] h-[6px] bg-white/60 rounded-full -bottom-[8px]"
+                        className="absolute w-[6px] h-[6px] bg-white/60 rounded-full -bottom-2"
                         style={{
                             left: '-3px',
                         }}
