@@ -35,7 +35,7 @@ export default function App() {
 
                 {/* Timeline Section */}
                 <div className="py-8">
-                    <Suspense fallback={<div className="text-white serif py-80 ">Loading timeline...</div>}>
+                    <Suspense fallback={<div className="text-white sans max-w-[1400px] px-20 mx-auto py-70 ">Loading timeline...</div>}>
                         <Timeline />
                     </Suspense>
                 </div>
