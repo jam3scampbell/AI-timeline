@@ -421,7 +421,7 @@ export default function Timeline() {
             </div>
             <div
                 ref={containerRef}
-                className="relative mx-auto max-w-[1400px] overflow-x-scroll timeline-container"
+                className="relative mx-auto max-w-[1400px] overflow-x-scroll overflow-y-hidden timeline-container"
                 onWheel={handleWheel}
             >
                 <div
