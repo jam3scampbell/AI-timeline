@@ -14,8 +14,8 @@ body {
         radial-gradient(at 30% 30%, rgba(70, 70, 120, 0.6), transparent 70%),
         linear-gradient(to bottom right, #1e1e2e 0%, #050505 100%);
     background-blend-mode: screen;
-}
 
+}
 
 .timeline-container {
     overflow-x: scroll !important;
@@ -24,11 +24,15 @@ body {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
     padding: 1rem 5rem 5.5rem;
+    /* Add these Safari-specific properties */
+    background-color: transparent;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
+/* Firefox */
 .timeline-container::-webkit-scrollbar {
     height: 8px;
-    display: block !important;
+    background: transparent;
 }
 
 .timeline-container::-webkit-scrollbar-track {
@@ -39,6 +43,30 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
+
+/* Safari-specific scrollbar styling */
+@supports (-webkit-overflow-scrolling: touch) {
+    .timeline-container::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: transparent;
+    }
+
+    .timeline-container::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    .timeline-container::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+}
+
+
+
+
 
 a {
     text-decoration: underline;
