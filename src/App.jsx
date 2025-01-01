@@ -12,7 +12,7 @@ export default function App() {
             {/* Starfield canvas behind everything */}
             <Starfield />
 
-            <div className="relative z-10 mx-auto px-4">
+            <div className="relative z-10 mx-auto">
                 {/* Hero Section */}
                 <section id="hero" className="py-16 text-center mx-auto max-w-[800px]">
                     <div className="flex flex-col items-center">
@@ -27,15 +27,15 @@ export default function App() {
                             <br />
                             2022 - 2025
                         </h1>
-                        <p className="text-gray-300 font-sans max-w-xl text-lg leading-relaxed">
+                        <p className="text-gray-300 font-sans max-w-xl px-2 text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.
                         </p>
                     </div>
                 </section>
 
                 {/* Timeline Section */}
-                <div className="px-4 py-8">
-                    <Suspense fallback={<div className="text-white">Loading timeline...</div>}>
+                <div className="py-8">
+                    <Suspense fallback={<div className="text-white serif py-80 ">Loading timeline...</div>}>
                         <Timeline />
                     </Suspense>
                 </div>

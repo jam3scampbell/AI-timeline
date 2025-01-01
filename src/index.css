@@ -24,7 +24,7 @@ body {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    padding: 1rem 5rem 5.5rem;
+    padding: 1rem 3rem 5.5rem;
     /* Add these Safari-specific properties */
     background-color: transparent;
     -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
