@@ -15,7 +15,7 @@ export default function App() {
 
             <div className="relative z-10 mx-auto">
                 {/* Hero Section */}
-                <section id="hero" className="py-16 text-center mx-auto max-w-[800px]">
+                <section id="hero" className="pt-16 pb-8 text-center mx-auto max-w-[800px]">
                     <div className="flex flex-col items-center">
                         <img
                             src="time100cover.jpg"
@@ -29,14 +29,15 @@ export default function App() {
                             2015 - {new Date().getFullYear()}
                         </h1>
                         <p className="text-gray-300 font-sans max-w-xl px-2 text-lg leading-relaxed">
-                            This timeline attempts to tell the story of the last decade of AI, from cultural developments and technical research advances. Note: curation will enivitably be opinionated and there are lots of things that may have been missed. If you would like to contribute, please do so on the project <a href="https://github.com/jam3scampbell/ai-timeline">Github</a> page.
+                            This timeline attempts to tell the story of the last decade of AI research, including both cultural movements and technical research advances. Note: curation will enivitably be opinionated and there are lots of things that were missed. If you would like to contribute, please do so on the project <a href="https://github.com/jam3scampbell/ai-timeline">Github</a>.
                         </p>
+
                     </div>
                 </section>
 
                 {/* Timeline Section */}
-                <div className="py-8">
-                    <Suspense fallback={<div className="text-white sans max-w-[1400px] px-20 mx-auto py-70 ">Loading timeline...</div>}>
+                <div>
+                    <Suspense fallback={<div className="text-white sans max-w-[1600px] px-20 mx-auto py-70 ">Loading timeline...</div>}>
                         <Timeline />
                     </Suspense>
                 </div>
