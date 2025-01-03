@@ -378,18 +378,32 @@ export default function Timeline() {
     };
 
     // Handle horizontal scrolling and pinch zoom
-    const handleWheel = (e) => {
-        e.preventDefault();
-        if (e.ctrlKey || e.metaKey) {
-            if (e.deltaY < 0) {
-                setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const handleWheel = (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
+                } else {
+                    setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
+                }
             } else {
-                setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
+                container.scrollLeft += e.deltaY;
             }
-        } else {
-            containerRef.current.scrollLeft += e.deltaY;
-        }
-    };
+        };
+
+        // Add event listener with { passive: false }
+        container.addEventListener('wheel', handleWheel, { passive: false });
+
+        // Cleanup
+        return () => {
+            container.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
+    ;
 
     return (
         <div className="relative mx-auto max-w-[1600px] px-8 md:px-12 py-2">
@@ -446,7 +460,6 @@ export default function Timeline() {
                 <div
                     ref={containerRef}
                     className="relative mx-auto overflow-x-scroll timeline-container"
-                    onWheel={handleWheel}
                 >
                     {/* Timeline Content */}
                     <div
