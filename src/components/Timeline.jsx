@@ -241,7 +241,7 @@ export default function Timeline() {
     // Filter + position events
     const positionedEvents = useMemo(() => {
         const filteredEvents = events.filter((event) => activeCategories[event.category]);
-        const startDate = new Date(2022, 10, 1);
+        const startDate = new Date(2015, 1, 1);
         const rows = Array(ROW_COUNT).fill().map(() => []);
 
         return filteredEvents.map((event) => {
@@ -270,7 +270,7 @@ export default function Timeline() {
 
     // Time markers (every 2 months)
     const timeMarkers = useMemo(() => {
-        const startDate = new Date(2022, 10, 1);
+        const startDate = new Date(2015, 1, 1);
         const endDate = new Date(2025, 2, 31);
         const markers = [];
         let currentDate = new Date(startDate);
@@ -288,8 +288,8 @@ export default function Timeline() {
 
     // Year markers (center of each year)
     const yearMarkers = useMemo(() => {
-        const years = [2022, 2023, 2024, 2025];
-        const startDate = new Date(2022, 10, 1);
+        const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+        const startDate = new Date(2015, 1, 1);
 
         return years.map((yr) => {
             const yearStart = new Date(yr, 0, 1);
@@ -306,7 +306,7 @@ export default function Timeline() {
     }, [pixelsPerDay]);
 
     const tickMarkers = useMemo(() => {
-        const startDate = new Date(2022, 10, 1);
+        const startDate = new Date(2015, 1, 1);
         const endDate = new Date(2025, 2, 31);
         const ticks = [];
 
@@ -348,7 +348,7 @@ export default function Timeline() {
 
     // Computed total timeline width
     const totalWidth = useMemo(() => {
-        const startDate = new Date(2022, 10, 1);
+        const startDate = new Date(2015, 1, 1);
         const endDate = new Date(2025, 2, 31);
         const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
         return totalDays * pixelsPerDay + 200;
