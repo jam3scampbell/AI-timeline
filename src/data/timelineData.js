@@ -21,6 +21,15 @@ export const TIMELINE_DATA = {
     },
     events: [
         {
+            start_date: { year: "2022", month: "06", day: "11" },
+            text: {
+                headline: "Blake Lemoine fired",
+                text: "<p>The Google engineer is fired after claiming that its LaMBDA model was sentient.</p>"
+            },
+            importance: 1, 
+            category: CATEGORIES.CULTURE
+        },
+        {
             start_date: { year: "2022", month: "11", day: "30" },
             text: {
                 headline: "ChatGPT drops",
@@ -57,12 +66,30 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.BUSINESS
         },
         {
+            start_date: { year: "2023", month: "03", day: "14" },
+            text: {
+                headline: "Anthropic introduces Claude",
+                text: "<p>Anthropic introduces its AI assistant<p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
             start_date: { year: "2023", month: "03", "day": "22" },
             text: {
                 headline: "FLI letter",
                 text: "<p>Future of Life Institute puts out \"Pause Giant AI Experiments\"</p>"
             },
             importance: 1.0,
+            category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2023", month: "04", "day": "23" },
+            text: {
+                headline: "Fake Drake",
+                text: "<p>An anonymous creator named Ghostwriter uses music AI tools to produce viral songs that sound like Drake. The songs were taken down for breaking copyright.</p>"
+            },
+            importance: 1,
             category: CATEGORIES.CULTURE
         },
         {
@@ -82,6 +109,15 @@ export const TIMELINE_DATA = {
             },
             importance: 2,
             category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2023", month: "05", "day": "30" },
+            text: {
+                headline: "NVIDIA reaches 1T",
+                text: "<p>The chipmaker providing the GPU's for generative AI has its valuation skyrocket.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.BUSINESS
         },
         {
             start_date: { year: "2023", month: "09", "day": "27" },
@@ -110,6 +146,15 @@ export const TIMELINE_DATA = {
             importance: 2,
             category: CATEGORIES.POLICY
         },
+        {
+            start_date: { year: "2023", month: "11", day: "06" },
+            text: {
+                headline: "GPT-4 Turbo",
+                text: "<p>OpenAI releases an optimized version of GPT-4, significantly reducing inference costs, during their much anticipated Dev Day.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },        
         {
             start_date: { year: "2023", month: "11", "day": "17" },
             text: {

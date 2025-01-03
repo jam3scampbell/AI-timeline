@@ -377,8 +377,9 @@ export default function Timeline() {
 
     return (
         <>
-            <div className="my-2 top-0 z-20 py-2 max-w-[1400px] mx-auto px-4">
-                {/* Use flex-col on mobile, row on larger screens */}
+            {/* Controls Section - Made wider */}
+            <div className="my-2 top-0 z-20 py-2 max-w-[1600px] mx-auto px-8">
+                {/* Category and Zoom Controls */}
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
                     {/* Categories section */}
                     <div className="flex gap-2 flex-wrap">
@@ -387,18 +388,18 @@ export default function Timeline() {
                                 key={category}
                                 onClick={() => toggleCategory(category)}
                                 className={`
-                        px-3 py-1 rounded-full text-sm font-sans transition-all
-                        ${activeCategories[category]
+                                    px-3 py-1 rounded-full text-sm font-sans transition-all
+                                    ${activeCategories[category]
                                         ? 'bg-white/20 text-white'
                                         : 'bg-white/5 text-white/40'}
-                        hover:bg-white/30
-                    `}
+                                    hover:bg-white/30
+                                `}
                             >
                                 {category}
                             </button>
                         ))}
                     </div>
-
+    
                     {/* Zoom controls section */}
                     <div className="flex gap-2 font-sans text-sm sm:ml-auto mx-auto">
                         <button
@@ -419,57 +420,80 @@ export default function Timeline() {
                     </div>
                 </div>
             </div>
-            <div
-                ref={containerRef}
-                className="relative mx-auto max-w-[1400px] overflow-x-scroll timeline-container"
-                onWheel={handleWheel}
-            >
-                <div
-                    className="relative"
+    
+            {/* Timeline Container with Backdrop - Made wider and taller */}
+            <div className="relative mx-auto max-w-[1600px] px-8">
+                {/* Semi-transparent backdrop with added padding */}
+                <div 
+                    className="absolute inset-0 rounded-lg -mx-4"
                     style={{
-                        width: `${totalWidth}px`,
-                        height: `${(ROW_COUNT * ROW_HEIGHT) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * ROW_GAP)}px`,
-                        padding: '0 2rem'
+                        background: 'rgba(10, 10, 15, 0.85)',
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: `
+                            0 0 0 1px rgba(255, 255, 255, 0.1),
+                            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                            0 2px 4px -2px rgba(0, 0, 0, 0.1)
+                        `,
+                        padding: '2rem 0'
                     }}
+                />
+    
+                {/* Timeline Scroll Container - Added vertical padding */}
+                <div
+                    ref={containerRef}
+                    className="relative mx-auto overflow-x-scroll timeline-container py-8"
+                    onWheel={handleWheel}
                 >
-                    <div className="absolute inset-0 z-0">
-                        {timeMarkers.map((marker, index) => (
-                            <TimeMarker
-                                key={index}
-                                date={marker.date}
-                                position={marker.position}
-                            />
-                        ))}
-                        {yearMarkers.map((marker, index) => (
-                            <YearMarker
-                                key={index}
-                                year={marker.year}
-                                position={marker.position}
-                            />
-                        ))}
-                        {tickMarkers.map((marker, index) => (
-                            <TickMarker
-                                key={index}
-                                position={marker.position}
-                                isYearTick={marker.isYearTick}
-                                hasEvent={marker.hasEvent}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="relative z-10">
-                        {positionedEvents.map((event, index) => (
-                            <EventCard
-                                key={index}
-                                event={event}
-                                position={event.position}
-                                row={event.row}
-                                totalRows={ROW_COUNT}
-                                isHovered={hoveredEvent === event}
-                                onHover={setHoveredEvent}
-                                rowHeight={ROW_HEIGHT}
-                            />
-                        ))}
+                    {/* Timeline Content - Increased row height */}
+                    <div
+                        className="relative"
+                        style={{
+                            width: `${totalWidth}px`,
+                            height: `${(ROW_COUNT * (ROW_HEIGHT + 10)) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * (ROW_GAP + 5))}px`,
+                            padding: '0 2rem'
+                        }}
+                    >
+                        {/* Time Markers Layer */}
+                        <div className="absolute inset-0 z-0">
+                            {timeMarkers.map((marker, index) => (
+                                <TimeMarker
+                                    key={index}
+                                    date={marker.date}
+                                    position={marker.position}
+                                />
+                            ))}
+                            {yearMarkers.map((marker, index) => (
+                                <YearMarker
+                                    key={index}
+                                    year={marker.year}
+                                    position={marker.position}
+                                />
+                            ))}
+                            {tickMarkers.map((marker, index) => (
+                                <TickMarker
+                                    key={index}
+                                    position={marker.position}
+                                    isYearTick={marker.isYearTick}
+                                    hasEvent={marker.hasEvent}
+                                />
+                            ))}
+                        </div>
+    
+                        {/* Events Layer */}
+                        <div className="relative z-10">
+                            {positionedEvents.map((event, index) => (
+                                <EventCard
+                                    key={index}
+                                    event={event}
+                                    position={event.position}
+                                    row={event.row}
+                                    totalRows={ROW_COUNT}
+                                    isHovered={hoveredEvent === event}
+                                    onHover={setHoveredEvent}
+                                    rowHeight={ROW_HEIGHT}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

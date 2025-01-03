@@ -1,6 +1,7 @@
 // src/App.jsx
 import React, { Suspense, lazy } from "react";
-import Starfield from "./components/Starfield";
+// import Starfield from "./components/Starfield";
+import Starfield from "./components/EmergentBackground";
 // import Timeline from "./components/Timeline"; // REMOVE this import
 
 // LAZY import for Timeline
