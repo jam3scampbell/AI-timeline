@@ -30,6 +30,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.BUSINESS
         },
         {
+            start_date: { year: "2016", month: "03", day: "23" },
+            text: {
+                headline: "AlphaGo",
+                text: "<p>In a famous match, DeepMind's AlphaGo defeats Lee Sedol in Go.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2017", month: "06", day: "12" },
             text: {
                 headline: "Attention is All You Need",
@@ -39,10 +48,19 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.RESEARCH
         },
         {
+            start_date: { year: "2017", month: "06", day: "12" },
+            text: {
+                headline: "RLHF",
+                text: "<p>Christiano et al. publish the technique of reinforcement learning from human feedback (RLHF), which would later be used extensively to align LLMs.</p>"
+            },
+            importance: 3,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2018", month: "06", day: "11" },
             text: {
                 headline: "GPT-1",
-                text: "<p>Radford et al. publish <a href=https://openai.com/index/language-unsupervised/>Improving Language Understanding by Generative Pre-Training</a>, the first GPT model.</p>"
+                text: "<p>Radford et al. publish <a href=\"https://openai.com/index/language-unsupervised/\">Improving Language Understanding by Generative Pre-Training</a>, the first GPT model.</p>"
             },
             importance: 3,
             category: CATEGORIES.MODEL_RELEASE
@@ -75,6 +93,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2022", month: "01", day: "28"},
+            text: {
+                headline: "Chain-of-Thought Prompting",
+                text: "<p>Google Brain publishes a paper showing gains in LLM reasoning by having them think step-by-step.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2022", month: "06", day: "11" },
             text: {
                 headline: "Blake Lemoine fired",
@@ -96,7 +123,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2023", month: "02", day: "17" },
             text: {
                 headline: "Bing gaslights NYT reporter",
-                text: "<p>Bing's AI chatbot has a contentious interaction with a New York Times reporter.</p>"
+                text: "<p>Bing's AI chatbot has a viral interaction with New York Times reporter Kevin Roose.</p>"
             },
             importance: 1.5,
             category: CATEGORIES.CULTURE
@@ -136,6 +163,15 @@ export const TIMELINE_DATA = {
             },
             importance: 1.0,
             category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2023", month: "04", "day": "07" },
+            text: {
+                headline: "Smallville",
+                text: "<p>The paper \"Generative Agents: Interactive Simulacra of Human Behavior\" shows that LLMs can be used to create social simulations of behavior.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
         },
         {
             start_date: { year: "2023", month: "04", "day": "16" },
@@ -204,7 +240,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2023", month: "09", "day": "27" },
             text: {
                 headline: "Mistral 7B",
-                text: "<p>French lab Mistral releases their first model.</p>"
+                text: "<p>French lab Mistral releases their first model, which quickly became a fan favorite.</p>"
             },
             importance: 2,
             category: CATEGORIES.MODEL_RELEASE
@@ -239,8 +275,8 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2023", month: "11", "day": "17" },
             text: {
-                headline: "Altman fired",
-                text: "<p>Sam Altman is fired as CEO of OpenAI</p>"
+                headline: "Altman Board Drama",
+                text: "<p>Sam Altman is unexpectedly fired as CEO of OpenAI by the Board of Directors and after a dramatic weekend of negotiations, is re-hired.</p>"
             },
             importance: 3,
             category: CATEGORIES.BUSINESS
@@ -267,10 +303,10 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "06", "day": "04" },
             text: {
                 headline: "Situational Awareness",
-                text: "<p>Publication of influential paper on AI situational awareness</p>"
+                text: "<p>Leopold Aschenbrenner publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think.</p>"
             },
-            importance: 2,
-            category: CATEGORIES.RESEARCH
+            importance: 3,
+            category: CATEGORIES.CULTURE
         },
         {
             start_date: { year: "2024", month: "09", "day": "20" },
@@ -285,7 +321,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "09", "day": "25" },
             text: {
                 headline: "Murati quits",
-                text: "<p>OpenAI's CTO departs the company</p>"
+                text: "<p>OpenAI's CTO Mira Murati departs the company</p>"
             },
             importance: 1.5,
             category: CATEGORIES.BUSINESS
@@ -300,6 +336,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2024", month: "11", "day": "01" },
+            text: {
+                headline: "Trump elected",
+                text: "<p>Donald Trump wins the 2024 election with the vocal support of Elon Musk.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.POLICY
+        },
+        {
             start_date: { year: "2024", month: "12", "day": "04" },
             text: {
                 headline: "David Sacks is AI Czar",
@@ -312,10 +357,19 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "12", "day": "20" },
             text: {
                 headline: "o3 evals",
-                text: "<p>Release of preliminary evaluation results for o3</p>"
+                text: "<p>On the 12th day of \"12 Days of OpenAI\", OpenAI releases benchmark results for o3, shocking the world. They show striking improvements on the ARC-AGI eval, suggesting AGI may be nearer than many skeptics believed.</p>"
             },
             importance: 2,
             category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2024", month: "12", "day": "26" },
+            text: {
+                headline: "DeepSeek v3",
+                text: "<p>Chinese lab DeepSeek stuns with the release of DeepSeek v3, which showed strong performance for low cost.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
         }
     ]
 };

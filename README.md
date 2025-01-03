@@ -12,7 +12,7 @@ AGI Timeline is an open-source project that creates an interactive timeline show
 - Major AI milestones and developments
 - Details on key researchers and organizations
 - Links to papers and additional resources
-- Filterable by different AI domains (ML, NLP, Computer Vision, etc.)
+- Filterable by different domains (`Model Release`, `Culture & Society`, `Business & Industry`, `Research & Papers`, `Policy & Regulation`)
 ## Contributing Events
 
 We welcome contributions to the timeline! Here's how you can submit new events:
