@@ -9,14 +9,10 @@ const TIME_MARKER_HEIGHT = 40;
 const Z_INDEX_BASE = 20;
 const Z_INDEX_HOVER = 100;
 const MIN_CARD_HEIGHT = 70;
-const MIN_EXPANDED_HEIGHT = 120;  // new minimum height when expanded
+const MIN_EXPANDED_HEIGHT = 120;
 const ROW_HEIGHT = 70;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
-/* 
-  Use React.memo on EventCard to avoid re-renders 
-  unless the key props (event, isHovered, row, etc.) change
-*/
 const EventCard = React.memo(function EventCard({
     event,
     position,
@@ -32,20 +28,27 @@ const EventCard = React.memo(function EventCard({
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
     const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
 
-    // Use layout effect for initial width measurement
-    useLayoutEffect(() => {
-        if (contentRef.current) {
-            const contentWidth = contentRef.current.offsetWidth;
-            setWidth(Math.max(MIN_CARD_WIDTH, contentWidth + 40)); // Add more padding buffer
-        }
-    }, [event.text.headline]);
+    // Reset width when event changes
+    useEffect(() => {
+        setWidth(MIN_CARD_WIDTH);
+    }, [event.id]);
 
-    // Separate effect for expanded content
+    useLayoutEffect(() => {
+        let mounted = true;
+        if (contentRef.current && mounted) {
+            const contentWidth = contentRef.current.offsetWidth;
+            setWidth(Math.max(MIN_CARD_WIDTH, contentWidth + 40));
+        }
+        return () => {
+            mounted = false;
+        };
+    }, [event.text.headline, event.id]);
+
     useEffect(() => {
         if (isHovered && expandedContentRef.current) {
             const baseHeight = contentRef.current.offsetHeight;
             const expandedContent = expandedContentRef.current.scrollHeight;
-            const totalHeight = baseHeight + expandedContent + 32; // Add more padding
+            const totalHeight = baseHeight + expandedContent + 32;
             setExpandedHeight(Math.max(MIN_EXPANDED_HEIGHT, totalHeight));
         }
     }, [isHovered]);
@@ -138,7 +141,6 @@ const EventCard = React.memo(function EventCard({
         </motion.div>
     );
 });
-
 
 /* 
   Use React.memo on TimeMarker for the same reason.
@@ -250,11 +252,14 @@ export default function Timeline() {
 
     // Filter + position events
     const positionedEvents = useMemo(() => {
+        const startDate = new Date(2015, 1, 1); // Add this line
         const filteredEvents = events.filter((event) => activeCategories[event.category]);
-        const startDate = new Date(2015, 1, 1);
         const rows = Array(ROW_COUNT).fill().map(() => []);
 
         return filteredEvents.map((event) => {
+            // Create a unique identifier for each event
+            const eventId = `${event.start_date.year}-${event.start_date.month}-${event.start_date.day}-${event.text.headline}`;
+
             const date = new Date(
                 event.start_date.year,
                 event.start_date.month - 1,
@@ -263,7 +268,6 @@ export default function Timeline() {
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * pixelsPerDay;
 
-            // naive row assignment
             const bestRow = rows.reduce((minRow, row, index) => {
                 return row.length < rows[minRow].length ? index : minRow;
             }, 0);
@@ -272,11 +276,13 @@ export default function Timeline() {
 
             return {
                 ...event,
+                id: eventId,
                 position,
                 row: bestRow,
             };
         });
     }, [events, pixelsPerDay, activeCategories]);
+
 
     // Time markers (every 2 months)
     const timeMarkers = useMemo(() => {
@@ -481,7 +487,7 @@ export default function Timeline() {
                         <div className="relative z-10">
                             {positionedEvents.map((event, index) => (
                                 <EventCard
-                                    key={index}
+                                    key={`${event.id}-${activeCategories[event.category]}`}
                                     event={event}
                                     position={event.position}
                                     row={event.row}
