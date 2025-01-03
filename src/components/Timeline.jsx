@@ -388,7 +388,7 @@ export default function Timeline() {
     return (
         <div className="relative mx-auto max-w-[1600px] px-8">
             {/* Semi-transparent backdrop */}
-            <div className="absolute inset-0 rounded-lg bg-black bg-opacity-65 shadow-lg glass-effect mx-2 md:mx-4" />
+            <div className="absolute inset-0 rounded-lg shadow-lg glass-effect mx-2 md:mx-4" />
 
             {/* Content wrapper */}
             <div className="relative">
