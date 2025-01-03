@@ -1,5 +1,5 @@
 // src/components/Timeline.jsx
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react';
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -9,7 +9,7 @@ const TIME_MARKER_HEIGHT = 40;
 const Z_INDEX_BASE = 20;
 const Z_INDEX_HOVER = 100;
 const MIN_CARD_HEIGHT = 70;
-const EXPANDED_CARD_HEIGHT = 150;
+const MIN_EXPANDED_HEIGHT = 120;  // new minimum height when expanded
 const ROW_HEIGHT = 70;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
@@ -26,20 +26,29 @@ const EventCard = React.memo(function EventCard({
     onHover,
     rowHeight
 }) {
-    // Calculate base opacity based on importance (0.06 to 0.12)
     const baseOpacity = (Math.min(event.importance, 3) / 3) * 0.4 - 0.2;
-
-    // Create a ref to measure the content width
     const contentRef = useRef(null);
+    const expandedContentRef = useRef(null);
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
+    const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
 
-    // Update width when content changes
-    useEffect(() => {
+    // Use layout effect for initial width measurement
+    useLayoutEffect(() => {
         if (contentRef.current) {
             const contentWidth = contentRef.current.offsetWidth;
-            setWidth(Math.max(MIN_CARD_WIDTH, contentWidth + 32)); // 32px for padding
+            setWidth(Math.max(MIN_CARD_WIDTH, contentWidth + 40)); // Add more padding buffer
         }
     }, [event.text.headline]);
+
+    // Separate effect for expanded content
+    useEffect(() => {
+        if (isHovered && expandedContentRef.current) {
+            const baseHeight = contentRef.current.offsetHeight;
+            const expandedContent = expandedContentRef.current.scrollHeight;
+            const totalHeight = baseHeight + expandedContent + 32; // Add more padding
+            setExpandedHeight(Math.max(MIN_EXPANDED_HEIGHT, totalHeight));
+        }
+    }, [isHovered]);
 
     const topPos = (row * rowHeight) + TIME_MARKER_HEIGHT + (ROW_GAP * row);
 
@@ -50,8 +59,8 @@ const EventCard = React.memo(function EventCard({
                 left: `${position - (width / 2)}px`,
                 top: `${topPos}px`,
                 width: `${width}px`,
-                height: isHovered ? `${EXPANDED_CARD_HEIGHT}px` : `${MIN_CARD_HEIGHT}px`,
-                transition: 'height 0.3s ease-out',
+                height: isHovered ? `${expandedHeight}px` : `${MIN_CARD_HEIGHT}px`,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 zIndex: isHovered ? Z_INDEX_HOVER : Z_INDEX_BASE,
             }}
             initial={{ opacity: 0 }}
@@ -115,6 +124,7 @@ const EventCard = React.memo(function EventCard({
                     <AnimatePresence>
                         {isHovered && (
                             <motion.div
+                                ref={expandedContentRef}
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
@@ -204,7 +214,7 @@ export default function Timeline() {
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [zoomIndex, setZoomIndex] = useState(2);
+    const [zoomIndex, setZoomIndex] = useState(3);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
     const ROW_COUNT = 5;
     const [activeCategories, setActiveCategories] = useState(
@@ -376,75 +386,63 @@ export default function Timeline() {
     };
 
     return (
-        <>
-            {/* Controls Section - Made wider */}
-            <div className="my-2 top-0 z-20 py-2 max-w-[1600px] mx-auto px-8">
-                {/* Category and Zoom Controls */}
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
-                    {/* Categories section */}
-                    <div className="flex gap-2 flex-wrap">
-                        {Object.values(CATEGORIES).map((category) => (
+        <div className="relative mx-auto max-w-[1600px] px-8">
+            {/* Semi-transparent backdrop */}
+            <div className="absolute inset-0 rounded-lg bg-black bg-opacity-65 shadow-lg glass-effect mx-2 md:mx-4" />
+
+            {/* Content wrapper */}
+            <div className="relative">
+                {/* Controls Section */}
+                <div className="py-4">
+                    {/* Category and Zoom Controls */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
+                        {/* Categories section */}
+                        <div className="flex gap-2 flex-wrap">
+                            {Object.values(CATEGORIES).map((category) => (
+                                <button
+                                    key={category}
+                                    onClick={() => toggleCategory(category)}
+                                    className={`
+                                        px-3 py-1 rounded-full text-sm font-sans transition-all
+                                        ${activeCategories[category]
+                                            ? 'bg-white/20 text-white'
+                                            : 'bg-white/5 text-white/40'}
+                                        hover:bg-white/30
+                                    `}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Zoom controls section */}
+                        <div className="flex gap-2 font-sans text-sm sm:ml-auto">
                             <button
-                                key={category}
-                                onClick={() => toggleCategory(category)}
-                                className={`
-                                    px-3 py-1 rounded-full text-sm font-sans transition-all
-                                    ${activeCategories[category]
-                                        ? 'bg-white/20 text-white'
-                                        : 'bg-white/5 text-white/40'}
-                                    hover:bg-white/30
-                                `}
+                                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                onClick={zoomOut}
                             >
-                                {category}
+                                Zoom Out
                             </button>
-                        ))}
-                    </div>
-    
-                    {/* Zoom controls section */}
-                    <div className="flex gap-2 font-sans text-sm sm:ml-auto mx-auto">
-                        <button
-                            className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
-                            onClick={zoomOut}
-                        >
-                            Zoom Out
-                        </button>
-                        <button
-                            className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
-                            onClick={zoomIn}
-                        >
-                            Zoom In
-                        </button>
-                        <span className="text-white/60 ml-2 my-auto">
-                            {`Zoom: ${pixelsPerDay}px/day`}
-                        </span>
+                            <button
+                                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                onClick={zoomIn}
+                            >
+                                Zoom In
+                            </button>
+                            <span className="text-white/60 ml-2 my-auto">
+                                {`Zoom: ${pixelsPerDay}px/day`}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-    
-            {/* Timeline Container with Backdrop - Made wider and taller */}
-            <div className="relative mx-auto max-w-[1600px] px-8">
-                {/* Semi-transparent backdrop with added padding */}
-                <div 
-                    className="absolute inset-0 rounded-lg -mx-4"
-                    style={{
-                        background: 'rgba(10, 10, 15, 0.85)',
-                        backdropFilter: 'blur(8px)',
-                        boxShadow: `
-                            0 0 0 1px rgba(255, 255, 255, 0.1),
-                            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                            0 2px 4px -2px rgba(0, 0, 0, 0.1)
-                        `,
-                        padding: '2rem 0'
-                    }}
-                />
-    
-                {/* Timeline Scroll Container - Added vertical padding */}
+
+                {/* Timeline Scroll Container */}
                 <div
                     ref={containerRef}
-                    className="relative mx-auto overflow-x-scroll timeline-container py-8"
+                    className="relative mx-auto overflow-x-scroll timeline-container"
                     onWheel={handleWheel}
                 >
-                    {/* Timeline Content - Increased row height */}
+                    {/* Timeline Content */}
                     <div
                         className="relative"
                         style={{
@@ -478,7 +476,7 @@ export default function Timeline() {
                                 />
                             ))}
                         </div>
-    
+
                         {/* Events Layer */}
                         <div className="relative z-10">
                             {positionedEvents.map((event, index) => (
@@ -497,6 +495,6 @@ export default function Timeline() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

@@ -43,7 +43,7 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
-                    © {new Date().getFullYear()} AGI Timeline. By <a href="https://x.com/jam3scampbell">James Campbell</a>, Website by <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
+                    © {new Date().getFullYear()} AGI Timeline. By <a href="https://x.com/jam3scampbell">James Campbell</a> and <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
 
                 </footer>
             </div>

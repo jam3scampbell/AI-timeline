@@ -79,3 +79,16 @@ a {
         0 0 6px rgba(255, 255, 255, 0.12),
         0 0 12px rgba(255, 255, 255, 0.06);
 }
+
+
+.glass-effect {
+    background: linear-gradient(135deg,
+            rgba(4, 2, 13, 0.832),
+            rgba(46, 46, 60, 0.726));
+    backdrop-filter:
+        contrast(150%) brightness(65%) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
