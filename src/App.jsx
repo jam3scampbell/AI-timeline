@@ -24,9 +24,9 @@ export default function App() {
                         />
 
                         <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
-                            Inside the AGI Revolution
+                            The Road to AGI
                             <br />
-                            2022 - {new Date().getFullYear()}
+                            2015 - {new Date().getFullYear()}
                         </h1>
                         <p className="text-gray-300 font-sans max-w-xl px-2 text-lg leading-relaxed">
                             The last few years of AI have happened fast. This timeline attempts to tell its story.
