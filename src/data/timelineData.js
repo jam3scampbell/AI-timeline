@@ -159,7 +159,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2023", month: "03", "day": "22" },
             text: {
                 headline: "FLI letter",
-                text: "<p>Future of Life Institute puts out \"Pause Giant AI Experiments\"</p>"
+                text: "<p>The Future of Life Institute puts out an open letter calling for a 6 month pause on AI development. The letter is signed by Elon Musk and other noteworthy figures.</p>"
             },
             importance: 1.0,
             category: CATEGORIES.CULTURE
@@ -291,6 +291,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2024", month: "04", "day": "11"},
+            text: {
+                headline: "OpenAI fired leakers",
+                text: "<p>Leopold Aschenbrenner and Pavel Izmailov, two researchers from the superalignment team are fired for \"leaking\".</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.BUSINESS
+        },
+        {
             start_date: { year: "2024", month: "05", "day": "13" },
             text: {
                 headline: "GPT-4o",
@@ -300,13 +309,31 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2024", month: "05", "day": "14" },
+            text: {
+                headline: "Ilya quits OpenAI",
+                text: "<p>Ilya Sutskever, founder of OpenAI, quits after months of silence, originating from the Board dispute.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.BUSINESS
+        },
+        {
             start_date: { year: "2024", month: "06", "day": "04" },
             text: {
                 headline: "Situational Awareness",
-                text: "<p>Leopold Aschenbrenner publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think.</p>"
+                text: "<p>Leopold Aschenbrenner publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think and is likely to be nationalized.</p>"
             },
             importance: 3,
             category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2024", month: "08", "day": "23" },
+            text: {
+                headline: "Cursor",
+                text: "<p>After a viral tweet by Andrej Karpathy, the Cursor AI Code Editor explodes in popularity among developers.</p>",
+            },
+            importance: 1,
+            category: CATEGORIES.BUSINESS
         },
         {
             start_date: { year: "2024", month: "09", "day": "20" },
