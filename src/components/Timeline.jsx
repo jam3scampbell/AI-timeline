@@ -670,7 +670,7 @@ export default function Timeline() {
     }, [viewMode]);
 
     return (
-        <div className={`relative mx-auto max-w-[1600px] px-8 md:px-12 py-2`}>
+        <div className={`relative mx-auto max-w-[1600px] px-4 md:px-12 py-2`}>
             {/* Semi-transparent backdrop */}
             {viewMode === 'timeline' && (
                 <div className="absolute inset-0" /> 
