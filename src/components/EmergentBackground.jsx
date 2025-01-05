@@ -9,12 +9,12 @@ gsap.registerPlugin(ScrollTrigger);
 // Configuration object with default values
 const DEFAULT_CONFIG = {
     layers: 5,
-    particlesPerLayer: 1000,
-    baseColor: new THREE.Color(0.2, 0.5, 1.0),
-    baseSize: 2,
-    baseOpacity: 0.6,
-    rotationSpeed: 0.1,
-    waveSpeed: 0.001,
+    particlesPerLayer: 700,
+    baseColor: new THREE.Color(0.2, 0.3, 0.8),
+    baseSize: 1.5,
+    baseOpacity: 0.4,
+    rotationSpeed: 0.05,
+    waveSpeed: 0.0008,
     cameraDistance: 300,
     enableScrollEffect: true
 };
@@ -48,13 +48,15 @@ export default function EmergentBackground({ config = {} }) {
                 const material = new THREE.PointsMaterial({
                     size: finalConfig.baseSize,
                     color: new THREE.Color(
-                        finalConfig.baseColor.r + layerIndex * 0.2,
-                        finalConfig.baseColor.g,
-                        finalConfig.baseColor.b
+                        finalConfig.baseColor.r + (layerIndex * 0.15),
+                        finalConfig.baseColor.g + (layerIndex * 0.02),
+                        finalConfig.baseColor.b - (layerIndex * 0.15)
                     ),
                     transparent: true,
-                    opacity: finalConfig.baseOpacity - (layerIndex * 0.1),
-                    blending: THREE.AdditiveBlending
+                    opacity: finalConfig.baseOpacity - (layerIndex * 0.05),
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false,
+                    depthTest: false
                 });
                 
                 this.points = new THREE.Points(geometry, material);
@@ -67,10 +69,10 @@ export default function EmergentBackground({ config = {} }) {
                 
                 for (let i = 0; i < positions.length; i += 3) {
                     const angle = (i / 3) * 0.1 + time;
-                    const radius = (layerIndex + 1) * 50 + Math.sin(angle + layerIndex) * 20;
-                    positions[i] = Math.cos(angle) * radius + Math.sin(time * 2 + i) * 5;
-                    positions[i + 1] = Math.sin(angle) * radius + Math.cos(time * 2 + i) * 5;
-                    positions[i + 2] += Math.sin(time + i * 0.01) * 0.2;
+                    const radius = (layerIndex + 1) * 50 + Math.sin(angle + layerIndex) * 15;
+                    positions[i] = Math.cos(angle) * radius + Math.sin(time * 1.5 + i) * 3;
+                    positions[i + 1] = Math.sin(angle) * radius + Math.cos(time * 1.5 + i) * 3;
+                    positions[i + 2] += Math.sin(time + i * 0.01) * 0.1;
                 }
                 
                 this.points.geometry.attributes.position.needsUpdate = true;
@@ -179,7 +181,7 @@ export default function EmergentBackground({ config = {} }) {
     return (
         <canvas
             id="emergent-canvas"
-            className="fixed top-0 left-0 w-full h-full z-0"
+            className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"
         />
     );
 }

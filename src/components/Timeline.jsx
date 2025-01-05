@@ -1,5 +1,5 @@
 // src/components/Timeline.jsx
-import React, { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useLayoutEffect, useCallback } from 'react';
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -12,6 +12,247 @@ const MIN_CARD_HEIGHT = 70;
 const MIN_EXPANDED_HEIGHT = 120;
 const ROW_HEIGHT = 70;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
+
+// Cards view components
+const CardsView = React.memo(function CardsView({
+    events,
+    activeCategories,
+    hoveredEvent,
+    setHoveredEvent
+}) {
+    const timelineRef = useRef(null);
+    const spineRef = useRef(null);
+    const [activeEventIndex, setActiveEventIndex] = useState(0);
+    const [scrollProgress, setScrollProgress] = useState(0);
+
+    // Calculate which event is in view and update scroll progress
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!timelineRef.current) return;
+
+            const cards = timelineRef.current.getElementsByClassName('event-card');
+            const viewportHeight = window.innerHeight;
+            const scrollTop = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight;
+
+            // Calculate scroll progress (0 to 1)
+            setScrollProgress(scrollTop / (documentHeight - viewportHeight));
+
+            // Handle edge cases first
+            if (scrollTop <= viewportHeight * 0.1) {
+                setActiveEventIndex(0);
+                return;
+            }
+
+            if (scrollTop + viewportHeight >= documentHeight - viewportHeight * 0.1) {
+                setActiveEventIndex(events.length - 1);
+                return;
+            }
+
+            // For all other cases, find the card closest to the middle
+            const viewportMiddle = scrollTop + (viewportHeight / 2);
+            let closestCard = 0;
+            let minDistance = Infinity;
+
+            Array.from(cards).forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const cardMiddle = scrollTop + rect.top + (rect.height / 2);
+                const distance = Math.abs(cardMiddle - viewportMiddle);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCard = index;
+                }
+            });
+
+            setActiveEventIndex(closestCard);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [events.length]);
+
+    const filteredEvents = events.filter(event => activeCategories[event.category]);
+    const currentEvent = filteredEvents[activeEventIndex];
+
+    const scrollToEvent = useCallback((index) => {
+        const cards = timelineRef.current.getElementsByClassName('event-card');
+        if (cards[index]) {
+            const card = cards[index];
+            const cardRect = card.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const offset = window.scrollY + cardRect.top - (viewportHeight / 2) + (cardRect.height / 2);
+
+            // Handle edge cases
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const finalOffset = Math.max(0, Math.min(offset, maxScroll));
+
+            window.scrollTo({
+                top: finalOffset,
+                behavior: 'smooth'
+            });
+        }
+    }, []);
+
+    return (
+        <div className="relative font-sans cards-view">
+            {/* Main timeline */}
+            <section
+                ref={timelineRef}
+                className="grid grid-cols-[84px_1fr]  mb-16 relative"
+            >
+                {/* Left column: Timeline spine */}
+                <div ref={spineRef} className="sticky top-0 h-screen">
+                    {/* Timeline container */}
+                    <div className="relative h-full" style={{ minHeight: '1200px' }}>
+                        {/* Vertical line */}
+                        <div 
+                            className="absolute left-1/2 transform -translate-x-1/2 w-[2px] bg-white/30" 
+                            style={{ height: '100%' }}
+                        />
+                        
+                        {/* Moving dot */}
+                        <div
+                            className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-lg transition-all duration-300"
+                            style={{
+                                top: `${(() => {
+                                    if (!currentEvent) return 60;
+                                    const currentDate = new Date(
+                                        currentEvent.start_date.year,
+                                        currentEvent.start_date.month - 1,
+                                        currentEvent.start_date.day
+                                    );
+                                    const startDate = new Date(2015, 0, 1);
+                                    const endDate = new Date(2025, 11, 31);
+                                    const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                                    const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
+                                    const progress = daysPassed / totalDays;
+                                    
+                                    const usableHeight = 1200 - 120;
+                                    return 60 + (progress * usableHeight);
+                                })()}px`,
+                                boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                            }}
+                        />
+
+                        {/* Year markers - update positioning */}
+                        {(() => {
+                            const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+                            const startDate = new Date(2015, 0, 1);
+                            const endDate = new Date(2025, 11, 31);
+                            const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                            
+                            const totalSpacing = 1200;
+                            const topPadding = 60;
+                            const bottomPadding = 60;
+                            const usableHeight = totalSpacing - topPadding - bottomPadding;
+                            
+                            return years.map(year => {
+                                const yearDate = new Date(year, 0, 1);
+                                const daysPassed = (yearDate - startDate) / (1000 * 60 * 60 * 24);
+                                const progress = daysPassed / totalDays;
+                                const position = topPadding + (progress * usableHeight);
+                                
+                                return (
+                                    <div
+                                        key={`year-${year}`}
+                                        className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
+                                        style={{
+                                            top: `${position}px`,
+                                            transform: 'translate(-100%, -50%)'
+                                        }}
+                                    >
+                                        <span className="text-xl font-medium whitespace-nowrap text-white/90 year-glow">
+                                            {year}
+                                        </span>
+                                    </div>
+                                );
+                            });
+                        })()}
+
+                        {/* Month markers - update positioning */}
+                        {(() => {
+                            const startDate = new Date(2015, 0, 1);
+                            const endDate = new Date(2025, 11, 31);
+                            const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                            const markers = [];
+                            let currentDate = new Date(startDate);
+
+                            const totalSpacing = 1200;
+                            const topPadding = 60;
+                            const bottomPadding = 60;
+                            const usableHeight = totalSpacing - topPadding - bottomPadding;
+
+                            while (currentDate <= endDate) {
+                                const isYearStart = currentDate.getMonth() === 0;
+
+                                if (!isYearStart) {
+                                    const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
+                                    const progress = daysPassed / totalDays;
+                                    const position = topPadding + (progress * usableHeight);
+                                    
+                                    markers.push(
+                                        <div
+                                            key={currentDate.toISOString()}
+                                            className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
+                                            style={{
+                                                top: `${position}px`,
+                                                transform: 'translate(-100%, -50%)'
+                                            }}
+                                        >
+                                            <span className="text-sm font-medium whitespace-nowrap text-white/40">
+                                                {currentDate.toLocaleDateString('en-US', { month: 'short' })}
+                                            </span>
+                                        </div>
+                                    );
+                                }
+
+                                // Advance by 3 months instead of 2 for more spacing
+                                currentDate.setMonth(currentDate.getMonth() + 3);
+                            }
+
+                            return markers;
+                        })()}
+                    </div>
+                </div>
+
+                {/* Right column: Event cards */}
+                <div className="space-y-8 py-12">
+                    {filteredEvents.map((event, index) => (
+                        <div
+                            key={index}
+                            className={`event-card p-6 ${
+                                index === activeEventIndex ? 'active' : ''
+                            }`}
+                            onMouseEnter={() => setHoveredEvent(event)}
+                            onMouseLeave={() => setHoveredEvent(null)}
+                            onClick={() => {
+                                setActiveEventIndex(index);
+                                scrollToEvent(index);
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div className="text-sm text-white/60 font-medium tracking-wide">
+                                {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
+                            </div>
+                            <h3 className="font-serif text-2xl font-normal text-white leading-snug mt-2">
+                                {event.text.headline}
+                            </h3>
+                            <div className="text-xs font-sans mt-1 text-white/40">
+                                {event.category}
+                            </div>
+                            <div
+                                className="text-white/80 text-base leading-relaxed mt-3"
+                                dangerouslySetInnerHTML={{ __html: event.text.text }}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+});
 
 const EventCard = React.memo(function EventCard({
     event,
@@ -111,13 +352,13 @@ const EventCard = React.memo(function EventCard({
                 <div className="relative z-10" ref={contentRef}>
                     <h3
                         className={`
-                            font-serif leading-snug mb-1 pointer-events-none text-lg
+                            font-serif leading-snug mb-1 text-lg
                             ${isHovered ? 'text-white' : 'text-white/90'}
                         `}
                     >
                         {event.text.headline}
                     </h3>
-                    <div className="text-sm font-sans text-white/60 font-medium pointer-events-none">
+                    <div className="text-sm font-sans text-white/60 font-medium">
                         {`${String(event.start_date.month).padStart(2, '0')}/${String(event.start_date.day).padStart(2, '0')}/${event.start_date.year}`}
                     </div>
                     <div className={`text-xs font-sans mt-1
@@ -131,7 +372,7 @@ const EventCard = React.memo(function EventCard({
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
-                                className="text-sm font-sans text-white/80 mt-1 overflow-hidden pointer-events-none"
+                                className="text-sm font-sans text-white/80 mt-1 overflow-hidden"
                                 dangerouslySetInnerHTML={{ __html: event.text.text }}
                             />
                         )}
@@ -217,11 +458,29 @@ export default function Timeline() {
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
     const [zoomIndex, setZoomIndex] = useState(3);
+    const [viewMode, setViewMode] = useState('timeline');
+    const [isMobile, setIsMobile] = useState(false);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
     const ROW_COUNT = 5;
     const [activeCategories, setActiveCategories] = useState(
         Object.values(CATEGORIES).reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
     );
+
+    // Check for mobile on mount and window resize
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Set initial view mode based on device
+    useEffect(() => {
+        setViewMode(isMobile ? 'cards' : 'timeline');
+    }, [isMobile]);
 
     const toggleCategory = (category) => {
         setActiveCategories((prev) => ({
@@ -380,10 +639,11 @@ export default function Timeline() {
     // Handle horizontal scrolling and pinch zoom
     useEffect(() => {
         const container = containerRef.current;
-        if (!container) return;
+        if (!container || viewMode !== 'timeline') return;
 
         const handleWheel = (e) => {
             if (e.ctrlKey || e.metaKey) {
+                // Zoom functionality
                 e.preventDefault();
                 if (e.deltaY < 0) {
                     setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
@@ -391,30 +651,37 @@ export default function Timeline() {
                     setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
                 }
             } else {
+                // Horizontal scrolling
+                e.preventDefault();
                 container.scrollLeft += e.deltaY;
+                
+                // For smoother horizontal scrolling, also handle deltaX
+                if (e.deltaX !== 0) {
+                    container.scrollLeft += e.deltaX;
+                }
             }
         };
 
-        // Add event listener with { passive: false }
         container.addEventListener('wheel', handleWheel, { passive: false });
 
-        // Cleanup
         return () => {
             container.removeEventListener('wheel', handleWheel);
         };
-    }, []);
-    ;
+    }, [viewMode]);
 
     return (
-        <div className="relative mx-auto max-w-[1600px] px-8 md:px-12 py-2">
+        <div className={`relative mx-auto max-w-[1600px] px-8 md:px-12 py-2`}>
             {/* Semi-transparent backdrop */}
-            <div className="absolute inset-0 rounded-lg shadow-lg glass-effect mx-2 md:mx-4" />
+            {viewMode === 'timeline' && (
+                <div className="absolute inset-0" /> 
+                // add these back in for glass effect: rounded-lg shadow-lg glass-effect mx-2 md:mx-4
+            )}
 
             {/* Content wrapper */}
             <div className="relative">
                 {/* Controls Section */}
                 <div className="py-4">
-                    {/* Category and Zoom Controls */}
+                    {/* Category and View Controls */}
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
                         {/* Categories section */}
                         <div className="flex gap-2 flex-wrap">
@@ -435,84 +702,105 @@ export default function Timeline() {
                             ))}
                         </div>
 
-                        {/* Zoom controls section */}
+                        {/* View toggle and zoom controls */}
                         <div className="flex gap-2 font-sans text-sm sm:ml-auto">
                             <button
                                 className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
-                                onClick={zoomOut}
+                                onClick={() => setViewMode(viewMode === 'timeline' ? 'cards' : 'timeline')}
                             >
-                                Zoom Out
+                                {viewMode === 'timeline' ? 'Switch to Cards' : 'Switch to Timeline'}
                             </button>
-                            <button
-                                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
-                                onClick={zoomIn}
-                            >
-                                Zoom In
-                            </button>
-                            <span className="text-white/60 ml-2 my-auto">
-                                {`Zoom: ${pixelsPerDay}px/day`}
-                            </span>
+                            {viewMode === 'timeline' && (
+                                <>
+                                    <button
+                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                        onClick={zoomOut}
+                                    >
+                                        Zoom Out
+                                    </button>
+                                    <button
+                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                        onClick={zoomIn}
+                                    >
+                                        Zoom In
+                                    </button>
+                                    <span className="text-white/60 ml-2 my-auto">
+                                        {`Zoom: ${pixelsPerDay}px/day`}
+                                    </span>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {/* Timeline Scroll Container */}
-                <div
-                    ref={containerRef}
-                    className="relative mx-auto overflow-x-scroll timeline-container"
-                >
-                    {/* Timeline Content */}
+                {/* View Content */}
+                {viewMode === 'timeline' ? (
+                    // Timeline View
                     <div
-                        className="relative"
-                        style={{
-                            width: `${totalWidth}px`,
-                            height: `${(ROW_COUNT * (ROW_HEIGHT + 10)) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * (ROW_GAP + 5))}px`,
-                            padding: '0 2rem'
-                        }}
+                        ref={containerRef}
+                        className="relative mx-auto overflow-x-scroll timeline-container"
                     >
-                        {/* Time Markers Layer */}
-                        <div className="absolute inset-0 z-0">
-                            {timeMarkers.map((marker, index) => (
-                                <TimeMarker
-                                    key={index}
-                                    date={marker.date}
-                                    position={marker.position}
-                                />
-                            ))}
-                            {yearMarkers.map((marker, index) => (
-                                <YearMarker
-                                    key={index}
-                                    year={marker.year}
-                                    position={marker.position}
-                                />
-                            ))}
-                            {tickMarkers.map((marker, index) => (
-                                <TickMarker
-                                    key={index}
-                                    position={marker.position}
-                                    isYearTick={marker.isYearTick}
-                                    hasEvent={marker.hasEvent}
-                                />
-                            ))}
-                        </div>
+                        {/* Timeline Content */}
+                        <div
+                            className="relative"
+                            style={{
+                                width: `${totalWidth}px`,
+                                height: `${(ROW_COUNT * (ROW_HEIGHT + 10)) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * (ROW_GAP + 5))}px`,
+                                padding: '0 2rem'
+                            }}
+                        >
+                            {/* Time Markers Layer */}
+                            <div className="absolute inset-0 z-0">
+                                {timeMarkers.map((marker, index) => (
+                                    <TimeMarker
+                                        key={index}
+                                        date={marker.date}
+                                        position={marker.position}
+                                    />
+                                ))}
+                                {yearMarkers.map((marker, index) => (
+                                    <YearMarker
+                                        key={index}
+                                        year={marker.year}
+                                        position={marker.position}
+                                    />
+                                ))}
+                                {tickMarkers.map((marker, index) => (
+                                    <TickMarker
+                                        key={index}
+                                        position={marker.position}
+                                        isYearTick={marker.isYearTick}
+                                        hasEvent={marker.hasEvent}
+                                    />
+                                ))}
+                            </div>
 
-                        {/* Events Layer */}
-                        <div className="relative z-10">
-                            {positionedEvents.map((event, index) => (
-                                <EventCard
-                                    key={`${event.id}-${activeCategories[event.category]}`}
-                                    event={event}
-                                    position={event.position}
-                                    row={event.row}
-                                    totalRows={ROW_COUNT}
-                                    isHovered={hoveredEvent === event}
-                                    onHover={setHoveredEvent}
-                                    rowHeight={ROW_HEIGHT}
-                                />
-                            ))}
+                            {/* Events Layer */}
+                            <div className="relative z-10">
+                                {positionedEvents.map((event, index) => (
+                                    <EventCard
+                                        key={`${event.id}-${activeCategories[event.category]}`}
+                                        event={event}
+                                        position={event.position}
+                                        row={event.row}
+                                        totalRows={ROW_COUNT}
+                                        isHovered={hoveredEvent === event}
+                                        onHover={setHoveredEvent}
+                                        rowHeight={ROW_HEIGHT}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    // Cards View
+                    <CardsView
+                        events={events}
+                        activeCategories={activeCategories}
+                        hoveredEvent={hoveredEvent}
+                        setHoveredEvent={setHoveredEvent}
+                    />
+                )}
             </div>
         </div>
     );

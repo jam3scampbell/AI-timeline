@@ -5,90 +5,117 @@
 
 /* Custom global styling */
 body {
-    font-family: "EB Garamond", serif;
-    color: #f2f2f2;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-image:
-        radial-gradient(at 30% 30%, rgba(70, 70, 120, 0.6), transparent 70%),
-        linear-gradient(to bottom right, #1e1e2e 0%, #050505 100%);
-    background-blend-mode: screen;
-
+  font-family: "EB Garamond", serif;
+  color: #f2f2f2;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-image: radial-gradient(
+      at 30% 30%,
+      rgba(50, 50, 90, 0.2),
+      transparent 80%
+    ),
+    linear-gradient(to bottom right, #0a0a10 0%, #020202 100%);
+  background-blend-mode: screen;
 }
 
-
 .timeline-container {
-    overflow-x: scroll !important;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    padding: 1rem 3rem 5.5rem;
-    /* Add these Safari-specific properties */
-    background-color: transparent;
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  overflow-x: scroll !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  padding: 1rem 3rem 5.5rem;
+  /* Add these Safari-specific properties */
+  background-color: transparent;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
 }
 
 /* Firefox */
 .timeline-container::-webkit-scrollbar {
-    height: 8px;
-    background: transparent;
+  height: 8px;
+  background: transparent;
 }
 
 .timeline-container::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 .timeline-container::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 /* Safari-specific scrollbar styling */
 @supports (-webkit-overflow-scrolling: touch) {
-    .timeline-container::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        background-color: transparent;
-    }
+  .timeline-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+  }
 
-    .timeline-container::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
+  .timeline-container::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
-    .timeline-container::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        border: 2px solid transparent;
-        background-clip: padding-box;
-    }
+  .timeline-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
 }
 
+/* Cards view styling */
+.cards-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
+.cards-view .event-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1px);
+}
 
+.cards-view .event-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
 
+.cards-view .event-card.active {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.02);
+}
 
 a {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .year-glow {
-    text-shadow:
-        0 0 4px rgba(255, 255, 255, 0.18),
-        0 0 6px rgba(255, 255, 255, 0.12),
-        0 0 12px rgba(255, 255, 255, 0.06);
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.18),
+    0 0 6px rgba(255, 255, 255, 0.12), 0 0 12px rgba(255, 255, 255, 0.06);
 }
 
-
 .glass-effect {
-    background: linear-gradient(135deg,
-            rgba(4, 2, 13, 0.832),
-            rgba(46, 46, 60, 0.726));
-    backdrop-filter:
-        contrast(150%) brightness(65%) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow:
-        0 8px 32px 0 rgba(0, 0, 0, 0.2),
-        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(
+    135deg,
+    rgba(4, 2, 13, 0.832),
+    rgba(46, 46, 60, 0.726)
+  );
+  backdrop-filter: contrast(150%) brightness(65%) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
