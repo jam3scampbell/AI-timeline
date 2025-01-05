@@ -225,13 +225,6 @@ const CardsView = React.memo(function CardsView({
                             className={`event-card p-6 ${
                                 index === activeEventIndex ? 'active' : ''
                             }`}
-                            onMouseEnter={() => setHoveredEvent(event)}
-                            onMouseLeave={() => setHoveredEvent(null)}
-                            onClick={() => {
-                                setActiveEventIndex(index);
-                                scrollToEvent(index);
-                            }}
-                            style={{ cursor: 'pointer' }}
                         >
                             <div className="text-sm text-white/60 font-medium tracking-wide">
                                 {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
