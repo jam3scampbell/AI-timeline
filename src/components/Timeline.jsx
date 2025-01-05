@@ -127,13 +127,17 @@ const CardsView = React.memo(function CardsView({
                                     const spineHeight = 1200;
                                     const dotPosition = 60 + (progress * (spineHeight - 120));
                                     
-                                    // Only scroll when dot would go below viewport
-                                    if (dotPosition > viewportHeight - 120) {
-                                        const overflow = dotPosition - (viewportHeight - 120);
-                                        return -Math.min(overflow, spineHeight - viewportHeight);
+                                    // Only scroll when dot would go below viewport, with more padding
+                                    if (dotPosition > viewportHeight - 180) { // Increased padding
+                                        const overflow = dotPosition - (viewportHeight - 180);
+                                        // Apply easing to the scroll
+                                        const eased = overflow * 0.85; // Reduce the scroll amount slightly
+                                        return -Math.min(eased, spineHeight - viewportHeight);
                                     }
                                     return 0;
-                                })()}px)`
+                                })()}px)`,
+                                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)', // Add smooth transition
+                                willChange: 'transform', // Optimize for animations
                             }}
                         >
                             {/* Vertical line */}
