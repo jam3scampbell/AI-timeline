@@ -29,11 +29,10 @@ export default function App() {
                             2015 - {new Date().getFullYear()}
                         </h1>
                         <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed mb-1 justify">
-                            This timeline tells the story of the last decade of AI research, covering both cultural trends and technical advancements.
-
+                            This timeline tells the story of the last decade of AI, from cultural trends to technical advancements.
                         </p>
                         <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed ">
-                            Curation is inherently subjective, and many events are inevitably omitted. If you’d like to contribute, visit the project’s <a href="https://github.com/jam3scampbell/ai-timeline">GitHub</a>.
+                            Note: Curation is inherently subjective, and many events may have been missed. If you’d like to contribute, visit the project’s <a href="https://github.com/jam3scampbell/ai-timeline">GitHub</a>.
                         </p>
 
                     </div>
