@@ -21,13 +21,13 @@ const DEFAULT_CONFIG = {
 
 export default function EmergentBackground({ config = {} }) {
     useEffect(() => {
-        // Merge default config with provided config
         const finalConfig = { ...DEFAULT_CONFIG, ...config };
         
         let scene, camera, renderer;
         let particles = [];
         let animationFrameId;
         let time = 0;
+        let scrollTrigger = null;
 
         class ParticleLayer {
             constructor(layerIndex) {
@@ -85,11 +85,61 @@ export default function EmergentBackground({ config = {} }) {
             }
         }
 
+        function setupScrollTrigger() {
+            const timeline = document.querySelector('.timeline-container')?.parentElement || document.querySelector('.cards-view');
+            if (!timeline) {
+                setTimeout(setupScrollTrigger, 100);
+                return;
+            }
+
+            if (scrollTrigger) {
+                scrollTrigger.kill();
+            }
+
+            ScrollTrigger.refresh();
+
+            scrollTrigger = ScrollTrigger.create({
+                trigger: timeline,
+                start: "top top",
+                end: "bottom bottom",
+                invalidateOnRefresh: true,
+                scrub: true,
+                onUpdate: (self) => {
+                    if (camera) {
+                        camera.position.y = -50 + (self.progress * 100);
+                        camera.lookAt(0, 0, 0);
+                    }
+                }
+            });
+        }
+
+        // Mutation observer for view changes
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (mutation.type === 'childList') {
+                    const hasTimelineView = document.querySelector('.timeline-container');
+                    const hasCardsView = document.querySelector('.cards-view');
+                    if (hasTimelineView || hasCardsView) {
+                        setTimeout(setupScrollTrigger, 100);
+                        break;
+                    }
+                }
+            }
+        });
+
+        // Start observing the container that holds the views
+        const container = document.querySelector('.relative.z-10.mx-auto');
+        if (container) {
+            observer.observe(container, {
+                childList: true,
+                subtree: true
+            });
+        }
+
         function init() {
             const container = document.getElementById('emergent-canvas');
             if (!container) return;
 
-            // Scene setup
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(
                 75,
@@ -106,7 +156,6 @@ export default function EmergentBackground({ config = {} }) {
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create particle layers
             for (let i = 0; i < finalConfig.layers; i++) {
                 const layer = new ParticleLayer(i);
                 particles.push(layer);
@@ -115,17 +164,8 @@ export default function EmergentBackground({ config = {} }) {
 
             camera.position.z = finalConfig.cameraDistance;
 
-            // Add scroll-based camera movement if enabled
             if (finalConfig.enableScrollEffect) {
-                ScrollTrigger.create({
-                    trigger: document.body,
-                    start: "top top",
-                    end: "bottom bottom",
-                    onUpdate: (self) => {
-                        camera.position.y = -50 + (self.progress * 100);
-                        camera.lookAt(0, 0, 0);
-                    }
-                });
+                setTimeout(setupScrollTrigger, 100);
             }
         }
 
@@ -133,12 +173,10 @@ export default function EmergentBackground({ config = {} }) {
             animationFrameId = requestAnimationFrame(animate);
             time += finalConfig.waveSpeed;
             
-            // Update particle layers
             particles.forEach((layer, index) => {
                 layer.update(time, index);
             });
 
-            // Subtle camera movement
             camera.position.x = Math.sin(time * 0.5) * 30;
             if (!finalConfig.enableScrollEffect) {
                 camera.position.y = Math.cos(time * 0.3) * 30;
@@ -158,15 +196,16 @@ export default function EmergentBackground({ config = {} }) {
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
 
-        // Initialize and start animation
         init();
         animate();
 
-        // Handle window resize
         window.addEventListener('resize', handleResize);
 
-        // Cleanup
         return () => {
+            observer.disconnect();
+            if (scrollTrigger) {
+                scrollTrigger.kill();
+            }
             window.removeEventListener('resize', handleResize);
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
