@@ -1,12 +1,11 @@
 // src/components/EmergentBackground.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Configuration object with default values
 const DEFAULT_CONFIG = {
     layers: 5,
     particlesPerLayer: 700,
@@ -15,26 +14,32 @@ const DEFAULT_CONFIG = {
     baseOpacity: 0.4,
     rotationSpeed: 0.05,
     waveSpeed: 0.0008,
-    cameraDistance: 300,
-    enableScrollEffect: true
+    cameraDistance: 300
 };
 
 export default function EmergentBackground({ config = {} }) {
+    const progressRef = useRef(0);
+    const cameraRef = useRef(null);
+    const animationRef = useRef(null);
+    const tweenRef = useRef(null);
+
     useEffect(() => {
         const finalConfig = { ...DEFAULT_CONFIG, ...config };
         
         let scene, camera, renderer;
         let particles = [];
-        let animationFrameId;
         let time = 0;
-        let scrollTrigger = null;
+
+        // Current camera position state
+        const cameraState = {
+            y: -100
+        };
 
         class ParticleLayer {
             constructor(layerIndex) {
                 const geometry = new THREE.BufferGeometry();
                 const positions = new Float32Array(finalConfig.particlesPerLayer * 3);
                 
-                // Create spiral pattern
                 for (let i = 0; i < finalConfig.particlesPerLayer * 3; i += 3) {
                     const angle = (i / 3) * 0.1;
                     const radius = (layerIndex + 1) * 50 + Math.sin(angle) * 20;
@@ -85,54 +90,38 @@ export default function EmergentBackground({ config = {} }) {
             }
         }
 
-        function setupScrollTrigger() {
-            const timeline = document.querySelector('.timeline-container')?.parentElement || document.querySelector('.cards-view');
-            if (!timeline) {
-                setTimeout(setupScrollTrigger, 100);
-                return;
-            }
+        // Watch for progress updates
+        const updateProgress = () => {
+            const timelineElement = document.querySelector('.cards-view');
+            if (timelineElement) {
+                const newProgress = parseFloat(timelineElement.dataset.scrollProgress) || 0;
+                progressRef.current = newProgress;
 
-            if (scrollTrigger) {
-                scrollTrigger.kill();
-            }
-
-            ScrollTrigger.refresh();
-
-            scrollTrigger = ScrollTrigger.create({
-                trigger: timeline,
-                start: "top top",
-                end: "bottom bottom",
-                invalidateOnRefresh: true,
-                scrub: true,
-                onUpdate: (self) => {
-                    if (camera) {
-                        camera.position.y = -50 + (self.progress * 100);
-                        camera.lookAt(0, 0, 0);
-                    }
+                // Kill previous tween if it exists
+                if (tweenRef.current) {
+                    tweenRef.current.kill();
                 }
-            });
-        }
 
-        // Mutation observer for view changes
-        const observer = new MutationObserver((mutations) => {
-            for (const mutation of mutations) {
-                if (mutation.type === 'childList') {
-                    const hasTimelineView = document.querySelector('.timeline-container');
-                    const hasCardsView = document.querySelector('.cards-view');
-                    if (hasTimelineView || hasCardsView) {
-                        setTimeout(setupScrollTrigger, 100);
-                        break;
+                // Create new tween for smooth camera movement
+                tweenRef.current = gsap.to(cameraState, {
+                    y: -100 + (newProgress * 200),
+                    duration: 0.5,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        if (cameraRef.current) {
+                            cameraRef.current.position.y = cameraState.y;
+                        }
                     }
-                }
+                });
             }
-        });
+        };
 
-        // Start observing the container that holds the views
-        const container = document.querySelector('.relative.z-10.mx-auto');
-        if (container) {
-            observer.observe(container, {
-                childList: true,
-                subtree: true
+        const observer = new MutationObserver(updateProgress);
+        const timelineElement = document.querySelector('.cards-view');
+        if (timelineElement) {
+            observer.observe(timelineElement, {
+                attributes: true,
+                attributeFilter: ['data-scroll-progress']
             });
         }
 
@@ -147,6 +136,7 @@ export default function EmergentBackground({ config = {} }) {
                 0.1,
                 2000
             );
+            cameraRef.current = camera;
             
             renderer = new THREE.WebGLRenderer({
                 canvas: container,
@@ -163,25 +153,22 @@ export default function EmergentBackground({ config = {} }) {
             }
 
             camera.position.z = finalConfig.cameraDistance;
-
-            if (finalConfig.enableScrollEffect) {
-                setTimeout(setupScrollTrigger, 100);
-            }
         }
 
         function animate() {
-            animationFrameId = requestAnimationFrame(animate);
+            animationRef.current = requestAnimationFrame(animate);
             time += finalConfig.waveSpeed;
             
             particles.forEach((layer, index) => {
                 layer.update(time, index);
             });
 
-            camera.position.x = Math.sin(time * 0.5) * 30;
-            if (!finalConfig.enableScrollEffect) {
-                camera.position.y = Math.cos(time * 0.3) * 30;
+            // Use camera state for position
+            if (camera) {
+                camera.position.x = Math.sin(time * 0.5) * 30;
+                // y position is now handled by the tween
+                camera.lookAt(0, 0, 0);
             }
-            camera.lookAt(0, 0, 0);
             
             renderer.render(scene, camera);
         }
@@ -198,24 +185,25 @@ export default function EmergentBackground({ config = {} }) {
 
         init();
         animate();
+        updateProgress(); // Initial progress check
 
         window.addEventListener('resize', handleResize);
 
         return () => {
             observer.disconnect();
-            if (scrollTrigger) {
-                scrollTrigger.kill();
-            }
             window.removeEventListener('resize', handleResize);
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+            if (tweenRef.current) {
+                tweenRef.current.kill();
             }
             if (renderer) {
                 renderer.dispose();
             }
             particles.forEach(layer => layer.dispose());
         };
-    }, [config]);
+    }, [config]); // Only recreate scene when config changes
 
     return (
         <canvas
