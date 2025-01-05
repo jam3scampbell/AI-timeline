@@ -100,24 +100,18 @@ const CardsView = React.memo(function CardsView({
             {/* Main timeline */}
             <section
                 ref={timelineRef}
-                className="grid grid-cols-[84px_1fr]  mb-16 relative"
+                className="grid grid-cols-[70px_1fr]  mb-16 relative"
             >
                 {/* Left column: Timeline spine */}
-                <div ref={spineRef} className="sticky top-0 h-screen">
+                <div ref={spineRef} className="sticky top-0 pl-6 h-screen">
                     {/* Timeline container */}
-                    <div className="relative h-full" style={{ minHeight: '1200px' }}>
-                        {/* Vertical line */}
+                    <div className="relative h-full">
                         <div 
-                            className="absolute left-1/2 transform -translate-x-1/2 w-[2px] bg-white/30" 
-                            style={{ height: '100%' }}
-                        />
-                        
-                        {/* Moving dot */}
-                        <div
-                            className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-lg transition-all duration-300"
-                            style={{
-                                top: `${(() => {
-                                    if (!currentEvent) return 60;
+                            className="relative"
+                            style={{ 
+                                height: '1200px',
+                                transform: `translateY(${(() => {
+                                    if (!currentEvent) return 0;
                                     const currentDate = new Date(
                                         currentEvent.start_date.year,
                                         currentEvent.start_date.month - 1,
@@ -129,91 +123,128 @@ const CardsView = React.memo(function CardsView({
                                     const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
                                     const progress = daysPassed / totalDays;
                                     
-                                    const usableHeight = 1200 - 120;
-                                    return 60 + (progress * usableHeight);
-                                })()}px`,
-                                boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                                    const viewportHeight = window.innerHeight;
+                                    const spineHeight = 1200;
+                                    const dotPosition = 60 + (progress * (spineHeight - 120));
+                                    
+                                    // Only scroll when dot would go below viewport
+                                    if (dotPosition > viewportHeight - 120) {
+                                        const overflow = dotPosition - (viewportHeight - 120);
+                                        return -Math.min(overflow, spineHeight - viewportHeight);
+                                    }
+                                    return 0;
+                                })()}px)`
                             }}
-                        />
+                        >
+                            {/* Vertical line */}
+                            <div 
+                                className="absolute left-1/2 transform -translate-x-1/2 w-[2px] bg-white/30" 
+                                style={{ height: '100%' }}
+                            />
+                            
+                            {/* Moving dot */}
+                            <div
+                                className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-lg transition-all duration-300"
+                                style={{
+                                    top: `${(() => {
+                                        if (!currentEvent) return 60;
+                                        const currentDate = new Date(
+                                            currentEvent.start_date.year,
+                                            currentEvent.start_date.month - 1,
+                                            currentEvent.start_date.day
+                                        );
+                                        const startDate = new Date(2015, 0, 1);
+                                        const endDate = new Date(2025, 11, 31);
+                                        const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                                        const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
+                                        const progress = daysPassed / totalDays;
+                                        
+                                        const usableHeight = 1200 - 120;
+                                        return 60 + (progress * usableHeight);
+                                    })()}px`,
+                                    boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                                }}
+                            />
 
-                        {/* Year markers - update positioning */}
-                        {(() => {
-                            const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
-                            const startDate = new Date(2015, 0, 1);
-                            const endDate = new Date(2025, 11, 31);
-                            const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                            
-                            const totalSpacing = 1200;
-                            const topPadding = 60;
-                            const bottomPadding = 60;
-                            const usableHeight = totalSpacing - topPadding - bottomPadding;
-                            
-                            return years.map(year => {
-                                const yearDate = new Date(year, 0, 1);
-                                const daysPassed = (yearDate - startDate) / (1000 * 60 * 60 * 24);
-                                const progress = daysPassed / totalDays;
-                                const position = topPadding + (progress * usableHeight);
+                            {/* Year markers - update positioning */}
+                            {(() => {
+                                const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+                                const startDate = new Date(2015, 0, 1);
+                                const endDate = new Date(2025, 11, 31);
+                                const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
                                 
-                                return (
-                                    <div
-                                        key={`year-${year}`}
-                                        className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
-                                        style={{
-                                            top: `${position}px`,
-                                            transform: 'translate(-100%, -50%)'
-                                        }}
-                                    >
-                                        <span className="text-xl font-medium whitespace-nowrap text-white/90 year-glow">
-                                            {year}
-                                        </span>
-                                    </div>
-                                );
-                            });
-                        })()}
-
-                        {/* Month markers - update positioning */}
-                        {(() => {
-                            const startDate = new Date(2015, 0, 1);
-                            const endDate = new Date(2025, 11, 31);
-                            const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                            const markers = [];
-                            let currentDate = new Date(startDate);
-
-                            const totalSpacing = 1200;
-                            const topPadding = 60;
-                            const bottomPadding = 60;
-                            const usableHeight = totalSpacing - topPadding - bottomPadding;
-
-                            while (currentDate <= endDate) {
-                                const isYearStart = currentDate.getMonth() === 0;
-
-                                if (!isYearStart) {
-                                    const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
+                                const totalSpacing = 1200;
+                                const topPadding = 60;
+                                const bottomPadding = 60;
+                                const usableHeight = totalSpacing - topPadding - bottomPadding;
+                                
+                                return years.map(year => {
+                                    const yearDate = new Date(year, 0, 1);
+                                    const daysPassed = (yearDate - startDate) / (1000 * 60 * 60 * 24);
                                     const progress = daysPassed / totalDays;
                                     const position = topPadding + (progress * usableHeight);
                                     
-                                    markers.push(
+                                    return (
                                         <div
-                                            key={currentDate.toISOString()}
+                                            key={`year-${year}`}
                                             className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
                                             style={{
                                                 top: `${position}px`,
                                                 transform: 'translate(-100%, -50%)'
                                             }}
                                         >
-                                            <span className="text-sm font-medium whitespace-nowrap text-white/40">
-                                                {currentDate.toLocaleDateString('en-US', { month: 'short' })}
+                                            <span className="text-xl font-medium whitespace-nowrap text-white/90 year-glow">
+                                                {year}
                                             </span>
                                         </div>
                                     );
+                                });
+                            })()}
+
+                            {/* Month markers - update positioning */}
+                            {(() => {
+                                const startDate = new Date(2015, 0, 1);
+                                const endDate = new Date(2025, 11, 31);
+                                const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                                const markers = [];
+                                let currentDate = new Date(startDate);
+
+                                const totalSpacing = 1200;
+                                const topPadding = 60;
+                                const bottomPadding = 60;
+                                const usableHeight = totalSpacing - topPadding - bottomPadding;
+
+                                while (currentDate <= endDate) {
+                                    const isYearStart = currentDate.getMonth() === 0;
+
+                                    if (!isYearStart) {
+                                        const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
+                                        const progress = daysPassed / totalDays;
+                                        const position = topPadding + (progress * usableHeight);
+                                        
+                                        markers.push(
+                                            <div
+                                                key={currentDate.toISOString()}
+                                                className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
+                                                style={{
+                                                    top: `${position}px`,
+                                                    transform: 'translate(-100%, -50%)'
+                                                }}
+                                            >
+                                                <span className="text-sm font-medium whitespace-nowrap text-white/40">
+                                                    {currentDate.toLocaleDateString('en-US', { month: 'short' })}
+                                                </span>
+                                            </div>
+                                        );
+                                    }
+
+                                    // Advance by 3 months instead of 2 for more spacing
+                                    currentDate.setMonth(currentDate.getMonth() + 3);
                                 }
 
-                                // Advance by 3 months instead of 2 for more spacing
-                                currentDate.setMonth(currentDate.getMonth() + 3);
-                            }
-
-                            return markers;
-                        })()}
+                                return markers;
+                            })()}
+                        </div>
                     </div>
                 </div>
 
