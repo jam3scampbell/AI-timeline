@@ -77,6 +77,8 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 1rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
 }
 
 .cards-view .event-card {
