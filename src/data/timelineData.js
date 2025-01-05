@@ -15,7 +15,7 @@ export const TIMELINE_DATA = {
             caption: "TIME 100 AI 2023 Cover"
         },
         text: {
-            headline: "Inside the AGI revolution<br/> 2022 - 2024",
+            headline: "Inside the AGI revolution<br/> 20215 - 2025",
             text: "<p>The last three years of AI have happened fast. This timeline attempts to tell its story.</p>"
         }
     },
@@ -222,7 +222,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2023", month: "05", "day": "30" },
             text: {
                 headline: "NVIDIA reaches 1T",
-                text: "<p>The chipmaker providing the GPU's for generative AI has its valuation skyrocket.</p>"
+                text: "<p>The chipmaker providing the GPUs for generative AI has its valuation skyrocket.</p>"
             },
             importance: 2,
             category: CATEGORIES.BUSINESS
@@ -293,7 +293,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2024", month: "04", "day": "11"},
             text: {
-                headline: "OpenAI fired leakers",
+                headline: "OpenAI fires leakers",
                 text: "<p>Leopold Aschenbrenner and Pavel Izmailov, two researchers from the superalignment team are fired for \"leaking\".</p>"
             },
             importance: 1,
