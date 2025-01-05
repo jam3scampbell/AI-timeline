@@ -690,7 +690,7 @@ export default function Timeline() {
                                     key={category}
                                     onClick={() => toggleCategory(category)}
                                     className={`
-                                        px-3 py-1 rounded-full text-sm font-sans transition-all
+                                        px-3 py-1 rounded-full text-sm font-sans transition-all backdrop-blur-[1px]
                                         ${activeCategories[category]
                                             ? 'bg-white/20 text-white'
                                             : 'bg-white/5 text-white/40'}
@@ -705,7 +705,7 @@ export default function Timeline() {
                         {/* View toggle and zoom controls */}
                         <div className="flex gap-2 font-sans text-sm sm:ml-auto">
                             <button
-                                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                 onClick={() => setViewMode(viewMode === 'timeline' ? 'cards' : 'timeline')}
                             >
                                 {viewMode === 'timeline' ? 'Switch to Cards' : 'Switch to Timeline'}
@@ -713,13 +713,13 @@ export default function Timeline() {
                             {viewMode === 'timeline' && (
                                 <>
                                     <button
-                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                         onClick={zoomOut}
                                     >
                                         Zoom Out
                                     </button>
                                     <button
-                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap"
+                                        className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                         onClick={zoomIn}
                                     >
                                         Zoom In
