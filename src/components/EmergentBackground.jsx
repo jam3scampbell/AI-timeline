@@ -21,7 +21,8 @@ export default function EmergentBackground({ config = {} }) {
     const progressRef = useRef(0);
     const cameraRef = useRef(null);
     const animationRef = useRef(null);
-    const tweenRef = useRef(null);
+    const sceneRef = useRef(null);
+    const targetYRef = useRef(-50);
 
     useEffect(() => {
         const finalConfig = { ...DEFAULT_CONFIG, ...config };
@@ -29,11 +30,6 @@ export default function EmergentBackground({ config = {} }) {
         let scene, camera, renderer;
         let particles = [];
         let time = 0;
-
-        // Current camera position state
-        const cameraState = {
-            y: -100
-        };
 
         class ParticleLayer {
             constructor(layerIndex) {
@@ -96,40 +92,23 @@ export default function EmergentBackground({ config = {} }) {
             if (timelineElement) {
                 const newProgress = parseFloat(timelineElement.dataset.scrollProgress) || 0;
                 progressRef.current = newProgress;
-
-                // Kill previous tween if it exists
-                if (tweenRef.current) {
-                    tweenRef.current.kill();
-                }
-
-                // Create new tween for smooth camera movement
-                tweenRef.current = gsap.to(cameraState, {
-                    y: -100 + (newProgress * 200),
-                    duration: 0.5,
-                    ease: "power2.out",
-                    onUpdate: () => {
-                        if (cameraRef.current) {
-                            cameraRef.current.position.y = cameraState.y;
-                        }
-                    }
-                });
+                // Increase the range of movement (-100 to +100 instead of -50 to +50)
+                targetYRef.current = -100 + (newProgress * 200);
             }
         };
 
-        const observer = new MutationObserver(updateProgress);
-        const timelineElement = document.querySelector('.cards-view');
-        if (timelineElement) {
-            observer.observe(timelineElement, {
-                attributes: true,
-                attributeFilter: ['data-scroll-progress']
-            });
-        }
+        // Set up scroll listener for smoother updates
+        const handleScroll = () => {
+            requestAnimationFrame(updateProgress);
+        };
 
         function init() {
             const container = document.getElementById('emergent-canvas');
             if (!container) return;
 
             scene = new THREE.Scene();
+            sceneRef.current = scene;
+
             camera = new THREE.PerspectiveCamera(
                 75,
                 window.innerWidth / window.innerHeight,
@@ -153,6 +132,7 @@ export default function EmergentBackground({ config = {} }) {
             }
 
             camera.position.z = finalConfig.cameraDistance;
+            camera.position.y = -50; // Initial position
         }
 
         function animate() {
@@ -163,47 +143,62 @@ export default function EmergentBackground({ config = {} }) {
                 layer.update(time, index);
             });
 
-            // Use camera state for position
+            // Smooth camera movement with faster lerp
             if (camera) {
                 camera.position.x = Math.sin(time * 0.5) * 30;
-                // y position is now handled by the tween
+                // Increase lerp speed from 0.1 to 0.15 for snappier movement
+                camera.position.y += (targetYRef.current - camera.position.y) * 0.15;
                 camera.lookAt(0, 0, 0);
             }
             
             renderer.render(scene, camera);
         }
 
+        // Initialize scene first
+        init();
+
+        // Then set up observers and listeners
+        const observer = new MutationObserver(updateProgress);
+        const timelineElement = document.querySelector('.cards-view');
+        if (timelineElement) {
+            observer.observe(timelineElement, {
+                attributes: true,
+                attributeFilter: ['data-scroll-progress']
+            });
+        }
+
+        // Add scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Start animation
+        animate();
+        
+        // Initial progress check
+        updateProgress();
+
         function handleResize() {
             if (!camera || !renderer) return;
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
-
-        init();
-        animate();
-        updateProgress(); // Initial progress check
 
         window.addEventListener('resize', handleResize);
 
         return () => {
             observer.disconnect();
+            window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleResize);
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
-            }
-            if (tweenRef.current) {
-                tweenRef.current.kill();
             }
             if (renderer) {
                 renderer.dispose();
             }
             particles.forEach(layer => layer.dispose());
         };
-    }, [config]); // Only recreate scene when config changes
+    }, [config]);
 
     return (
         <canvas
