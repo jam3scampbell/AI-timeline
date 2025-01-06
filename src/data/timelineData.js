@@ -93,6 +93,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2021", month: "05", day: "28" },
+            text: {
+                headline: "Anthropic founded",
+                text: "<p>A group of researchers from OpenAI leave to start Anthropic, featuring an empirical hard-science culture focused on AI safety.</p>"
+            },
+            importance: 3,
+            category: CATEGORIES.BUSINESS
+        },
+        {
             start_date: { year: "2022", month: "01", day: "28"},
             text: {
                 headline: "Chain-of-Thought Prompting",
@@ -318,6 +327,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.BUSINESS
         },
         {
+            start_date: { year: "2024", month: "05", "day": "21" },
+            text: {
+                headline: "EU AI Act",
+                text: "<p>The EU AI Act is voted into law after contentious debates.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.POLICY
+        },
+        {
             start_date: { year: "2024", month: "06", "day": "04" },
             text: {
                 headline: "Situational Awareness",
@@ -352,6 +370,15 @@ export const TIMELINE_DATA = {
             },
             importance: 1.5,
             category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2024", month: "09", "day": "29" },
+            text: {
+                headline: "SB1047 Vetoed",
+                text: "<p>Governor Gavin Newsom vetoes California senate bill 1047, which sparked lots of vitriolic debate between AI safety and accelerationist crowds.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.POLICY
         },
         {
             start_date: { year: "2024", month: "10", "day": "22" },
