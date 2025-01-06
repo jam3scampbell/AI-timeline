@@ -13,6 +13,7 @@ AGI Timeline is an open-source project that creates an interactive timeline show
 - Details on key researchers and organizations
 - Links to papers and additional resources
 - Filterable by different domains (`Model Release`, `Culture & Society`, `Business & Industry`, `Research & Papers`, `Policy & Regulation`)
+
 ## Contributing Events
 
 We welcome contributions to the timeline! Here's how you can submit new events:
@@ -32,3 +33,5 @@ We welcome contributions to the timeline! Here's how you can submit new events:
    - Our team will review the pull request
    - We may request changes or additional information
    - Once approved, the PR will be merged and the event will appear on the timeline
+
+This project is provided under the MIT license. See the LICENSE file for more details.

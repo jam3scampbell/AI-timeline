@@ -1,12 +1,11 @@
 // src/components/EmergentBackground.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Configuration object with default values
 const DEFAULT_CONFIG = {
     layers: 5,
     particlesPerLayer: 700,
@@ -15,18 +14,21 @@ const DEFAULT_CONFIG = {
     baseOpacity: 0.4,
     rotationSpeed: 0.05,
     waveSpeed: 0.0008,
-    cameraDistance: 300,
-    enableScrollEffect: true
+    cameraDistance: 300
 };
 
 export default function EmergentBackground({ config = {} }) {
+    const progressRef = useRef(0);
+    const cameraRef = useRef(null);
+    const animationRef = useRef(null);
+    const sceneRef = useRef(null);
+    const targetYRef = useRef(-50);
+
     useEffect(() => {
-        // Merge default config with provided config
         const finalConfig = { ...DEFAULT_CONFIG, ...config };
         
         let scene, camera, renderer;
         let particles = [];
-        let animationFrameId;
         let time = 0;
 
         class ParticleLayer {
@@ -34,7 +36,6 @@ export default function EmergentBackground({ config = {} }) {
                 const geometry = new THREE.BufferGeometry();
                 const positions = new Float32Array(finalConfig.particlesPerLayer * 3);
                 
-                // Create spiral pattern
                 for (let i = 0; i < finalConfig.particlesPerLayer * 3; i += 3) {
                     const angle = (i / 3) * 0.1;
                     const radius = (layerIndex + 1) * 50 + Math.sin(angle) * 20;
@@ -85,18 +86,36 @@ export default function EmergentBackground({ config = {} }) {
             }
         }
 
+        // Watch for progress updates
+        const updateProgress = () => {
+            const timelineElement = document.querySelector('.cards-view');
+            if (timelineElement) {
+                const newProgress = parseFloat(timelineElement.dataset.scrollProgress) || 0;
+                progressRef.current = newProgress;
+                // Increase the range of movement (-100 to +100 instead of -50 to +50)
+                targetYRef.current = -100 + (newProgress * 200);
+            }
+        };
+
+        // Set up scroll listener for smoother updates
+        const handleScroll = () => {
+            requestAnimationFrame(updateProgress);
+        };
+
         function init() {
             const container = document.getElementById('emergent-canvas');
             if (!container) return;
 
-            // Scene setup
             scene = new THREE.Scene();
+            sceneRef.current = scene;
+
             camera = new THREE.PerspectiveCamera(
                 75,
                 window.innerWidth / window.innerHeight,
                 0.1,
                 2000
             );
+            cameraRef.current = camera;
             
             renderer = new THREE.WebGLRenderer({
                 canvas: container,
@@ -106,7 +125,6 @@ export default function EmergentBackground({ config = {} }) {
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create particle layers
             for (let i = 0; i < finalConfig.layers; i++) {
                 const layer = new ParticleLayer(i);
                 particles.push(layer);
@@ -114,62 +132,66 @@ export default function EmergentBackground({ config = {} }) {
             }
 
             camera.position.z = finalConfig.cameraDistance;
-
-            // Add scroll-based camera movement if enabled
-            if (finalConfig.enableScrollEffect) {
-                ScrollTrigger.create({
-                    trigger: document.body,
-                    start: "top top",
-                    end: "bottom bottom",
-                    onUpdate: (self) => {
-                        camera.position.y = -50 + (self.progress * 100);
-                        camera.lookAt(0, 0, 0);
-                    }
-                });
-            }
+            camera.position.y = -50; // Initial position
         }
 
         function animate() {
-            animationFrameId = requestAnimationFrame(animate);
+            animationRef.current = requestAnimationFrame(animate);
             time += finalConfig.waveSpeed;
             
-            // Update particle layers
             particles.forEach((layer, index) => {
                 layer.update(time, index);
             });
 
-            // Subtle camera movement
-            camera.position.x = Math.sin(time * 0.5) * 30;
-            if (!finalConfig.enableScrollEffect) {
-                camera.position.y = Math.cos(time * 0.3) * 30;
+            // Smooth camera movement with faster lerp
+            if (camera) {
+                camera.position.x = Math.sin(time * 0.5) * 30;
+                // Increase lerp speed from 0.1 to 0.15 for snappier movement
+                camera.position.y += (targetYRef.current - camera.position.y) * 0.15;
+                camera.lookAt(0, 0, 0);
             }
-            camera.lookAt(0, 0, 0);
             
             renderer.render(scene, camera);
         }
 
+        // Initialize scene first
+        init();
+
+        // Then set up observers and listeners
+        const observer = new MutationObserver(updateProgress);
+        const timelineElement = document.querySelector('.cards-view');
+        if (timelineElement) {
+            observer.observe(timelineElement, {
+                attributes: true,
+                attributeFilter: ['data-scroll-progress']
+            });
+        }
+
+        // Add scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Start animation
+        animate();
+        
+        // Initial progress check
+        updateProgress();
+
         function handleResize() {
             if (!camera || !renderer) return;
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
 
-        // Initialize and start animation
-        init();
-        animate();
-
-        // Handle window resize
         window.addEventListener('resize', handleResize);
 
-        // Cleanup
         return () => {
+            observer.disconnect();
+            window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleResize);
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
             }
             if (renderer) {
                 renderer.dispose();
