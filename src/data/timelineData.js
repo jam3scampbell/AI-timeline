@@ -257,7 +257,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2023", month: "11", "day": "01" },
             text: {
-                headline: "UK AI Summit",
+                headline: "UK AI Safety Summit",
                 text: "<p>The UK hosts a major summit on AI safety</p>"
             },
             importance: 2,
