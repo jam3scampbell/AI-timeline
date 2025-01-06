@@ -33,7 +33,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2016", month: "03", day: "23" },
             text: {
                 headline: "AlphaGo",
-                text: "<p>In a famous match, DeepMind's AlphaGo defeats Lee Sedol in Go.</p>"
+                text: "<p>DeepMind's AlphaGo beats the top human player Lee Sedol in the board game Go. Showing that a neural network can develop \"intuitions\" once thought exclusive to human experts.</p>"
             },
             importance: 2,
             category: CATEGORIES.RESEARCH
@@ -42,7 +42,8 @@ export const TIMELINE_DATA = {
             start_date: { year: "2017", month: "06", day: "12" },
             text: {
                 headline: "Attention is All You Need",
-                text: "<p>Google releases the transformer architecture.</p>"
+                text: "<p>Google introduces the transformer architecture, a breakthrough technology that allows AI models to direct their 'attention' more efficiently, leading to major improvements in language understanding and generation.</p>"
+
             },
             importance: 3,
             category: CATEGORIES.RESEARCH
@@ -60,7 +61,8 @@ export const TIMELINE_DATA = {
             start_date: { year: "2018", month: "06", day: "11" },
             text: {
                 headline: "GPT-1",
-                text: "<p>Radford et al. publish <a href=\"https://openai.com/index/language-unsupervised/\">Improving Language Understanding by Generative Pre-Training</a>, the first GPT model.</p>"
+                     text: "<p>OpenAI reveals the first version of its Generative Pre-trained Transformer (GPT). This model demonstrates how large-scale training on text can help an AI understand and generate language more naturally.</p>"
+
             },
             importance: 3,
             category: CATEGORIES.MODEL_RELEASE
