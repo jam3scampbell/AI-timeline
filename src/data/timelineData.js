@@ -345,6 +345,24 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.CULTURE
         },
         {
+            start_date: { year: "2024", month: "06", "day": "19" },
+            text: {
+                headline: "SSI founded",
+                text: "<p>Ilya Sutskever starts a new lab called Safe Superintelligence Inc, which pledges to only have one product: safe superintelligence.</p>"
+            },
+            importance: 3,
+            category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2024", month: "06", "day": "20" },
+            text: {
+                headline: "Claude 3.5 Sonnet",
+                text: "<p>Anthropic releases Claude 3.5 Sonnet, which would become a fan favorite and was later called \"Berkeley's most eligible bachelor\".s</p>"
+            },
+            importance: 3,
+            category: CATEGORIES.BUSINESS
+        },
+        {
             start_date: { year: "2024", month: "08", "day": "23" },
             text: {
                 headline: "Cursor",
@@ -357,7 +375,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "09", "day": "20" },
             text: {
                 headline: "o1-preview",
-                text: "<p>Introduction of inference-time scaling paradigm</p>"
+                text: "<p>OpenAI releases o1-preview, introducing the inference-time scaling paradigm</p>"
             },
             importance: 2,
             category: CATEGORIES.RESEARCH
