@@ -296,7 +296,8 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "02", "day": "15" },
             text: {
                 headline: "Sora",
-                text: "<p>OpenAI demonstrates their new text-to-video model Sora</p>"
+                text: "<p>OpenAI demos 'Sora,' a text-to-video model that can generate short clips from written descriptions.</p>"
+
             },
             importance: 2.5,
             category: CATEGORIES.MODEL_RELEASE
