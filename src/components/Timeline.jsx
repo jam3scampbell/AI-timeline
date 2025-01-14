@@ -15,11 +15,11 @@ const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
 // Cards view components
 const CardsView = React.memo(function CardsView({
-    events,
-    activeCategories,
-    hoveredEvent,
-    setHoveredEvent
-}) {
+        events,
+        activeCategories,
+        hoveredEvent,
+        setHoveredEvent
+    }) {
     const timelineRef = useRef(null);
     const spineRef = useRef(null);
     const [activeEventIndex, setActiveEventIndex] = useState(0);
@@ -271,7 +271,6 @@ const CardsView = React.memo(function CardsView({
                     </div>
                 </div>
 
-                {/* Right column: Event cards */}
                 <div className="space-y-8 py-12">
                     {filteredEvents.map((event, index) => (
                         <div
@@ -283,9 +282,10 @@ const CardsView = React.memo(function CardsView({
                             <div className="text-sm text-white/60 font-medium tracking-wide">
                                 {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
                             </div>
-                            <h3 className="font-serif text-2xl font-normal text-white leading-snug mt-2">
-                                {event.text.headline}
-                            </h3>
+                            <div 
+                                className="font-serif text-2xl font-normal text-white leading-snug mt-2"
+                                dangerouslySetInnerHTML={{ __html: event.text.headline }}
+                            />
                             <div className="text-xs font-sans mt-1 text-white/40">
                                 {event.category}
                             </div>
@@ -316,7 +316,6 @@ const EventCard = React.memo(function EventCard({
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
     const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
 
-    // Reset width when event changes
     useEffect(() => {
         setWidth(MIN_CARD_WIDTH);
     }, [event.id]);
@@ -397,14 +396,13 @@ const EventCard = React.memo(function EventCard({
                 }}
             >
                 <div className="relative z-10" ref={contentRef}>
-                    <h3
+                    <div
                         className={`
                             font-serif leading-snug mb-1 text-lg
                             ${isHovered ? 'text-white' : 'text-white/90'}
                         `}
-                    >
-                        {event.text.headline}
-                    </h3>
+                        dangerouslySetInnerHTML={{ __html: event.text.headline }}
+                    />
                     <div className="text-sm font-sans text-white/60 font-medium">
                         {`${String(event.start_date.month).padStart(2, '0')}/${String(event.start_date.day).padStart(2, '0')}/${event.start_date.year}`}
                     </div>
