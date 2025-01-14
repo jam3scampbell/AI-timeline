@@ -338,8 +338,8 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2024", month: "06", day: "04" },
             text: {
-                headline: "Situational Awareness",
-                text: "<p><a href=\"https://www.lesswrong.com/posts/abcd1234/situational-awareness-in-agi\">Leopold Aschenbrenner</a> publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think and is likely to be nationalized.</p>"
+                headline: "<a href=\"https://situational-awareness.ai/\">Situational Awareness</a>",
+                text: "<p><a href=\"https://situational-awareness.ai/\">Leopold Aschenbrenner</a> publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think and is likely to be nationalized.</p>"
             },
             importance: 3,
             category: CATEGORIES.CULTURE
