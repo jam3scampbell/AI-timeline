@@ -114,12 +114,33 @@ body {
 }
 
 .event-card a {
-  color: #94e0ff;
+  color: #ffffff;                 
   text-decoration: none;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  transition: color 0.2s ease, text-shadow 0.3s ease;
 }
 
 .event-card a:hover {
   color: #ffffff;
-  text-decoration: underline;
+  text-shadow: 0 0 8px rgba(128, 223, 255, 0.8),
+               0 0 16px rgba(128, 223, 255, 0.5);
+}
+
+.event-card a {
+  position: relative;
+  display: inline-block; /* ensure positioning works */
+}
+
+.event-card a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 1px;
+  background-color: currentColor; /* matches the text color */
+  transition: width 0.3s ease;
+}
+
+.event-card a:hover::after {
+  width: 100%;
 }
