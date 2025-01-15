@@ -95,9 +95,6 @@ body {
   transform: scale(1.02);
 }
 
-a {
-  text-decoration: underline;
-}
 
 .year-glow {
   text-shadow: 0 0 4px rgba(255, 255, 255, 0.18),
@@ -114,4 +111,15 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.event-card a {
+  color: #94e0ff;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.event-card a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }

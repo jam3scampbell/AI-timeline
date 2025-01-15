@@ -344,7 +344,7 @@ const EventCard = React.memo(function EventCard({
 
     return (
         <motion.div
-            className="absolute"
+            className="event-card absolute"
             style={{
                 left: `${position - (width / 2)}px`,
                 top: `${topPos}px`,
