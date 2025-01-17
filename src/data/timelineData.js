@@ -8,23 +8,17 @@ export const CATEGORIES = {
     POLICY: "Policy & Regulation"
 };
 
+function createLink(url, title) {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>`;
+}
+
 export const TIMELINE_DATA = {
-    title: {
-        media: {
-            url: "/images/time100cover.jpg",
-            caption: "TIME 100 AI 2023 Cover"
-        },
-        text: {
-            headline: "Inside the AGI revolution<br/> 20215 - 2025",
-            text: "<p>The last three years of AI have happened fast. This timeline attempts to tell its story.</p>"
-        }
-    },
     events: [
         {
-            start_date: { year: "2015", month: "12", day: "10" },
+            start_date: { year: "2015", month: "12", day: "11" },
             text: {
-                headline: "OpenAI founded",
-                text: "<p>Elon Musk, Sam Altman, Greg Brockman, and others founded <a href=\"https://en.wikipedia.org/wiki/OpenAI\">OpenAI</a>.</p>"
+                headline: createLink("https://openai.com/index/introducing-openai/", "OpenAI founded"),
+                text: "<p>Elon Musk, Sam Altman, Greg Brockman, and others founded OpenAI.</p>"
             },
             importance: 3,
             category: CATEGORIES.BUSINESS
@@ -32,7 +26,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2016", month: "03", day: "09" },
             text: {
-                headline: "AlphaGo",
+                headline: createLink("https://deepmind.google/research/breakthroughs/alphago/", "AlphaGo"),
                 text: "<p>DeepMind's AlphaGo defeats top human player Lee Sedol in the board game Go, demonstrating that a neural network can develop 'intuitions' once thought exclusive to human experts. <a href=\"https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol\">Learn more</a>.</p>"
             },
             importance: 2,
@@ -41,7 +35,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2017", month: "06", day: "12" },
             text: {
-                headline: "Attention is All You Need",
+                headline: createLink("https://arxiv.org/abs/1706.03762","Attention is All You Need"),
                 text: "<p>Google introduces the transformer architecture, a breakthrough technology that allows AI models to direct their 'attention' more efficiently, leading to major improvements in language understanding and generation. <a href=\"https://arxiv.org/abs/1706.03762\">Read the paper</a>.</p>"
             },
             importance: 3,
@@ -50,7 +44,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2017", month: "06", day: "12" },
             text: {
-                headline: "RLHF",
+                headline: createLink("https://arxiv.org/abs/1706.03741","RLHF"),
                 text: "<p>Christiano et al. publish the technique of reinforcement learning from human feedback (RLHF), which would later be used extensively to align large language models. <a href=\"https://arxiv.org/abs/1706.03741\">Read the paper</a>.</p>"
             },
             importance: 3,
@@ -59,7 +53,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2018", month: "06", day: "11" },
             text: {
-                headline: "GPT-1",
+                headline: createLink("https://openai.com/index/language-unsupervised/","GPT-1"),
                 text: "<p>OpenAI reveals the first version of its Generative Pre-trained Transformer (GPT). This model demonstrates how large-scale training on text can help an AI understand and generate language more naturally. <a href=\"https://openai.com/research/language-unsupervised\">Read more</a>.</p>"
             },
             importance: 3,
@@ -68,7 +62,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2019", month: "02", day: "14" },
             text: {
-                headline: "GPT-2",
+                headline: createLink("https://openai.com/index/better-language-models/","GPT-2"),
                 text: "<p>OpenAI releases the GPT-2 model but withholds the largest version due to concerns about misuse. <a href=\"https://openai.com/blog/better-language-models/\">Read more</a>.</p>"
             },
             importance: 3,
@@ -77,16 +71,16 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2020", month: "01", day: "23" },
             text: {
-                headline: "Scaling Laws",
+                headline: createLink("https://arxiv.org/abs/2001.08361","Scaling Laws"),
                 text: "<p>Kaplan et al. release 'Scaling Laws for Neural Language Models', showing that model performance predictably scales with compute, data, and parameters. <a href=\"https://arxiv.org/abs/2001.08361\">Read the paper</a>.</p>"
             },
             importance: 3,
             category: CATEGORIES.RESEARCH
         },
         {
-            start_date: { year: "2020", month: "06", day: "11" },
+            start_date: { year: "2020", month: "05", day: "28" },
             text: {
-                headline: "GPT-3",
+                headline: createLink("https://arxiv.org/abs/2005.14165","GPT-3"),
                 text: "<p>OpenAI releases the GPT-3 model, the largest language model at the time. <a href=\"https://openai.com/blog/openai-api/\">Read more</a>.</p>"
             },
             importance: 3,
@@ -95,16 +89,25 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2021", month: "05", day: "28" },
             text: {
-                headline: "Anthropic founded",
+                headline: createLink("https://www.anthropic.com/news/anthropic-raises-124-million-to-build-more-reliable-general-ai-systems","Anthropic founded"),
                 text: "<p>A group of researchers from OpenAI leave to start Anthropic, featuring an empirical hard-science culture focused on AI safety. <a href=\"https://en.wikipedia.org/wiki/Anthropic\">Learn more</a>.</p>"
             },
             importance: 3,
             category: CATEGORIES.BUSINESS
-        },    
+        },
+        {
+            start_date: { year: "2022", month: "01", day: "27" },
+            text: {
+                headlines: createLink("https://openai.com/index/instruction-following/", "InstructGPT"),
+                text: "<p>OpenAI introduces InstructGPT, a model that can follow instructions in natural language better than base GPT-3 and was a prototype of what would become ChatGPT.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
         {
             start_date: { year: "2022", month: "01", day: "28" },
             text: {
-                headline: "Chain-of-Thought Prompting",
+                headline: createLink("https://arxiv.org/abs/2201.11903","Chain-of-Thought Prompting"),
                 text: "<p>Google Brain publishes a paper showing gains in LLM reasoning by having them think step-by-step. <a href=\"https://arxiv.org/pdf/2201.11903\">Read the paper</a>.</p>"
             },
             importance: 1,
@@ -113,7 +116,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2022", month: "06", day: "11" },
             text: {
-                headline: "Blake Lemoine fired",
+                headline: createLink("https://www.washingtonpost.com/technology/2022/06/11/google-ai-lamda-blake-lemoine/","Blake Lemoine fired"),
                 text: "<p>The Google engineer is fired after claiming that its LaMDA model was sentient. <a href=\"https://www.nytimes.com/2022/07/22/technology/google-engineer-fired-lamda.html\">Learn more</a>.</p>"
             },
             importance: 1,
@@ -122,7 +125,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2022", month: "11", day: "30" },
             text: {
-                headline: "ChatGPT drops",
+                headline: createLink("https://openai.com/index/chatgpt/","ChatGPT drops"),
                 text: "<p>OpenAI releases the blog post \"Optimizing Language Models for Dialogue\". <a href=\"https://openai.com/blog/chatgpt\">Read more</a>.</p>"
             },
             importance: 3,
@@ -131,8 +134,8 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2023", month: "02", day: "17" },
             text: {
-                headline: "Bing gaslights NYT reporter",
-                text: "<p>Bing's AI chatbot has a viral interaction with New York Times reporter Kevin Roose. <a href=\"https://www.nytimes.com/2023/02/16/technology/bing-chatbot-microsoft.html\">Read the article</a>.</p>"
+                headline: createLink("https://www.nytimes.com/2023/02/16/technology/bing-chatbot-microsoft-chatgpt.html","Bing gaslights NYT reporter"),
+                text: "<p>Bing's AI chatbot has a viral interaction with New York Times reporter Kevin Roose.</p>"
             },
             importance: 1.5,
             category: CATEGORIES.CULTURE
@@ -338,7 +341,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2024", month: "06", day: "04" },
             text: {
-                headline: "<a href=\"https://situational-awareness.ai/\">Situational Awareness</a>",
+                headline: "<a href=\"https://situational-awareness.ai/\" target=\"_blank\" rel=\"noopener noreferrer\">Situational Awareness</a>",
                 text: "<p><a href=\"https://situational-awareness.ai/\">Leopold Aschenbrenner</a> publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think and is likely to be nationalized.</p>"
             },
             importance: 3,
@@ -372,7 +375,7 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.BUSINESS
         },
         {
-            start_date: { year: "2024", month: "09", day: "20" },
+            start_date: { year: "2024", month: "09", day: "12" },
             text: {
                 headline: "o1-preview",
                 text: "<p>OpenAI releases o1-preview, introducing the inference-time scaling paradigm.</p>"
