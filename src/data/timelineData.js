@@ -29,10 +29,19 @@ export const TIMELINE_DATA = {
             start_date: { year: "2016", month: "03", day: "09" },
             text: {
                 headline: createLink("https://deepmind.google/research/breakthroughs/alphago/", "AlphaGo"),
-                text: "<p>DeepMind's AlphaGo defeats top human player Lee Sedol in the board game Go, demonstrating that a neural network can develop 'intuitions' once thought exclusive to human experts. <a href=\"https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol\">Learn more</a>.</p>"
+                text: "<p>DeepMind's AlphaGo defeats top human player Lee Sedol in the board game Go, defying what many considered possible. <a href=\"https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol\">Learn more</a>.</p>"
             },
             importance: 2,
             category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2017", month: "01", day: "05" },
+            text: {
+                headline: createLink("https://futureoflife.org/event/bai-2017/","Asilomar Conference"),
+                text: "<p>Organized by the Future of Life Institute, all of the top names in the field gather for a conference in Asilomar to discuss how to build AGI to benefit humanity."
+            },
+            importance: 1,
+            category: CATEGORIES.CULTURE 
         },
         {
             start_date: { year: "2017", month: "06", day: "12" },
@@ -159,6 +168,15 @@ export const TIMELINE_DATA = {
             },
             importance: 1,
             category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2022", month: "07", day: "22" },
+            text: {
+                headline: createLink("https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/", "AlphaFold 2"),
+                text: "<p>DeepMind releases AlphaFold 2, solving the protein folding problem and revolutionizing a grand challenge in biology.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
         },
         {
             start_date: { year: "2022", month: "08", day: "22" },
