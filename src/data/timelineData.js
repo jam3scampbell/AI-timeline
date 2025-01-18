@@ -416,7 +416,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "02", day: "15" },
             text: {
                 headline: createLink("https://openai.com/index/sora/","Sora"),
-                text: "<p>OpenAI demos '<a href=\"https://openai.com/sora/\">Sora</a>,' a text-to-video model that can generate short clips from written descriptions.</p>"
+                text: "<p>OpenAI demos Sora, a text-to-video model that can generate short clips from written descriptions.</p>"
             },
             importance: 2.5,
             category: CATEGORIES.MODEL_RELEASE
@@ -443,7 +443,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "04", day: "11" },
             text: {
                 headline: createLink("https://cybernews.com/news/openai-researchers-leaking-information/","OpenAI fires leakers"),
-                text: "<p><a href=\"https://cybernews.com/news/openai-researchers-leaking-information/\">Leopold Aschenbrenner and Pavel Izmailov</a>, two researchers from the superalignment team, are fired for 'leaking'.</p>"
+                text: "<p>Leopold Aschenbrenner and Pavel Izmailov, two researchers from the superalignment team, are fired for \"leaking\".</p>"
             },
             importance: 1,
             category: CATEGORIES.BUSINESS
@@ -479,7 +479,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "05", day: "21" },
             text: {
                 headline: createLink("https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law","EU AI Act"),
-                text: "<p>The <a href=\"https://en.wikipedia.org/wiki/Artificial_Intelligence_Act\">EU AI Act</a> is voted into law after contentious debates.</p>"
+                text: "<p>The EU AI Act is voted into law after contentious debates.</p>"
             },
             importance: 2,
             category: CATEGORIES.POLICY
@@ -497,7 +497,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "06", day: "19" },
             text: {
                 headline: createLink("https://x.com/ilyasut/status/1803472978753303014","SSI founded"),
-                text: "<p><a href=\"https://techcrunch.com/2024/06/19/ilya-sutskever-launches-safe-superintelligence-inc/\">Ilya Sutskever</a> starts a new lab called Safe Superintelligence Inc, which pledges to only have one product: safe superintelligence.</p>"
+                text: "<p>Ilya Sutskever starts a new lab called Safe Superintelligence Inc, which pledges to only have one product: safe superintelligence.</p>"
             },
             importance: 3,
             category: CATEGORIES.BUSINESS
@@ -515,7 +515,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "08", day: "23" },
             text: {
                 headline: createLink("https://x.com/karpathy/status/1827143768459637073","Cursor"),
-                text: "<p>After a viral tweet by <a href=\"https://twitter.com/karpathy/status/1695123456789012345\">Andrej Karpathy</a>, the Cursor AI Code Editor explodes in popularity among developers.</p>"
+                text: "<p>After a viral tweet by Andrej Karpathy, the Cursor AI Code Editor explodes in popularity among developers.</p>"
             },
             importance: 1,
             category: CATEGORIES.BUSINESS
@@ -596,7 +596,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "12", day: "04" },
             text: {
                 headline: createLink("https://thehill.com/policy/technology/5026959-venture-capitalist-david-sacks-white-house/","David Sacks is AI Czar"),
-                text: "<p>President-elect Donald Trump appoints venture capitalist David Sacks as the 'White House AI and Crypto Czar' to oversee regulation of artificial intelligence and cryptocurrency.</p>"
+                text: "<p>President-elect Donald Trump appoints venture capitalist David Sacks as the \"White House AI and Crypto Czar\" to oversee regulation of artificial intelligence and cryptocurrency.</p>"
             },
             importance: 1.5,
             category: CATEGORIES.POLICY
