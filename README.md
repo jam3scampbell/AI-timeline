@@ -4,30 +4,27 @@ An interactive visualization of artificial intelligence history at [agitimeline.
 
 ## Overview
 
-AGI Timeline is an open-source project that creates an interactive timeline showcasing key events, breakthroughs, and advancements in artificial intelligence - from early theoretical work to modern deep learning systems.
+AGI Timeline is an open-source project that creates an interactive timeline showcasing key events, breakthroughs, and advancements on the road to AGI.
 
 ## Features
 
 - Interactive timeline visualization
 - Major AI milestones and developments
-- Details on key researchers and organizations
-- Links to papers and additional resources
+- Links to source material
 - Filterable by different domains (`Model Release`, `Culture & Society`, `Business & Industry`, `Research & Papers`, `Policy & Regulation`)
 
 ## Contributing Events
 
-We welcome contributions to the timeline! Here's how you can submit new events:
+We welcome contributions to the timeline! Either fill in the Google Form [here](https://forms.gle/SgW7LYM6pjajUTxw8) or do the following:
 
 1. **Submit a Pull Request**
    - Fork the repository and create a new branch
-   - Add your event to `src/data/events.json`
+   - Add your event to `src/data/timelineData.js`
    - Include the following information:
      - Event date (as precise as possible)
-     - Event title
+     - Event title (with link to source material)
      - Brief description
      - Category/domain
-     - Links to sources/papers
-     - Any relevant images (with attribution)
 
 2. **Review Process**
    - Our team will review the pull request
