@@ -89,12 +89,30 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2021", month: "01", day: "05" },
+            text: {
+                headline: createLink("https://openai.com/index/dall-e/","DALL-E"),
+                text: "<p>OpenAI introduces DALL-E, a model that generates images from textual descriptions."
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
             start_date: { year: "2021", month: "05", day: "28" },
             text: {
                 headline: createLink("https://www.anthropic.com/news/anthropic-raises-124-million-to-build-more-reliable-general-ai-systems","Anthropic founded"),
                 text: "<p>A group of researchers from OpenAI leave to start Anthropic, featuring an empirical hard-science culture focused on AI safety. <a href=\"https://en.wikipedia.org/wiki/Anthropic\">Learn more</a>.</p>"
             },
             importance: 3,
+            category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2021", month: "06", day: "29" },
+            text: {
+                headline: createLink("https://en.wikipedia.org/wiki/GitHub_Copilot","GitHub Copilot"),
+                text: "<p>Github previews Copilot in VSCode, a tool that used OpenAI's Codex model to generate code suggestions, marking the beginning of practical AI code generation."
+            },
+            importance: 2,
             category: CATEGORIES.BUSINESS
         },
         {
@@ -116,6 +134,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.RESEARCH
         },
         {
+            start_date: { year: "2022", month: "04", day: "06" },
+            text: {
+                headline: createLink("https://openai.com/index/dall-e-2/","DALL-E 2"),
+                text: "<p>OpenAI shocks the world with the release of DALL-E 2, which could generate realistic images from text at an unprecedented level</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
             start_date: { year: "2022", month: "05", day: "27" },
             text: {
                 headline: createLink("https://arxiv.org/abs/2205.14135","Flash Attention"),
@@ -132,6 +159,15 @@ export const TIMELINE_DATA = {
             },
             importance: 1,
             category: CATEGORIES.CULTURE
+        },
+        {
+            start_date: { year: "2022", month: "08", day: "22" },
+            text: {
+                headline: createLink("https://stability.ai/news/stable-diffusion-public-release", "Stable Diffusion"),
+                text: "<p>Stability AI open-sources Stable Diffusion (v1.4), the first strong image generation to be released to the public.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.MODEL_RELEASE
         },
         {
             start_date: { year: "2022", month: "11", day: "30" },
@@ -543,6 +579,15 @@ export const TIMELINE_DATA = {
             text: {
                 headline: createLink("https://blog.google/products/gemini/google-gemini-ai-collection-2024/","Gemini 2.0"),
                 text: "<p>Google announces their Gemini 2.0 models"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2024", month: "12", day: "16" },
+            text: {
+                headline: createLink("https://deepmind.google/technologies/veo/veo-2/","Veo 2"),
+                text: "<p>Google unveils Veo 2, a video generation model with a shocking jump in coherence over previous models.</p>"
             },
             importance: 2,
             category: CATEGORIES.MODEL_RELEASE
