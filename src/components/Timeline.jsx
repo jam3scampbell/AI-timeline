@@ -13,6 +13,11 @@ const MIN_EXPANDED_HEIGHT = 120;
 const ROW_HEIGHT = 70;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 
+const BASE_ROW_COUNT_CARDS = 5;
+const BASE_TIMELINE_ROWS = 6;
+const MIN_ROW_COUNT = 4;
+const MAX_ROW_COUNT = 12;
+
 // Cards view components
 const CardsView = React.memo(function CardsView({
         events,
@@ -499,6 +504,14 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
 });
 
 export default function Timeline() {
+    const [activeCategories, setActiveCategories] = useState(() => {
+        const categoriesRecord = {};
+        Object.values(CATEGORIES).forEach(cat => {
+            categoriesRecord[cat] = true;
+        });
+        return categoriesRecord;
+    });
+
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
@@ -506,12 +519,7 @@ export default function Timeline() {
     const [viewMode, setViewMode] = useState('timeline');
     const [isMobile, setIsMobile] = useState(false);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
-    const ROW_COUNT = 5;
-    const [activeCategories, setActiveCategories] = useState(
-        Object.values(CATEGORIES).reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
-    );
 
-    // Check for mobile on mount and window resize
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
@@ -522,7 +530,6 @@ export default function Timeline() {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Set initial view mode based on device
     useEffect(() => {
         setViewMode(isMobile ? 'cards' : 'timeline');
     }, [isMobile]);
@@ -545,7 +552,6 @@ export default function Timeline() {
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
-    // Sort events just once and store
     const events = useMemo(() => {
         return [...TIMELINE_DATA.events].sort((a, b) => {
             const dateA = new Date(a.start_date.year, a.start_date.month - 1, a.start_date.day);
@@ -554,16 +560,21 @@ export default function Timeline() {
         });
     }, []);
 
-    // Filter + position events
+    const rowCount = useMemo(() => {
+        if (viewMode === 'cards') {
+            return BASE_ROW_COUNT_CARDS;
+        }
+        const dynamic = BASE_TIMELINE_ROWS + (3 - zoomIndex) * 2;
+        return Math.min(MAX_ROW_COUNT, Math.max(dynamic, MIN_ROW_COUNT));
+    }, [viewMode, zoomIndex]);
+
     const positionedEvents = useMemo(() => {
-        const startDate = new Date(2015, 1, 1); // Add this line
+        const startDate = new Date(2015, 1, 1);
         const filteredEvents = events.filter((event) => activeCategories[event.category]);
-        const rows = Array(ROW_COUNT).fill().map(() => []);
+        const rows = Array(rowCount).fill().map(() => []);
 
         return filteredEvents.map((event) => {
-            // Create a unique identifier for each event
             const eventId = `${event.start_date.year}-${event.start_date.month}-${event.start_date.day}-${event.text.headline}`;
-
             const date = new Date(
                 event.start_date.year,
                 event.start_date.month - 1,
@@ -572,8 +583,8 @@ export default function Timeline() {
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * pixelsPerDay;
 
-            const bestRow = rows.reduce((minRow, row, index) => {
-                return row.length < rows[minRow].length ? index : minRow;
+            const bestRow = rows.reduce((minIdx, rowArr, idx) => {
+                return rowArr.length < rows[minIdx].length ? idx : minIdx;
             }, 0);
 
             rows[bestRow].push({ position });
@@ -585,10 +596,8 @@ export default function Timeline() {
                 row: bestRow,
             };
         });
-    }, [events, pixelsPerDay, activeCategories]);
+    }, [events, pixelsPerDay, activeCategories, rowCount]);
 
-
-    // Time markers (every 2 months)
     const timeMarkers = useMemo(() => {
         const startDate = new Date(2015, 1, 1);
         const endDate = new Date(2025, 2, 31);
@@ -606,7 +615,6 @@ export default function Timeline() {
         return markers;
     }, [pixelsPerDay]);
 
-    // Year markers (center of each year)
     const yearMarkers = useMemo(() => {
         const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
         const startDate = new Date(2015, 1, 1);
@@ -614,7 +622,6 @@ export default function Timeline() {
         return years.map((yr) => {
             const yearStart = new Date(yr, 0, 1);
             const nextYearStart = new Date(yr, 0, 1);
-            // midpoint of the year
             const midYearTime = (yearStart.getTime() + nextYearStart.getTime()) / 2;
             const midYearDate = new Date(midYearTime);
 
@@ -630,12 +637,10 @@ export default function Timeline() {
         const endDate = new Date(2025, 2, 31);
         const ticks = [];
 
-        // Create a Set of all event dates for quick lookup
         const eventDates = new Set(events.map(event =>
             new Date(event.start_date.year, event.start_date.month - 1, event.start_date.day).toISOString().split('T')[0]
         ));
 
-        // 1) Add small ticks every 2 days
         let currentDate = new Date(startDate);
         while (currentDate <= endDate) {
             const dateString = currentDate.toISOString().split('T')[0];
@@ -647,7 +652,6 @@ export default function Timeline() {
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // 2) Add big ticks for Jan 1 each year
         for (let year = 2022; year <= 2025; year++) {
             const janFirst = new Date(year, 0, 1);
             if (janFirst >= startDate && janFirst <= endDate) {
@@ -660,13 +664,11 @@ export default function Timeline() {
             }
         }
 
-        // 3) Sort them in ascending order of position
         ticks.sort((a, b) => a.position - b.position);
 
         return ticks;
     }, [pixelsPerDay, events]);
 
-    // Computed total timeline width
     const totalWidth = useMemo(() => {
         const startDate = new Date(2015, 1, 1);
         const endDate = new Date(2025, 2, 31);
@@ -681,14 +683,12 @@ export default function Timeline() {
         setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
     };
 
-    // Handle horizontal scrolling and pinch zoom
     useEffect(() => {
         const container = containerRef.current;
         if (!container || viewMode !== 'timeline') return;
 
         const handleWheel = (e) => {
             if (e.ctrlKey || e.metaKey) {
-                // Zoom functionality
                 e.preventDefault();
                 if (e.deltaY < 0) {
                     setZoomIndex((prev) => (prev < ZOOM_LEVELS.length - 1 ? prev + 1 : prev));
@@ -696,11 +696,9 @@ export default function Timeline() {
                     setZoomIndex((prev) => (prev > 0 ? prev - 1 : prev));
                 }
             } else {
-                // Horizontal scrolling
                 e.preventDefault();
                 container.scrollLeft += e.deltaY;
                 
-                // For smoother horizontal scrolling, also handle deltaX
                 if (e.deltaX !== 0) {
                     container.scrollLeft += e.deltaX;
                 }
@@ -716,19 +714,13 @@ export default function Timeline() {
 
     return (
         <div className={`relative mx-auto max-w-[1600px] px-4 md:px-12 py-2`}>
-            {/* Semi-transparent backdrop */}
             {viewMode === 'timeline' && (
-                <div className="absolute inset-0" /> 
-                // add these back in for glass effect: rounded-lg shadow-lg glass-effect mx-2 md:mx-4
+                <div className="absolute inset-0" />
             )}
 
-            {/* Content wrapper */}
             <div className="relative">
-                {/* Controls Section */}
                 <div className="py-4">
-                    {/* Category and View Controls */}
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
-                        {/* Categories section */}
                         <div className="flex gap-2 flex-wrap">
                             {Object.values(CATEGORIES).map((category) => (
                                 <button
@@ -747,7 +739,6 @@ export default function Timeline() {
                             ))}
                         </div>
 
-                        {/* View toggle and zoom controls */}
                         <div className="flex gap-2 font-sans text-sm sm:ml-auto">
                             <button
                                 className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
@@ -778,23 +769,19 @@ export default function Timeline() {
                     </div>
                 </div>
 
-                {/* View Content */}
                 {viewMode === 'timeline' ? (
-                    // Timeline View
                     <div
                         ref={containerRef}
                         className="relative mx-auto overflow-x-scroll timeline-container"
                     >
-                        {/* Timeline Content */}
                         <div
                             className="relative"
                             style={{
                                 width: `${totalWidth}px`,
-                                height: `${(ROW_COUNT * (ROW_HEIGHT + 10)) + TIME_MARKER_HEIGHT + ((ROW_COUNT - 1) * (ROW_GAP + 5))}px`,
+                                height: `${(rowCount * (ROW_HEIGHT + 10)) + TIME_MARKER_HEIGHT + ((rowCount - 1) * (ROW_GAP + 5))}px`,
                                 padding: '0 2rem'
                             }}
                         >
-                            {/* Time Markers Layer */}
                             <div className="absolute inset-0 z-0">
                                 {timeMarkers.map((marker, index) => (
                                     <TimeMarker
@@ -820,7 +807,6 @@ export default function Timeline() {
                                 ))}
                             </div>
 
-                            {/* Events Layer */}
                             <div className="relative z-10">
                                 {positionedEvents.map((event, index) => (
                                     <EventCard
@@ -828,7 +814,7 @@ export default function Timeline() {
                                         event={event}
                                         position={event.position}
                                         row={event.row}
-                                        totalRows={ROW_COUNT}
+                                        totalRows={rowCount}
                                         isHovered={hoveredEvent === event}
                                         onHover={setHoveredEvent}
                                         rowHeight={ROW_HEIGHT}
@@ -838,7 +824,6 @@ export default function Timeline() {
                         </div>
                     </div>
                 ) : (
-                    // Cards View
                     <CardsView
                         events={events}
                         activeCategories={activeCategories}
