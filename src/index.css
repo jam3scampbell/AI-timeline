@@ -95,7 +95,6 @@ body {
   transform: scale(1.02);
 }
 
-
 .year-glow {
   text-shadow: 0 0 4px rgba(255, 255, 255, 0.18),
     0 0 6px rgba(255, 255, 255, 0.12), 0 0 12px rgba(255, 255, 255, 0.06);
@@ -114,20 +113,37 @@ body {
 }
 
 .event-card a {
-  color: #ffffff;                 
+  color: #ffffff;
   text-decoration: none;
   transition: color 0.2s ease, text-shadow 0.3s ease;
+  display: inline-block;
+  position: relative;
+  padding-right: 1.6rem;
+}
+
+.event-card a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48bGluZSB4MT0iNyIgeTE9IjE3IiB4Mj0iMTciIHkyPSI3IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBvbHlsaW5lIHBvaW50cz0iNyA3IDE3IDcgMTcgMTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=")
+    no-repeat center;
+  mask-size: contain;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48bGluZSB4MT0iNyIgeTE9IjE3IiB4Mj0iMTciIHkyPSI3IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBvbHlsaW5lIHBvaW50cz0iNyA3IDE3IDcgMTcgMTciIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=")
+    no-repeat center;
+  -webkit-mask-size: contain;
+  pointer-events: none;
+  opacity: 0.8;
 }
 
 .event-card a:hover {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(128, 223, 255, 0.8),
-               0 0 16px rgba(128, 223, 255, 0.5);
-}
-
-.event-card a {
-  position: relative;
-  display: inline-block; /* ensure positioning works */
+    0 0 16px rgba(128, 223, 255, 0.5);
 }
 
 .event-card a::after {
