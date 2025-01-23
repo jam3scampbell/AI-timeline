@@ -515,7 +515,7 @@ export default function Timeline() {
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [zoomIndex, setZoomIndex] = useState(3);
+    const [zoomIndex, setZoomIndex] = useState(2);
     const [viewMode, setViewMode] = useState('timeline');
     const [isMobile, setIsMobile] = useState(false);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
