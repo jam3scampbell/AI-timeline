@@ -690,7 +690,7 @@ export default function Timeline() {
 
         // Create a map of positions to row heights
         const positionToRowHeight = {};
-        const totalHeight = (rowCount * (ROW_HEIGHT + ROW_GAP)) + TIME_MARKER_HEIGHT + 180;
+        const totalHeight = (rowCount * (ROW_HEIGHT + ROW_GAP)) + TIME_MARKER_HEIGHT + 160;
         
         positionedEvents.forEach(event => {
             const rowMiddle = (event.row * (ROW_HEIGHT + ROW_GAP)) + (ROW_HEIGHT / 2) + TIME_MARKER_HEIGHT;
