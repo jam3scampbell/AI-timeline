@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useMemo, useLayoutEffect, useCallba
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
 
-const MIN_CARD_WIDTH = 230;
+const MIN_CARD_WIDTH = 180;
 const ROW_GAP = 10;
 const TIME_MARKER_HEIGHT = 40;
 const Z_INDEX_BASE = 20;
@@ -313,13 +313,21 @@ const EventCard = React.memo(function EventCard({
     totalRows,
     isHovered,
     onHover,
-    rowHeight
+    rowHeight,
+    setActiveEventPositions
 }) {
     const baseOpacity = (Math.min(event.importance, 3) / 3) * 0.4 - 0.2;
     const contentRef = useRef(null);
     const expandedContentRef = useRef(null);
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
     const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
+
+    // Add effect to update active position
+    useEffect(() => {
+        if (isHovered) {
+            setActiveEventPositions(new Set([position]));
+        }
+    }, [isHovered, position]);
 
     useEffect(() => {
         setWidth(MIN_CARD_WIDTH);
@@ -351,7 +359,7 @@ const EventCard = React.memo(function EventCard({
         <motion.div
             className="event-card absolute"
             style={{
-                left: `${position - (width / 2)}px`,
+                left: `${position - 20}px`,
                 top: `${topPos}px`,
                 width: `${width}px`,
                 height: isHovered ? `${expandedHeight}px` : `${MIN_CARD_HEIGHT}px`,
@@ -364,8 +372,14 @@ const EventCard = React.memo(function EventCard({
                 scale: 1.03,
                 zIndex: Z_INDEX_HOVER,
             }}
-            onMouseEnter={() => onHover(event)}
-            onMouseLeave={() => onHover(null)}
+            onMouseEnter={() => {
+                onHover(event);
+                setActiveEventPositions(new Set([position]));
+            }}
+            onMouseLeave={() => {
+                onHover(null);
+                setActiveEventPositions(new Set());
+            }}
         >
             <div
                 className={`
@@ -474,7 +488,9 @@ const YearMarker = React.memo(function YearMarker({ year, position }) {
     );
 });
 
-const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEvent }) {
+const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEvent, isActive, rowHeights }) {
+    const lineHeight = rowHeights ? rowHeights : '500px';
+
     return (
         <div
             className="absolute select-none pointer-events-none z-0 -bottom-8"
@@ -483,7 +499,7 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
             <div className="relative">
                 <div
                     className={`
-                        absolute transform -translate-x-1/2
+                        absolute left-0
                         ${isYearTick
                             ? 'border-l h-6 border-white/40'
                             : 'border-l h-3 border-white/20'
@@ -491,12 +507,29 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
                     `}
                 />
                 {hasEvent && (
-                    <div
-                        className="absolute w-[6px] h-[6px] bg-white/60 rounded-full -bottom-2"
-                        style={{
-                            left: '-3px',
-                        }}
-                    />
+                    <>
+                        <div
+                            className={`
+                                absolute w-[2px] bg-gradient-to-b from-white/10 through-white/20 to-white/20
+                                transition-opacity duration-300
+                                ${isActive ? 'opacity-100' : 'opacity-30'}
+                            `}
+                            style={{
+                                height: lineHeight,
+                                bottom: '4px',
+                                left: '3px',
+                                transform: 'translateX(-50%)',
+                            }}
+                        />
+                        <div
+                            className={`
+                                absolute w-[6px] h-[6px] bg-white/60 rounded-full -bottom-2
+                                transition-all duration-300
+                                ${isActive ? 'bg-white scale-150' : 'bg-white/60 scale-100'}
+                            `}
+                            style={{ left: '0px' }}
+                        />
+                    </>
                 )}
             </div>
         </div>
@@ -519,6 +552,7 @@ export default function Timeline() {
     const [viewMode, setViewMode] = useState('timeline');
     const [isMobile, setIsMobile] = useState(false);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
+    const [activeEventPositions, setActiveEventPositions] = useState(new Set());
 
     useEffect(() => {
         const checkMobile = () => {
@@ -583,10 +617,27 @@ export default function Timeline() {
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * pixelsPerDay;
 
-            const bestRow = rows.reduce((minIdx, rowArr, idx) => {
-                return rowArr.length < rows[minIdx].length ? idx : minIdx;
-            }, 0);
+            // Find the best row by checking for overlaps
+            let bestRow = 0;
+            let minOverlap = Infinity;
 
+            for (let i = 0; i < rowCount; i++) {
+                const overlap = rows[i].filter(existingEvent => {
+                    return Math.abs(existingEvent.position - position) < (MIN_CARD_WIDTH * 1.2);
+                }).length;
+
+                if (overlap < minOverlap) {
+                    minOverlap = overlap;
+                    bestRow = i;
+                }
+
+                // If we found a row with no overlaps, use it immediately
+                if (overlap === 0) {
+                    break;
+                }
+            }
+
+            // Add the event to the selected row
             rows[bestRow].push({ position });
 
             return {
@@ -637,6 +688,16 @@ export default function Timeline() {
         const endDate = new Date(2025, 2, 31);
         const ticks = [];
 
+        // Create a map of positions to row heights
+        const positionToRowHeight = {};
+        const totalHeight = (rowCount * (ROW_HEIGHT + ROW_GAP)) + TIME_MARKER_HEIGHT + 180;
+        
+        positionedEvents.forEach(event => {
+            const rowMiddle = (event.row * (ROW_HEIGHT + ROW_GAP)) + (ROW_HEIGHT / 2) + TIME_MARKER_HEIGHT;
+            // Subtract from total height to get the correct line height
+            positionToRowHeight[event.position] = `${totalHeight - rowMiddle}px`;
+        });
+
         const eventDates = new Set(events.map(event =>
             new Date(event.start_date.year, event.start_date.month - 1, event.start_date.day).toISOString().split('T')[0]
         ));
@@ -644,10 +705,14 @@ export default function Timeline() {
         let currentDate = new Date(startDate);
         while (currentDate <= endDate) {
             const dateString = currentDate.toISOString().split('T')[0];
+            const position = ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay;
+            
             ticks.push({
-                position: ((currentDate - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay,
+                position,
                 isYearTick: false,
-                hasEvent: eventDates.has(dateString)
+                hasEvent: eventDates.has(dateString),
+                isActive: activeEventPositions.has(position),
+                rowHeight: positionToRowHeight[position]
             });
             currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -656,10 +721,13 @@ export default function Timeline() {
             const janFirst = new Date(year, 0, 1);
             if (janFirst >= startDate && janFirst <= endDate) {
                 const dateString = janFirst.toISOString().split('T')[0];
+                const position = ((janFirst - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay;
                 ticks.push({
-                    position: ((janFirst - startDate) / (1000 * 60 * 60 * 24)) * pixelsPerDay,
+                    position,
                     isYearTick: true,
-                    hasEvent: eventDates.has(dateString)
+                    hasEvent: eventDates.has(dateString),
+                    isActive: activeEventPositions.has(position),
+                    rowHeight: positionToRowHeight[position]
                 });
             }
         }
@@ -667,7 +735,7 @@ export default function Timeline() {
         ticks.sort((a, b) => a.position - b.position);
 
         return ticks;
-    }, [pixelsPerDay, events]);
+    }, [pixelsPerDay, events, activeEventPositions, positionedEvents, rowCount]);
 
     const totalWidth = useMemo(() => {
         const startDate = new Date(2015, 1, 1);
@@ -711,6 +779,38 @@ export default function Timeline() {
             container.removeEventListener('wheel', handleWheel);
         };
     }, [viewMode]);
+
+    // Add this useEffect to set initial scroll position
+    useEffect(() => {
+        if (containerRef.current && viewMode === 'timeline') {
+            // Calculate position for 2022
+            const startDate = new Date(2015, 1, 1);
+            const targetDate = new Date(2022, 1, 1);
+            const daysSinceStart = (targetDate - startDate) / (1000 * 60 * 60 * 24);
+            const scrollPosition = daysSinceStart * pixelsPerDay;
+            
+            // Set the scroll position after a short delay to ensure the component is fully rendered
+            setTimeout(() => {
+                containerRef.current.scrollLeft = scrollPosition;
+            }, 100);
+        }
+    }, [viewMode, pixelsPerDay]);
+
+    // For cards view, add initial scroll position
+    useEffect(() => {
+        if (viewMode === 'cards') {
+            // Find the first event from 2022
+            const events2022Index = events.findIndex(event => event.start_date.year >= '2022');
+            if (events2022Index !== -1) {
+                // Calculate approximate scroll position (assuming each card is about 300px tall)
+                const scrollPosition = events2022Index * 300;
+                window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'instant'
+                });
+            }
+        }
+    }, [viewMode, events]);
 
     return (
         <div className={`relative mx-auto max-w-[2000px] px-4 md:px-12 py-2`}>
@@ -803,6 +903,8 @@ export default function Timeline() {
                                         position={marker.position}
                                         isYearTick={marker.isYearTick}
                                         hasEvent={marker.hasEvent}
+                                        isActive={marker.isActive}
+                                        rowHeights={marker.rowHeight}
                                     />
                                 ))}
                             </div>
@@ -818,6 +920,7 @@ export default function Timeline() {
                                         isHovered={hoveredEvent === event}
                                         onHover={setHoveredEvent}
                                         rowHeight={ROW_HEIGHT}
+                                        setActiveEventPositions={setActiveEventPositions}
                                     />
                                 ))}
                             </div>
