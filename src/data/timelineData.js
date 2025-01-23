@@ -127,7 +127,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2022", month: "01", day: "27" },
             text: {
-                headlines: createLink("https://openai.com/index/instruction-following/", "InstructGPT"),
+                headline: createLink("https://openai.com/index/instruction-following/", "InstructGPT"),
                 text: "<p>OpenAI introduces InstructGPT, a model that can follow instructions in natural language better than base GPT-3 and was a prototype of what would become ChatGPT.</p>"
             },
             importance: 1,
@@ -633,6 +633,33 @@ export const TIMELINE_DATA = {
             text: {
                 headline: createLink("https://arxiv.org/abs/2412.19437","DeepSeek v3"),
                 text: "<p>Chinese lab DeepSeek stuns with the release of DeepSeek v3, a 671-billion parameter open-source model that shows strong performance at a shockingly low cost.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2025", month: "01", day: "20" },
+            text: {
+                headline: createLink("https://api-docs.deepseek.com/news/news250120", "DeepSeek R1"),
+                text: "<p>DeepSeek releases and open-sources R1, their reasoning model that shows competitive performance with state-of-the-art Western models.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2025", month: "01", day: "21"},
+            text: {
+                headline: createLink("https://openai.com/index/announcing-the-stargate-project/","Stargate Project"),
+                text: "<p>Donald Trump announces the Stargate Project, a $500 billionaire private partnership between SoftBank, OpenAI, Oracle, and MGX to develop datacenters in the US.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2025", month: "01", day: "23" },
+            text: {
+                headline: createLink("https://openai.com/index/introducing-operator/", "Operator"),
+                text: "<p>OpenAI introduces Operator, a computer use agent that can autonomoulsy navigate the web.</p>"
             },
             importance: 2,
             category: CATEGORIES.MODEL_RELEASE
