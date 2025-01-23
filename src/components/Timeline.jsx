@@ -713,7 +713,7 @@ export default function Timeline() {
     }, [viewMode]);
 
     return (
-        <div className={`relative mx-auto max-w-[1600px] px-4 md:px-12 py-2`}>
+        <div className={`relative mx-auto max-w-[2000px] px-4 md:px-12 py-2`}>
             {viewMode === 'timeline' && (
                 <div className="absolute inset-0" />
             )}

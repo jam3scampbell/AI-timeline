@@ -146,6 +146,11 @@ body {
     0 0 16px rgba(128, 223, 255, 0.5);
 }
 
+.event-card a:hover::before {
+  filter: drop-shadow(0 0 8px rgba(128, 223, 255, 0.8));
+  opacity: 1;
+}
+
 .event-card a::after {
   content: "";
   position: absolute;
