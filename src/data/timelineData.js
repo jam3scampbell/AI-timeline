@@ -127,7 +127,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2022", month: "01", day: "27" },
             text: {
-                headlines: createLink("https://openai.com/index/instruction-following/", "InstructGPT"),
+                headline: createLink("https://openai.com/index/instruction-following/", "InstructGPT"),
                 text: "<p>OpenAI introduces InstructGPT, a model that can follow instructions in natural language better than base GPT-3 and was a prototype of what would become ChatGPT.</p>"
             },
             importance: 1,
