@@ -361,7 +361,7 @@ const EventCard = React.memo(function EventCard({
             style={{
                 left: `${position - 20}px`,
                 top: `${topPos}px`,
-                width: `${width}px`,
+                width: isHovered ? `${width + 40}px` : `${width}px`,
                 height: isHovered ? `${expandedHeight}px` : `${MIN_CARD_HEIGHT}px`,
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 zIndex: isHovered ? Z_INDEX_HOVER : Z_INDEX_BASE,
@@ -510,9 +510,12 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
                     <>
                         <div
                             className={`
-                                absolute w-[2px] bg-gradient-to-b from-white/10 through-white/20 to-white/20
-                                transition-opacity duration-300
-                                ${isActive ? 'opacity-100' : 'opacity-30'}
+                                absolute w-[2px] transition-opacity duration-300
+                                ${
+                                    isActive
+                                        ? 'bg-gradient-to-b from-white/10 via-white/20 to-white/20 opacity-100'
+                                        : 'bg-gradient-to-b from-transparent via-white/10 to-white/20 opacity-30'
+                                }
                             `}
                             style={{
                                 height: lineHeight,
