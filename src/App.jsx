@@ -39,7 +39,7 @@ export default function App() {
                 </section>
 
                 {/* Timeline Section */}
-                <div>
+                <div className="overflow-visible">
                     <Suspense fallback={<div className="text-white sans max-w-[1600px] px-20 mx-auto py-70 ">Loading timeline...</div>}>
                         <Timeline />
                     </Suspense>

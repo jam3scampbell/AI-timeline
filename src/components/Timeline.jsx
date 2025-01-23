@@ -149,7 +149,7 @@ const CardsView = React.memo(function CardsView({
             {/* Main timeline */}
             <section
                 ref={timelineRef}
-                className="grid grid-cols-[70px_1fr]  mb-16 relative"
+                className="grid grid-cols-[70px_1fr]  mb-10 relative"
             >
                 {/* Left column: Timeline spine */}
                 <div ref={spineRef} className="sticky top-0 pl-6 h-screen">

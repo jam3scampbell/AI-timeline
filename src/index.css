@@ -165,3 +165,8 @@ body {
 .event-card a:hover::after {
   width: 100%;
 }
+
+:root {
+  /* By default, browsers treat 100% as around 16px */
+  font-size: 14px;
+}
