@@ -71,6 +71,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2018", month: "10", day: "11" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/1810.04805", "BERT"),
+                text: "<p>Google releases BERT, an encoder language model that would become ubiquitous in NLP.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH 
+        },
+        {
             start_date: { year: "2019", month: "02", day: "14" },
             text: {
                 headline: createLink("https://openai.com/index/better-language-models/","GPT-2"),
@@ -123,6 +132,15 @@ export const TIMELINE_DATA = {
             },
             importance: 3,
             category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2021", month: "06", day: "21" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/2106.09685", "LoRA"),
+                text: "<p>A team at Microsoft publishes Low-Rank Adaptation (LoRA), a technique that allows for fine-tuning of large language models with a fraction of the compute and would later become ubiquitous</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
         },
         {
             start_date: { year: "2021", month: "06", day: "29" },
@@ -231,6 +249,15 @@ export const TIMELINE_DATA = {
             },
             importance: 1,
             category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2022", month: "09", day: "30" },
+            text: {
+                headline: createLink("https://www.youtube.com/watch?v=ODSJsviD_SU", "Optimus"),
+                text: "<p>At Tesla's first ever \"AI Day\", they unveil Optimus, their plan to build a humanoid robot.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.BUSINESS
         },
         {
             start_date: { year: "2022", month: "11", day: "30" },
@@ -345,6 +372,15 @@ export const TIMELINE_DATA = {
             text: {
                 headline: createLink("https://arxiv.org/abs/2305.16291","Voyager"),
                 text: "<p>A team from NVIDIA demonstrates the use of GPT-4 for continuous skill learning in Minecraft. This was one of the first major examples of an LLM succeeding in an open-ended embodied domain and learning skills over time.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2023", month: "05", day: "29" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/2305.18290", "Direct Preference Optimization"),
+                text: "A group at Stanford publish a paper enabling fine-tuning of LLMs for human preference without a separate reward model. The technique, called Direct Preference Optimization (DPO), would become very popular in the open-source community."
             },
             importance: 1,
             category: CATEGORIES.RESEARCH
