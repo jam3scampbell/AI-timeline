@@ -98,6 +98,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2020", month: "12", day: "23" },
+            text: {
+                headline: createLink("https://deepmind.google/discover/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules/", "MuZero"),
+                text: "<p>DeepMind introduces MuZero, which learned to master Go, chess, shogi, and Atari games without any knowledge of the rules.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2021", month: "01", day: "05" },
             text: {
                 headline: createLink("https://openai.com/index/dall-e/","DALL-E"),
@@ -143,6 +152,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.RESEARCH
         },
         {
+            start_date: { year: "2022", month: "03", day: "29" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/2203.15556", "Chinchilla"),
+                text: "<p>DeepMind publish the Chinchilla paper, issuing a correction to the scaling laws of Kaplan et al. and suggesting that model size and training data should be scaled in equal proportion.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2022", month: "04", day: "06" },
             text: {
                 headline: createLink("https://openai.com/index/dall-e-2/","DALL-E 2"),
@@ -150,6 +168,15 @@ export const TIMELINE_DATA = {
             },
             importance: 2,
             category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2022", month: "05", day: "12" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/2205.06175","Gato"),
+                text: "<p>DeepMind publish Gato in a paper titled \"A Generalist Agent\". Gato used a single large transformer to learn policies for 604 different RL tasks across varying modalities and observation types."
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
         },
         {
             start_date: { year: "2022", month: "05", day: "27" },
@@ -170,6 +197,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.CULTURE
         },
         {
+            start_date: { year: "2022", month: "06", day: "30" },
+            text: {
+                headline: createLink("https://research.google/blog/minerva-solving-quantitative-reasoning-problems-with-language-models/", "Minerva"),
+                text: "<p>Google Research releases Minerva, an LLM specialized to solve quantitative reasoning problems. Minerva moved the state-of-the-art on the MATH benchmark from 6.9% to 50.3%, surprising many who doubted that LLMs could ever be trained to do math well.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2022", month: "07", day: "22" },
             text: {
                 headline: createLink("https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/", "AlphaFold 2"),
@@ -188,6 +224,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
+            start_date: { year: "2022", month: "09", day: "14" },
+            text: {
+                headline: createLink("https://transformer-circuits.pub/2022/toy_model/index.html", "Toy Models of Superposition"),
+                text: "<p>Anthropic puts out a paper on a phenomenon that arises in neural networks, which they call superposition. Superposition occurs when a model learns to pack more features than there are dimensions in its representational space and at the time looked to be a major roadblock to mechanistic interpretability.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2022", month: "11", day: "30" },
             text: {
                 headline: createLink("https://openai.com/index/chatgpt/","ChatGPT"),
@@ -195,6 +240,15 @@ export const TIMELINE_DATA = {
             },
             importance: 3,
             category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2022", month: "12", day: "15" },
+            text: {
+                headline: createLink("https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback","Constitutional AI"),
+                text: "<p>Anthropic introduces an approach to alignment called Constitutional AI, in which the only human oversight is provided through a 'constitution'. As part of this approach, they also introduce Reinforcement Learning from AI Feedback (RLAIF).</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
         },
         {
             start_date: { year: "2023", month: "02", day: "17" },
@@ -212,6 +266,24 @@ export const TIMELINE_DATA = {
                 text: "<p>Meta releases its large language model called LLaMA. Intended to be distributed to researchers only, it ends up getting leaked online, allowing anyone to download it. At the time, it became the best open-source model in the world.</p>"
             },
             importance: 2.5,
+            category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2023", month: "03", day: "06" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/2303.03378", "PaLM-E"),
+                text: "<p>Google Research publishes PaLM-E, demonstrating the ability of large language models to facilitate embodied robotic reasoning and control.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2023", month: "03", day: "14" },
+            text: {
+                headline: createLink("https://openai.com/index/gpt-4-research/","GPT-4"),
+                text: "<p>After much anticipation, OpenAI releases GPT-4, the best model at the time and a big advancement over GPT-3.5.</p>"
+            },
+            importance: 3,
             category: CATEGORIES.MODEL_RELEASE
         },
         {
