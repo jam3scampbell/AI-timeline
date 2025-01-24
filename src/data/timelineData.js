@@ -224,6 +224,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.RESEARCH
         },
         {
+            start_date: { year: "2022", month: "07", day: "10" },
+            text: {
+                headline: createLink("https://beff.substack.com/p/notes-on-eacc-principles-and-tenets","e/acc"),
+                text: "<p>Started by anonymous twitter personalities Beff Jezos and Bayeslord, the effective accelerationist (e/acc) advocated for AI development to proceed as fast as possible. Despite being viewed mostly as a twitter meme, it would later gain prominence in silicon valley and act as a foil to AI safety voices in the debate over the speed of AI development.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.CULTURE
+        },
+        {
             start_date: { year: "2022", month: "07", day: "22" },
             text: {
                 headline: createLink("https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/", "AlphaFold 2"),
