@@ -1,10 +1,10 @@
-# AGI Timeline
+# AI Timeline
 
-An interactive visualization of artificial intelligence history at [agitimeline.org](https://agitimeline.org)
+An interactive timeline of artificial intelligence history at [ai-timeline.org](https://ai-timeline.org)
 
 ## Overview
 
-AGI Timeline is an open-source project that creates an interactive timeline showcasing key events, breakthroughs, and advancements on the road to AGI.
+AI Timeline is an open-source project to create an interactive timeline showcasing key events, breakthroughs, and developments on the road to AGI.
 
 ## Features
 

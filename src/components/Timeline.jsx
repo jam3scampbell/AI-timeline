@@ -316,7 +316,7 @@ const EventCard = React.memo(function EventCard({
     rowHeight,
     setActiveEventPositions
 }) {
-    const baseOpacity = (Math.min(event.importance, 3) / 3) * 0.4 - 0.2;
+    const baseOpacity = (Math.min(event.importance+.3, 3) / 3) * 0.4 - 0.2;
     const contentRef = useRef(null);
     const expandedContentRef = useRef(null);
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
