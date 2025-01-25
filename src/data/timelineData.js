@@ -17,6 +17,15 @@ function createLink(url, title) {
 export const TIMELINE_DATA = {
     events: [
         {
+            start_date: { year: "2015", month: "11", day: "09" },
+            text: {
+                headline: createLink("https://www.wired.com/2015/11/google-open-sources-its-artificial-intelligence-engine/", "TensorFlow release"),
+                text: "<p>Google open-sources TensorFlow, its internal deep learning framework. Initially developed by the Google Brain team, TensorFlow would become one of the most influential AI frameworks.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2015", month: "12", day: "11" },
             text: {
                 headline: createLink("https://openai.com/index/introducing-openai/", "OpenAI founded"),
@@ -30,6 +39,15 @@ export const TIMELINE_DATA = {
             text: {
                 headline: createLink("https://deepmind.google/research/breakthroughs/alphago/", "AlphaGo"),
                 text: "<p>DeepMind's AlphaGo defeats top human player Lee Sedol in the board game Go, defying what many considered possible.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
+        },
+        {
+            start_date: { year: "2016", month: "8", day: "31" },
+            text: {
+                headline: createLink("https://github.com/pytorch/pytorch/releases/tag/v0.1.1", "PyTorch release"),
+                text: "<p>Facebook releases PyTorch, a Python-first deep learning framework that would eventually become the dominant framework for AI research.</p>"
             },
             importance: 2,
             category: CATEGORIES.RESEARCH
@@ -105,6 +123,15 @@ export const TIMELINE_DATA = {
             },
             importance: 3,
             category: CATEGORIES.MODEL_RELEASE
+        },
+        {
+            start_date: { year: "2020", month: "10", day: "08" },
+            text: {
+            headline: createLink("https://waymo.com/blog/2020/10/waymo-is-opening-its-fully-driverless-service-in-phoenix", "Waymo opens to public"),
+            text: "<p>Waymo opens its fully autonomous ride-hailing service to the general public in Phoenix.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.BUSINESS
         },
         {
             start_date: { year: "2020", month: "12", day: "23" },
@@ -633,6 +660,15 @@ export const TIMELINE_DATA = {
             text: {
                 headline: createLink("https://x.com/karpathy/status/1827143768459637073","Cursor"),
                 text: "<p>After a viral tweet by Andrej Karpathy, the Cursor AI Code Editor explodes in popularity among developers.</p>"
+            },
+            importance: 1,
+            category: CATEGORIES.BUSINESS
+        },
+        {
+            start_date: { year: "2024", month: "09", day: "02" },
+            text: {
+                headline: createLink("https://x.com/elonmusk/status/1830650370336473253", "xAI Colossus"),
+                text: "<p>xAI launches Colossus, the world's most powerful AI training system with a cluster of 100,000 H100 GPUs.</p>"
             },
             importance: 1,
             category: CATEGORIES.BUSINESS
