@@ -13,6 +13,21 @@ AI Timeline is an open-source project to create an interactive timeline showcasi
 - Links to source material
 - Filterable by different domains (`Model Release`, `Culture & Society`, `Business & Industry`, `Research & Papers`, `Policy & Regulation`)
 
+## Local Development
+
+To run this project locally:
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and navigate to the URL shown in the terminal (typically `http://localhost:5173`)
+
 ## Contributing Events
 
 We welcome contributions to the timeline! Either fill in the Google Form [here](https://forms.gle/SgW7LYM6pjajUTxw8) or do the following:
