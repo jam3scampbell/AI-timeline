@@ -271,8 +271,8 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2022", month: "10", day: "07" },
             text: {
-                headline: createLink("https://en.wikipedia.org/wiki/United_States_New_Export_Controls_on_Advanced_Computing_and_Semiconductors_to_China", "October 7 BIS Export Controls"),
-                text: "<p>The U.S. Bureau of Industry and Security implemented comprehensive export controls restricting China's access to advanced semiconductors, chip manufacturing equipment, and supercomputer components, marking a significant shift in U.S. technology policy toward China.</p>"
+                headline: createLink("https://en.wikipedia.org/wiki/United_States_New_Export_Controls_on_Advanced_Computing_and_Semiconductors_to_China", "Chip Export Controls"),
+                text: "<p>The U.S. Bureau of Industry and Security implements comprehensive export controls restricting China's access to advanced semiconductors, chip manufacturing equipment, and supercomputer components, marking a significant shift in U.S. technology policy toward China.</p>"
             },
             importance: 2,
             category: CATEGORIES.POLICY
