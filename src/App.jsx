@@ -47,8 +47,10 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
-                    © {new Date().getFullYear()} AGI Timeline. By <a href="https://x.com/jam3scampbell">James Campbell</a> and <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
-
+                    <p>© {new Date().getFullYear()} AGI Timeline. Created by <a href="https://x.com/jam3scampbell">James Campbell</a> and <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>.
+                    </p>
+                    <p>Open-source contributors: <a href="https://x.com/suntzoogway">suntzoogway</a>, <a href="https://github.com/puravparab">puravparab</a>, <a href="https://github.com/jamesms36">jamesms36</a> 
+                    </p>
                 </footer>
             </div>
         </>
