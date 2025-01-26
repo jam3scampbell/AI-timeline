@@ -19,7 +19,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2015", month: "11", day: "09" },
             text: {
-                headline: createLink("https://www.wired.com/2015/11/google-open-sources-its-artificial-intelligence-engine/", "TensorFlow release"),
+                headline: createLink("https://www.wired.com/2015/11/google-open-sources-its-artificial-intelligence-engine/", "TensorFlow"),
                 text: "<p>Google open-sources TensorFlow, its internal deep learning framework. Initially developed by the Google Brain team, TensorFlow would become one of the most influential AI frameworks.</p>"
             },
             importance: 2,
@@ -46,7 +46,7 @@ export const TIMELINE_DATA = {
         {
             start_date: { year: "2016", month: "8", day: "31" },
             text: {
-                headline: createLink("https://github.com/pytorch/pytorch/releases/tag/v0.1.1", "PyTorch release"),
+                headline: createLink("https://github.com/pytorch/pytorch/releases/tag/v0.1.1", "PyTorch"),
                 text: "<p>Facebook releases PyTorch, a Python-first deep learning framework that would eventually become the dominant framework for AI research.</p>"
             },
             importance: 2,
@@ -668,7 +668,7 @@ export const TIMELINE_DATA = {
             start_date: { year: "2024", month: "09", day: "02" },
             text: {
                 headline: createLink("https://x.com/elonmusk/status/1830650370336473253", "xAI Colossus"),
-                text: "<p>xAI launches Colossus, the world's most powerful AI training system with a cluster of 100,000 H100 GPUs.</p>"
+                text: "<p>xAI launches Colossus, the world's most powerful AI training system at the time with a cluster of 100,000 H100 GPUs. Taking only 19 days from the arrival of the first hardware rack to the commencement of training operations, the speed with which xAI built the cluster spooked other AI labs.</p>"
             },
             importance: 1,
             category: CATEGORIES.BUSINESS
