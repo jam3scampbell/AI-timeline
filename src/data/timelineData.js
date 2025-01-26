@@ -125,15 +125,6 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.MODEL_RELEASE
         },
         {
-            start_date: { year: "2020", month: "10", day: "08" },
-            text: {
-            headline: createLink("https://waymo.com/blog/2020/10/waymo-is-opening-its-fully-driverless-service-in-phoenix", "Waymo opens to public"),
-            text: "<p>Waymo opens its fully autonomous ride-hailing service to the general public in Phoenix.</p>"
-            },
-            importance: 1,
-            category: CATEGORIES.BUSINESS
-        },
-        {
             start_date: { year: "2020", month: "12", day: "23" },
             text: {
                 headline: createLink("https://deepmind.google/discover/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules/", "MuZero"),
