@@ -556,6 +556,9 @@ export default function Timeline() {
     const [isMobile, setIsMobile] = useState(false);
     const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
     const [activeEventPositions, setActiveEventPositions] = useState(new Set());
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -815,6 +818,52 @@ export default function Timeline() {
         }
     }, [viewMode, events]);
 
+    // Add mouse drag handlers
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || viewMode !== 'timeline') return;
+
+        const handleMouseDown = (e) => {
+            setIsDragging(true);
+            setStartX(e.pageX - container.offsetLeft);
+            setScrollLeft(container.scrollLeft);
+            container.style.cursor = 'grabbing';
+            container.style.userSelect = 'none';
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+            container.style.cursor = 'grab';
+            container.style.userSelect = 'auto';
+        };
+
+        const handleMouseMove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            container.scrollLeft = scrollLeft - walk;
+        };
+
+        const handleMouseLeave = () => {
+            setIsDragging(false);
+            container.style.cursor = 'grab';
+            container.style.userSelect = 'auto';
+        };
+
+        container.addEventListener('mousedown', handleMouseDown);
+        container.addEventListener('mousemove', handleMouseMove);
+        container.addEventListener('mouseup', handleMouseUp);
+        container.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            container.removeEventListener('mousedown', handleMouseDown);
+            container.removeEventListener('mousemove', handleMouseMove);
+            container.removeEventListener('mouseup', handleMouseUp);
+            container.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, [viewMode, isDragging, startX, scrollLeft]);
+
     return (
         <div className={`relative mx-auto max-w-[2000px] px-4 md:px-12 py-2`}>
             {viewMode === 'timeline' && (
@@ -876,6 +925,7 @@ export default function Timeline() {
                     <div
                         ref={containerRef}
                         className="relative mx-auto overflow-x-scroll timeline-container"
+                        style={{ cursor: 'grab' }}
                     >
                         <div
                             className="relative"
