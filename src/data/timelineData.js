@@ -80,6 +80,15 @@ export const TIMELINE_DATA = {
             category: CATEGORIES.RESEARCH
         },
         {
+            start_date: { year: "2017", month: "07", day: "20" },
+            text: {
+                headline: createLink("https://arxiv.org/abs/1707.06347", "PPO"),
+                text: "<p>OpenAI introduces Proximal Policy Optimization, a simpler and more stable policy gradient method that would become widely used across many reinforcement learning domains, including RLHF.</p>"
+            },
+            importance: 2,
+            category: CATEGORIES.RESEARCH
+        },
+        {
             start_date: { year: "2018", month: "06", day: "11" },
             text: {
                 headline: createLink("https://openai.com/index/language-unsupervised/","GPT-1"),
