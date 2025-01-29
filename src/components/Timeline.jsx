@@ -611,10 +611,18 @@ export default function Timeline() {
     const positionedEvents = useMemo(() => {
         const startDate = new Date(2015, 1, 1);
         const filteredEvents = events.filter((event) => activeCategories[event.category]);
-        const rows = Array(rowCount).fill().map(() => []);
+        
+        // Instead of storing arrays of positions, store the "rightmost X" per row
+        let rowRightEdges = Array(rowCount).fill(0);
 
-        return filteredEvents.map((event) => {
-            const eventId = `${event.start_date.year}-${event.start_date.month}-${event.start_date.day}-${event.text.headline}`;
+        // Sort filtered events by ascending date
+        const sortedEvents = [...filteredEvents].sort((a, b) => {
+            const dateA = new Date(a.start_date.year, a.start_date.month - 1, a.start_date.day);
+            const dateB = new Date(b.start_date.year, b.start_date.month - 1, b.start_date.day);
+            return dateA - dateB;
+        });
+
+        return sortedEvents.map((event) => {
             const date = new Date(
                 event.start_date.year,
                 event.start_date.month - 1,
@@ -623,34 +631,45 @@ export default function Timeline() {
             const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
             const position = daysSinceStart * pixelsPerDay;
 
-            // Find the best row by checking for overlaps
-            let bestRow = 0;
-            let minOverlap = Infinity;
-
+            // Try to find the row with the best fit
+            let chosenRow = 0;
+            let bestRightEdge = Infinity;
+            
             for (let i = 0; i < rowCount; i++) {
-                const overlap = rows[i].filter(existingEvent => {
-                    return Math.abs(existingEvent.position - position) < (MIN_CARD_WIDTH * 1.2);
-                }).length;
-
-                if (overlap < minOverlap) {
-                    minOverlap = overlap;
-                    bestRow = i;
-                }
-
-                // If we found a row with no overlaps, use it immediately
-                if (overlap === 0) {
-                    break;
+                // If this row's right edge is sufficiently behind this event's position, it won't overlap
+                // We can allow some small buffer. Let's say 0.8 * MIN_CARD_WIDTH as a safety margin
+                if (rowRightEdges[i] + (MIN_CARD_WIDTH * 0.8) < position) {
+                    // This row is a viable candidate.
+                    // We choose the row that is the "most behind" but still doesn't overlap
+                    // so we fill from top to bottom, left to right.
+                    if (rowRightEdges[i] < bestRightEdge) {
+                        bestRightEdge = rowRightEdges[i];
+                        chosenRow = i;
+                    }
                 }
             }
 
-            // Add the event to the selected row
-            rows[bestRow].push({ position });
+            // If we never updated bestRightEdge (still Infinity), it means no row was sufficiently behind.
+            // So just pick whichever row has the smallest right edge, to minimize overlap
+            if (bestRightEdge === Infinity) {
+                let minRowIndex = 0;
+                for (let i = 1; i < rowCount; i++) {
+                    if (rowRightEdges[i] < rowRightEdges[minRowIndex]) {
+                        minRowIndex = i;
+                    }
+                }
+                chosenRow = minRowIndex;
+            }
+
+            // Update that row's right edge. We'll assume a base width for the event.
+            // A typical guess might be MIN_CARD_WIDTH to keep it simple, or you could try to store
+            // event-specific widths in some array once they're rendered.
+            rowRightEdges[chosenRow] = position + MIN_CARD_WIDTH;
 
             return {
                 ...event,
-                id: eventId,
                 position,
-                row: bestRow,
+                row: chosenRow,
             };
         });
     }, [events, pixelsPerDay, activeCategories, rowCount]);
