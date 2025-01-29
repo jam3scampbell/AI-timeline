@@ -47,9 +47,9 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="text-center py-8 text-sm text-gray-400 max-w-[800px] mx-auto font-sans">
-                    <p>© {new Date().getFullYear()} AGI Timeline. Created by <a href="https://x.com/jam3scampbell">James Campbell</a> and <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>.
+                    <p className="mb-1">© {new Date().getFullYear()} AGI Timeline. Created by <a href="https://x.com/jam3scampbell" className="text-blue-400 hover:text-blue-300 underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">James Campbell</a> and <a href="https://x.com/Emiliano_GLopez" className="text-blue-400 hover:text-blue-300 underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">Emiliano Garcia-Lopez</a>.
                     </p>
-                    <p>Open-source contributors: <a href="https://x.com/suntzoogway">suntzoogway</a>, <a href="https://github.com/puravparab">puravparab</a>, <a href="https://github.com/jamesms36">jamesms36</a>, Max Kieffer, <a href="https://github.com/jtalmi">Jonathan Talmi</a>
+                    <p className="mb-1">Open-source contributors: <a href="https://x.com/suntzoogway" className=" underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">suntzoogway</a>, <a href="https://github.com/puravparab" className=" underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">puravparab</a>, <a href="https://github.com/jamesms36" className=" underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">jamesms36</a>, Max Kieffer, <a href="https://github.com/jtalmi" className=" underline decoration-1 hover:decoration-blue-300 transition-colors duration-200">Jonathan Talmi</a>
                     </p>
                 </footer>
             </div>
