@@ -4,11 +4,14 @@ import React, { Suspense, lazy } from "react";
 import Starfield from "./components/EmergentBackground";
 // import Timeline from "./components/Timeline"; // REMOVE this import
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 // LAZY import for Timeline
 const Timeline = lazy(() => import("./components/Timeline"));
 
 export default function App() {
+    const { t } = useTranslation();
+
     return (
         <>
             <div className="relative">
@@ -26,22 +29,29 @@ export default function App() {
                         <div className="flex flex-col items-center">
                             <img
                                 src="time100cover.jpg"
-                                alt="TIME 100 AI 2023 Cover"
+                                alt={t("hero.imageAlt", "TIME 100 AI 2023 Cover")}
                                 className="w-[120px] mb-5 border border-gray-600 shadow-lg"
                             />
 
                             <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
-                                The Road to AGI
+                                {t("hero.title", "The Road to AGI")}
                                 <br />
-                                2015 - {new Date().getFullYear()}
+                                {t("hero.dateRange", { year: new Date().getFullYear() })}
                             </h1>
                             <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed mb-1 justify">
-                                This timeline attempts to tell the story of the last decade in artificial intelligence, from cultural trends to technical advancements. Each event is a clickable link to source material.
+                                {t("hero.description1", "This timeline attempts to tell the story of the last decade in artificial intelligence, from cultural trends to technical advancements. Each event is a clickable link to source material.")}
                             </p>
                             <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed">
-                                Note: Curation is inherently subjective, and many events may have been missed. If you'd like to contribute, visit the project's <a href="https://github.com/jam3scampbell/ai-timeline" className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200">GitHub</a> or submit an event <a href="https://forms.gle/SgW7LYM6pjajUTxw8" className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200">here</a>.
+                                {t("hero.description2", "Note: Curation is inherently subjective, and many events may have been missed. If you'd like to contribute, visit the project's ")}
+                                <a href="https://github.com/jam3scampbell/ai-timeline" className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200">
+                                    {t("hero.githubLink", "GitHub")}
+                                </a>
+                                {t("hero.description3", " or submit an event ")}
+                                <a href="https://forms.gle/SgW7LYM6pjajUTxw8" className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200">
+                                    {t("hero.formLink", "here")}
+                                </a>
+                                {t("hero.description4", ".")}
                             </p>
-
                         </div>
                     </section>
 
