@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo, useLayoutEffect, useCallback } from 'react';
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const MIN_CARD_WIDTH = 180;
 const ROW_GAP = 10;
@@ -27,6 +28,7 @@ const CardsView = React.memo(function CardsView({
     }) {
     const timelineRef = useRef(null);
     const spineRef = useRef(null);
+    const { i18n, t } = useTranslation();
     const [activeEventIndex, setActiveEventIndex] = useState(0);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [spineOffset, setSpineOffset] = useState(0);
@@ -277,29 +279,36 @@ const CardsView = React.memo(function CardsView({
                 </div>
 
                 <div className="space-y-8 py-12">
-                    {filteredEvents.map((event, index) => (
-                        <div
-                            key={index}
-                            className={`event-card p-6 ${
-                                index === activeEventIndex ? 'active' : ''
-                            }`}
-                        >
-                            <div className="text-sm text-white/60 font-medium tracking-wide">
-                                {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
-                            </div>
-                            <div 
-                                className="font-serif text-2xl font-normal text-white leading-snug mt-2"
-                                dangerouslySetInnerHTML={{ __html: event.text.headline }}
-                            />
-                            <div className="text-xs font-sans mt-1 text-white/40">
-                                {event.category}
-                            </div>
+                    {filteredEvents.map((event, index) => {
+                        // Use the Chinese version if the current language is 'zh'
+                        const localizedContent = (i18n.language === 'zh' && event.chinese)
+                            ? event.chinese
+                            : event.text;
+    
+                        return (
                             <div
-                                className="text-white/80 text-base leading-relaxed mt-3"
-                                dangerouslySetInnerHTML={{ __html: event.text.text }}
-                            />
-                        </div>
-                    ))}
+                                key={index}
+                                className={`event-card p-6 ${index === activeEventIndex ? 'active' : ''}`}
+                            >
+                                <div className="text-sm text-white/60 font-medium tracking-wide">
+                                    {`${event.start_date.year}-${String(event.start_date.month).padStart(2, '0')}-${String(event.start_date.day).padStart(2, '0')}`}
+                                </div>
+                                <div 
+                                    className="font-serif text-2xl font-normal text-white leading-snug mt-2"
+                                    // Use localized headline
+                                    dangerouslySetInnerHTML={{ __html: localizedContent.headline }}
+                                />
+                                <div className="text-xs font-sans mt-1 text-white/40">
+                                    {t("categories." + event.category)}
+                                </div>
+                                <div
+                                    className="text-white/80 text-base leading-relaxed mt-3"
+                                    // Use localized text
+                                    dangerouslySetInnerHTML={{ __html: localizedContent.text }}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             </section>
         </div>
@@ -316,7 +325,11 @@ const EventCard = React.memo(function EventCard({
     rowHeight,
     setActiveEventPositions
 }) {
-    const baseOpacity = (Math.min(event.importance+.15, 3) / 3) * 0.4 - 0.2;
+    const { i18n, t } = useTranslation();
+    const localizedContent = (i18n.language === 'zh' && event.chinese)
+        ? event.chinese
+        : event.text;
+    const baseOpacity = (Math.min(event.importance + 0.15, 3) / 3) * 0.4 - 0.2;
     const contentRef = useRef(null);
     const expandedContentRef = useRef(null);
     const [width, setWidth] = useState(MIN_CARD_WIDTH);
@@ -420,14 +433,13 @@ const EventCard = React.memo(function EventCard({
                             font-serif leading-snug mb-1 text-lg
                             ${isHovered ? 'text-white' : 'text-white/90'}
                         `}
-                        dangerouslySetInnerHTML={{ __html: event.text.headline }}
+                        dangerouslySetInnerHTML={{ __html: localizedContent.headline }}
                     />
                     <div className="text-sm font-sans text-white/60 font-medium">
                         {`${String(event.start_date.month).padStart(2, '0')}/${String(event.start_date.day).padStart(2, '0')}/${event.start_date.year}`}
                     </div>
-                    <div className={`text-xs font-sans mt-1
-                        ${isHovered ? 'text-gray/50' : 'text-white/0'}`}>
-                        {event.category}
+                    <div className={`text-xs font-sans mt-1 ${isHovered ? 'text-gray/50' : 'text-white/0'}`}>
+                        {t("categories." + event.category)}
                     </div>
                     <AnimatePresence>
                         {isHovered && (
@@ -437,7 +449,7 @@ const EventCard = React.memo(function EventCard({
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 className="text-sm font-sans text-white/80 mt-1 overflow-hidden"
-                                dangerouslySetInnerHTML={{ __html: event.text.text }}
+                                dangerouslySetInnerHTML={{ __html: localizedContent.text }}
                             />
                         )}
                     </AnimatePresence>
@@ -540,6 +552,8 @@ const TickMarker = React.memo(function TickMarker({ position, isYearTick, hasEve
 });
 
 export default function Timeline() {
+    const { t } = useTranslation();
+
     const [activeCategories, setActiveCategories] = useState(() => {
         const categoriesRecord = {};
         Object.values(CATEGORIES).forEach(cat => {
@@ -893,19 +907,19 @@ export default function Timeline() {
                 <div className="py-4">
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
                         <div className="flex gap-2 flex-wrap">
-                            {Object.values(CATEGORIES).map((category) => (
+                            {Object.values(CATEGORIES).map((categoryKey) => (
                                 <button
-                                    key={category}
-                                    onClick={() => toggleCategory(category)}
+                                    key={categoryKey}
+                                    onClick={() => toggleCategory(categoryKey)}
                                     className={`
                                         px-3 py-1 rounded-full text-sm font-sans transition-all backdrop-blur-[1px]
-                                        ${activeCategories[category]
+                                        ${activeCategories[categoryKey]
                                             ? 'bg-white/20 text-white'
                                             : 'bg-white/5 text-white/40'}
                                         hover:bg-white/30
                                     `}
                                 >
-                                    {category}
+                                    {t("categories." + categoryKey)}
                                 </button>
                             ))}
                         </div>
@@ -915,7 +929,7 @@ export default function Timeline() {
                                 className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                 onClick={() => setViewMode(viewMode === 'timeline' ? 'cards' : 'timeline')}
                             >
-                                {viewMode === 'timeline' ? 'Switch to Cards' : 'Switch to Timeline'}
+                                {viewMode === 'timeline' ? t('switchToCards') : t('switchToTimeline')}
                             </button>
                             {viewMode === 'timeline' && (
                                 <>
@@ -923,16 +937,16 @@ export default function Timeline() {
                                         className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                         onClick={zoomOut}
                                     >
-                                        Zoom Out
+                                        {t('zoomOut')}
                                     </button>
                                     <button
                                         className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
                                         onClick={zoomIn}
                                     >
-                                        Zoom In
+                                        {t('zoomIn')}
                                     </button>
                                     <span className="text-white/60 ml-2 my-auto">
-                                        {`Zoom: ${pixelsPerDay}px/day`}
+                                        {t('zoom', { value: pixelsPerDay })}
                                     </span>
                                 </>
                             )}
