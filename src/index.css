@@ -96,8 +96,10 @@ body {
 }
 
 .year-glow {
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.18),
-    0 0 6px rgba(255, 255, 255, 0.12), 0 0 12px rgba(255, 255, 255, 0.06);
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.18),
+    0 0 6px rgba(255, 255, 255, 0.12),
+    0 0 12px rgba(255, 255, 255, 0.06);
 }
 
 .glass-effect {
@@ -108,14 +110,17 @@ body {
   );
   backdrop-filter: contrast(150%) brightness(65%) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2),
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 .event-card a {
   color: #ffffff;
   text-decoration: none;
-  transition: color 0.2s ease, text-shadow 0.3s ease;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.3s ease;
   display: inline-block;
   position: relative;
   padding-right: 1.6rem;
@@ -142,7 +147,8 @@ body {
 
 .event-card a:hover {
   color: #ffffff;
-  text-shadow: 0 0 8px rgba(128, 223, 255, 0.8),
+  text-shadow:
+    0 0 8px rgba(128, 223, 255, 0.8),
     0 0 16px rgba(128, 223, 255, 0.5);
 }
 

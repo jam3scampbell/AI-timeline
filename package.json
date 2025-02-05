@@ -4,7 +4,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+        "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
     },
     "dependencies": {
         "autoprefixer": "^10.4.20",
@@ -20,6 +22,7 @@
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.2.5",
         "vite-plugin-radar": "^0.10.0"
     }
 }

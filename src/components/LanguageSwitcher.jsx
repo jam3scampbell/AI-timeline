@@ -1,5 +1,5 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
@@ -22,4 +22,4 @@ export default function LanguageSwitcher() {
       </select>
     </div>
   );
-} 
+}
