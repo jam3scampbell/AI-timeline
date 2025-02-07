@@ -628,7 +628,7 @@ export const TIMELINE_DATA = {
           "https://ai.meta.com/blog/large-language-model-llama-meta-ai/",
           "LLaMA"
         ),
-        text: "<p>Meta releases its large language model LLaMA, intended for researchers only, but it gets leaked online, making it the best open-source model at the time.</p>",
+        text: "<p>Meta releases its large language model LLaMA, intended for researchers only, but it gets leaked online",
       },
       chinese: {
         headline: createLink(
@@ -673,10 +673,166 @@ export const TIMELINE_DATA = {
       category: CATEGORIES.MODEL_RELEASE,
     },
     {
+      start_date: { year: "2023", month: "03", day: "14" },
+      text: {
+        headline: createLink("https://www.anthropic.com/news/introducing-claude", "Anthropic introduces Claude"),
+        text: "<p>Anthropic introduces its flagship AI assistant, Claude.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.anthropic.com/news/introducing-claude", "Anthropic introduces Claude"),
+        text: "<p>Anthropic 推出了其旗舰 AI 助手 Claude。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+      start_date: { year: "2023", month: "03", day: "22" },
+      text: {
+        headline: createLink("https://futureoflife.org/open-letter/pause-giant-ai-experiments/", "FLI letter"),
+        text: "<p>The Future of Life Institute publishes an open letter calling for a 6-month pause on AI development, signed by Elon Musk and other notable figures. However, the leading labs do not partake in the proposed pause.</p>"
+      },
+      chinese: {
+        headline: createLink("https://futureoflife.org/open-letter/pause-giant-ai-experiments/", "FLI letter"),
+        text: "<p>Future of Life Institute 发布了一封公开信，呼吁暂停 AI 开发 6 个月，由 Elon Musk 和其他知名人士签署。然而，领先的实验室并没有参与提议的暂停。</p>"
+      },
+      importance: 1.0,
+      category: CATEGORIES.CULTURE
+    },
+    {
+      start_date: { year: "2023", month: "04", day: "07" },
+      text: {
+        headline: createLink("https://arxiv.org/abs/2304.03442", "Generative Agents"),
+        text: "<p>The paper \"Generative Agents: Interactive Simulacra of Human Behavior\" shows that LLMs can be used to create social simulations of behavior. It creates a simulated world of LLMs akin to the Sims.</p>"
+      },
+      chinese: {
+        headline: createLink("https://arxiv.org/abs/2304.03442", "Generative Agents"),
+        text: "<p>论文《生成式智能体：人类行为的交互式模拟》表明，LLM 可用于创建行为的社会模拟。它创建了一个类似于《模拟人生》的 LLM 模拟世界。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.RESEARCH
+    },
+    {
+      start_date: { year: "2023", month: "04", day: "16" },
+      text: {
+        headline: createLink("https://github.com/Significant-Gravitas/AutoGPT", "AutoGPT"),
+        text: "<p>An open-source repository called AutoGPT, which was one of the first to put GPT-4 in an agent loop, becomes one of the most starred GitHub repositories of all time.</p>"
+      },
+      chinese: {
+        headline: createLink("https://github.com/Significant-Gravitas/AutoGPT", "AutoGPT"),
+        text: "<p>一个名为 AutoGPT 的开源代码库成为有史以来获得最多星标的 GitHub 代码库之一，它是最早将 GPT-4 置于智能体循环中的项目之一。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.RESEARCH
+    },
+    {
+      start_date: { year: "2023", month: "04", day: "23" },
+      text: {
+        headline: createLink("https://www.nytimes.com/2023/04/19/arts/music/ai-drake-the-weeknd-fake.html", "Fake Drake"),
+        text: "<p>An anonymous creator named Ghostwriter uses music AI tools to produce viral songs that sound like Drake. The songs were taken down for breaking copyright, but illustrated the ability of generative AI to do creative work.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.nytimes.com/2023/04/19/arts/music/ai-drake-the-weeknd-fake.html", "Fake Drake"),
+        text: "<p>一位名叫 Ghostwriter 的匿名创作者使用音乐 AI 工具制作了听起来像 Drake 的病毒式传播歌曲。这些歌曲因侵犯版权而被下架，但展示了生成式 AI 进行创造性工作的能力。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.CULTURE
+    },
+    {
+      start_date: { year: "2023", month: "05", day: "02" },
+      text: {
+        headline: createLink("https://www.theguardian.com/technology/2023/may/02/geoffrey-hinton-godfather-of-ai-quits-google-warns-dangers-of-machine-learning", "Hinton quits Google"),
+        text: "<p>One of the pioneers of neural networks and winner of the Turing Award, Geoffrey Hinton quits Google to speak freely about the dangers of AI, saying that he's changed his mind about how soon powerful AI might be.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.theguardian.com/technology/2023/may/02/geoffrey-hinton-godfather-of-ai-quits-google-warns-dangers-of-machine-learning", "Hinton quits Google"),
+        text: "<p>神经网络的先驱之一、图灵奖得主 Geoffrey Hinton 从 Google 辞职，以便自由地谈论 AI 的危险，并表示他改变了对于强大 AI 可能出现的时间的看法。</p>"
+      },
+      importance: 2.5,
+      category: CATEGORIES.CULTURE
+    },
+    {
+      start_date: { year: "2023", month: "05", day: "25" },
+      text: {
+        headline: createLink("https://arxiv.org/abs/2305.16291", "Voyager"),
+        text: "<p>A team from NVIDIA demonstrates the use of GPT-4 for continuous skill learning in Minecraft. This was one of the first major examples of an LLM succeeding in an open-ended embodied domain and learning skills over time.</p>"
+      },
+      chinese: {
+        headline: createLink("https://arxiv.org/abs/2305.16291", "Voyager"),
+        text: "<p>来自 NVIDIA 的一个团队展示了 GPT-4 在《我的世界》中进行持续技能学习的应用。这是 LLM 在开放式具身领域取得成功并随时间学习技能的首批重要示例之一。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.RESEARCH
+    },
+    {
+      start_date: { year: "2023", month: "05", day: "29" },
+      text: {
+        headline: createLink("https://arxiv.org/abs/2305.18290", "Direct Preference Optimization"),
+        text: "A group at Stanford publish a paper enabling fine-tuning of LLMs for human preference without a separate reward model. The technique, called Direct Preference Optimization (DPO), would become very popular in the open-source community."
+      },
+      chinese: {
+        headline: createLink("https://arxiv.org/abs/2305.18290", "Direct Preference Optimization"),
+        text: "斯坦福大学的一个小组发表了一篇论文，使得无需单独的奖励模型即可对 LLM 进行人类偏好微调。这项名为直接偏好优化 (DPO) 的技术在开源社区中变得非常流行。"
+      },
+      importance: 1,
+      category: CATEGORIES.RESEARCH
+    },
+    {
+      start_date: { year: "2023", month: "05", day: "30" },
+      text: {
+        headline: createLink("https://www.safe.ai/work/statement-on-ai-risk", "CAIS letter"),
+        text: "<p>The Center for AI Safety releases an open letter that simply states: \"Mitigating the risk of extinction from AI should be a global priority.\" It is signed by all the top names in the field, signaling unity around the importance of AI safety.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.safe.ai/work/statement-on-ai-risk", "CAIS letter"),
+        text: "<p>人工智能安全中心发布了一封公开信，信中简单地指出：“减轻人工智能带来的灭绝风险应成为全球优先事项。”该信由该领域的所有知名人士签署，表明了围绕人工智能安全重要性的团结一致。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.CULTURE
+    },
+    {
+      start_date: { year: "2023", month: "05", day: "30" },
+      text: {
+        headline: createLink("https://www.reuters.com/technology/nvidia-sets-eye-1-trillion-market-value-2023-05-30/", "NVIDIA reaches $1T"),
+        text: "<p>Nvidia, the chipmaker providing the GPUs for nearly all generative AI, has its valuation skyrocket in the months following ChatGPT.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.reuters.com/technology/nvidia-sets-eye-1-trillion-market-value-2023-05-30/", "NVIDIA reaches $1T"),
+        text: "<p>为几乎所有生成式 AI 提供 GPU 的芯片制造商 Nvidia，在 ChatGPT 发布后的几个月里，其估值飙升。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.BUSINESS
+    },
+    {
+      start_date: { year: "2023", month: "07", day: "11" },
+      text: {
+        headline: createLink("https://www.anthropic.com/news/claude-2", "Claude 2"),
+        text: "<p>Anthropic releases the Claude 2 series of models.</p>"
+      },
+      chinese: {
+        headline: createLink("https://www.anthropic.com/news/claude-2", "Claude 2"),
+        text: "<p>Anthropic 发布了 Claude 2 系列模型。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+      start_date: { year: "2023", month: "07", day: "14" },
+      text: {
+        headline: createLink("https://x.com/elonmusk/status/1679951975868436486", "xAI founded"),
+        text: "<p>After a falling out with OpenAI, Elon Musk establishes xAI to compete for AGI.</p>"
+      },
+      chinese: {
+        headline: createLink("https://x.com/elonmusk/status/1679951975868436486", "xAI founded"),
+        text: "<p>在与 OpenAI 决裂后，Elon Musk 成立了 xAI 来竞争 AGI。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.BUSINESS
+    },
+    {
       start_date: { year: "2023", month: "07", day: "18" },
       text: {
         headline: createLink("https://www.llama.com/llama2/", "LLaMA 2.0"),
-        text: "<p>Meta releases and open-sources the LLaMA 2.0 series of models.</p>",
+        text: "<p>Meta releases and open-sources the LLaMA 2.0 series of models.</p>"
       },
       chinese: {
         headline: createLink("https://www.llama.com/llama2/", "LLaMA 2.0"),
@@ -688,713 +844,509 @@ export const TIMELINE_DATA = {
     {
       start_date: { year: "2023", month: "07", day: "21" },
       text: {
-        headline: createLink(
-          "https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/",
-          "White House Commitments"
-        ),
-        text: "<p>After meeting with leading AI companies, the White House secures voluntary commitments to manage the risks posed by AI.</p>",
+        headline: createLink("https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/", "White House Commitments"),
+        text: "<p>After meeting with leading AI companies, the White House secures voluntary commitments to manage the risks posed by AI.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/",
-          "White House Commitments"
-        ),
-        text: "<p>在与多家顶尖 AI 公司的会晤后，白宫获得了自愿承担管理 AI 风险的承诺。</p>",
+        headline: createLink("https://www.whitehouse.gov/briefing-room/statements-releases/2023/07/21/fact-sheet-biden-harris-administration-secures-voluntary-commitments-from-leading-artificial-intelligence-companies-to-manage-the-risks-posed-by-ai/", "White House Commitments"),
+        text: "<p>在与领先的 AI 公司会面后，白宫获得了自愿承诺，以管理 AI 带来的风险。</p>"
       },
       importance: 1,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2023", month: "07", day: "27" },
       text: {
-        headline: createLink(
-          "https://arxiv.org/abs/2307.15043",
-          "Automated Jailbreaks"
-        ),
-        text: "<p>A team from CMU publishes a paper showing that gradient-based adversarial attacks can be used on aligned language models.</p>",
+        headline: createLink("https://arxiv.org/abs/2307.15043", "Automated Jailbreaks"),
+        text: "<p>A team from CMU publishes \"Universal and Transferable Adversarial Attacks on Aligned Language Models\", showing that gradient-based adversarial attacks could be used on LLMs.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://arxiv.org/abs/2307.15043",
-          "Automated Jailbreaks"
-        ),
-        text: "<p>卡内基梅隆大学的一支团队发表了《Universal and Transferable Adversarial Attacks on Aligned Language Models》，展示了基于梯度的对抗攻击可用于大型语言模型。</p>",
+        headline: createLink("https://arxiv.org/abs/2307.15043", "Automated Jailbreaks"),
+        text: "<p>卡内基梅隆大学的一个团队发表了“对对齐语言模型的通用和可转移对抗攻击”，表明基于梯度的对抗攻击可用于法学硕士。</p>"
       },
       importance: 1,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
       start_date: { year: "2023", month: "09", day: "27" },
       text: {
-        headline: createLink(
-          "https://mistral.ai/news/announcing-mistral-7b/",
-          "Mistral 7B"
-        ),
-        text: "<p>French lab Mistral releases and open-sources their first model, which quickly becomes a fan favorite.</p>",
+        headline: createLink("https://mistral.ai/news/announcing-mistral-7b/", "Mistral 7B"),
+        text: "<p>French lab Mistral releases and open-sources their first model, which quickly became a fan favorite.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://mistral.ai/news/announcing-mistral-7b/",
-          "Mistral 7B"
-        ),
-        text: "<p>法国实验室 Mistral 发布并开源了他们的首个模型，该模型迅速赢得了开发者的青睐。</p>",
+        headline: createLink("https://mistral.ai/news/announcing-mistral-7b/", "Mistral 7B"),
+        text: "<p>法国实验室 Mistral 发布并开源了他们的第一个模型，该模型迅速成为粉丝的最爱。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2023", month: "10", day: "05" },
       text: {
-        headline: createLink(
-          "https://www.anthropic.com/research/towards-monosemanticity-decomposing-language-models-with-dictionary-learning",
-          "Anthropic SAE's"
-        ),
-        text: '<p>Anthropic publishes "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning", showing how sparse autoencoders can isolate features in LLMs, marking a breakthrough in addressing superposition and advancing mechanistic interpretability.</p>',
+        headline: createLink("https://www.anthropic.com/research/towards-monosemanticity-decomposing-language-models-with-dictionary-learning", "Anthropic SAE's"),
+        text: "<p>Anthropic publishes \"Towards Monosemanticity: Decomposing Language Models With Dictionary Learning\", showing that they could train sparse autoencoders to isolate features in LLMs. This represented a major breakthrough in combatting the phenomenon of superposition, advancing the mechanistic interpretability agenda.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.anthropic.com/research/towards-monosemanticity-decomposing-language-models-with-dictionary-learning",
-          "Anthropic SAE's"
-        ),
-        text: "<p>Anthropic 发表了《走向单语义性：通过字典学习分解语言模型》，展示了如何通过训练稀疏自动编码器来分离 LLM 中的特征，这标志着解决叠加现象的一大突破，并推动了机械可解释性研究。</p>",
+        headline: createLink("https://www.anthropic.com/research/towards-monosemanticity-decomposing-language-models-with-dictionary-learning", "Anthropic SAE's"),
+        text: "<p>Anthropic 发表了“走向单语义性：用字典学习分解语言模型”，表明他们可以训练稀疏自动编码器来隔离法学硕士中的特征。这代表了在对抗叠加现象方面取得的重大突破，推进了机械可解释性议程。</p>"
       },
       importance: 1.5,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
-      start_date: { year: "2023", month: "11", day: "01" },
+      start_date: { year: "2023", month: "11", "day": "01" },
       text: {
-        headline: createLink(
-          "https://www.gov.uk/government/topical-events/ai-safety-summit-2023/about",
-          "UK AI Safety Summit"
-        ),
-        text: "<p>UK hosts a major summit on AI safety, bringing together policymakers and leading labs.</p>",
+        headline: createLink("https://www.gov.uk/government/topical-events/ai-safety-summit-2023/about", "UK AI Safety Summit"),
+        text: "<p>The UK hosts a major summit on AI safety, bringing together policymakers and the leading labs.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.gov.uk/government/topical-events/ai-safety-summit-2023/about",
-          "UK AI Safety Summit"
-        ),
-        text: "<p>英国主办了一场关于 AI 安全的重要峰会，汇集了政策制定者和领先实验室。</p>",
+        headline: createLink("https://www.gov.uk/government/topical-events/ai-safety-summit-2023/about", "UK AI Safety Summit"),
+        text: "<p>英国主办了一次关于人工智能安全的重要峰会，汇集了政策制定者和领先的实验室。</p>"
       },
       importance: 2,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2023", month: "11", day: "06" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/new-models-and-developer-products-announced-at-devday/",
-          "GPT-4 Turbo"
-        ),
-        text: "<p>During the first Dev Day, OpenAI releases an optimized version of GPT-4, significantly reducing inference costs.</p>",
+        headline: createLink("https://openai.com/index/new-models-and-developer-products-announced-at-devday/", "GPT-4 Turbo"),
+        text: "<p>OpenAI releases an optimized version of GPT-4, significantly reducing inference costs, during their first ever Dev Day event.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/new-models-and-developer-products-announced-at-devday/",
-          "GPT-4 Turbo"
-        ),
-        text: "<p>在首届 Dev Day 活动中，OpenAI 发布了 GPT-4 的优化版本 GPT-4 Turbo，显著降低了推理成本。</p>",
+        headline: createLink("https://openai.com/index/new-models-and-developer-products-announced-at-devday/", "GPT-4 Turbo"),
+        text: "<p>OpenAI 在其首次开发者日活动中发布了 GPT-4 的优化版本，显著降低了推理成本。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
-      start_date: { year: "2023", month: "11", day: "17" },
+      start_date: { year: "2023", month: "11", "day": "17" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/openai-announces-leadership-transition/",
-          "Altman Board Drama"
-        ),
-        text: "<p>OpenAI unexpectedly fires Sam Altman as CEO, only to rehire him after a dramatic weekend of negotiations, amid controversy over his candidness.</p>",
+        headline: createLink("https://openai.com/index/openai-announces-leadership-transition/", "Altman Board Drama"),
+        text: "<p>Sam Altman is unexpectedly fired as CEO of OpenAI by the Board of Directors and after a dramatic weekend of negotiations, is re-hired. The Board mysteriously claimed that Altman was not \"consistently candid\", but after refusing to elaborate, OpenAI employees created a petition calling for the Board to resign and that they'd leave to Microsoft if they didn't.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/openai-announces-leadership-transition/",
-          "Altman Board Drama"
-        ),
-        text: '<p>OpenAI 董事会意外解雇了 Sam Altman 担任 CEO，经过一个戏剧性谈判周末后，他又被重新聘用。董事会神秘称 Altman 并非"始终坦诚"，但在拒绝详细说明后，OpenAI 员工发起请愿，要求董事会辞职，否则他们将转向微软。</p>',
+        headline: createLink("https://openai.com/index/openai-announces-leadership-transition/", "Altman Board Drama"),
+        text: "<p>萨姆·奥特曼出人意料地被 OpenAI 董事会解雇，担任首席执行官，经过一个戏剧性的周末谈判，他被重新雇用。董事会神秘地声称奥特曼“不始终坦诚”，但在拒绝详细说明后，OpenAI 员工发起了一份请愿书，要求董事会辞职，否则他们将离开微软。</p>"
       },
       importance: 3,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
-      start_date: { year: "2023", month: "11", day: "23" },
+      start_date: { year: "2023", month: "11", "day": "23" },
       text: {
-        headline: createLink(
-          "https://www.reuters.com/technology/sam-altmans-ouster-openai-was-precipitated-by-letter-board-about-ai-breakthrough-2023-11-22/",
-          "Q*"
-        ),
-        text: "<p>A Reuters report claims that Sam Altman's removal was preceded by a breakthrough named Q*, which improved LLM performance on math benchmarks via tree search. The breakthrough later evolved into o1, codenamed Strawberry.</p>",
+        headline: createLink("https://www.reuters.com/technology/sam-altmans-ouster-openai-was-precipitated-by-letter-board-about-ai-breakthrough-2023-11-22/", "Q*"),
+        text: "<p>A Reuters report claims that Sam Altman's ouster was preceded by a major internal research breakthrough called Q*, boosting LLM performance on math benchmarks with tree search. In the following months, the rumor lit the research community on fire. Q* would eventually turn into o1, which was later codenamed Strawberry.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.reuters.com/technology/sam-altmans-ouster-openai-was-precipitated-by-letter-board-about-ai-breakthrough-2023-11-22/",
-          "Q*"
-        ),
-        text: "<p>路透社报告称，Sam Altman 被罢免之前有一项名为 Q* 的重大内部研究突破，该技术通过树搜索提升了 LLM 在数学测试中的表现，随后这一传闻席卷研究界。Q* 最终转化为 o1，后被称为 Strawberry。</p>",
+        headline: createLink("https://www.reuters.com/technology/sam-altmans-ouster-openai-was-precipitated-by-letter-board-about-ai-breakthrough-2023-11-22/", "Q*"),
+        text: "<p>路透社的一篇报道称，萨姆·奥特曼被赶下台之前，该公司取得了一项名为 Q* 的重大内部研究突破，通过树搜索提高了 LLM 在数学基准测试中的表现。在接下来的几个月里，这个谣言点燃了研究界。Q* 最终会变成 o1，后来代号为 Strawberry。</p>"
       },
       importance: 2,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
       start_date: { year: "2023", month: "12", day: "01" },
       text: {
         headline: createLink("https://arxiv.org/abs/2312.00752", "Mamba"),
-        text: '<p>Albert Gu and Tri Dao release the paper "Mamba: Linear-Time Sequence Modeling with Selective State Spaces", showing that state-space models can be competitive with transformers.</p>',
+        text: "<p>Albert Gu and Tri Dao release the paper \"Mamba: Linear-Time Sequence Modeling with Selective State Spaces\", showing that state-space models could be made competitve with transformers.</p>"
       },
       chinese: {
         headline: createLink("https://arxiv.org/abs/2312.00752", "Mamba"),
-        text: "<p>Albert Gu 和 Tri Dao 发布了论文《Mamba: Linear-Time Sequence Modeling with Selective State Spaces》，展示了状态空间模型可与 Transformer 竞争。</p>",
+        text: "<p>Albert Gu 和 Tri Dao 发表了论文“Mamba：具有选择性状态空间的线性时间序列建模”，表明状态空间模型可以与变压器竞争。</p>"
       },
       importance: 1,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
       start_date: { year: "2023", month: "12", day: "06" },
       text: {
-        headline: createLink(
-          "https://blog.google/technology/ai/google-gemini-ai/",
-          "Google Introduces Gemini"
-        ),
-        text: "<p>Google unveils the Gemini series of models.</p>",
+        headline: createLink("https://blog.google/technology/ai/google-gemini-ai/", "Google Introduces Gemini"),
+        text: "<p>Google introduces the Gemini series of models</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://blog.google/technology/ai/google-gemini-ai/",
-          "Google Introduces Gemini"
-        ),
-        text: "<p>Google 推出了 Gemini 系列模型</p>",
+        headline: createLink("https://blog.google/technology/ai/google-gemini-ai/", "Google Introduces Gemini"),
+        text: "<p>谷歌推出了 Gemini 系列模型</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "02", day: "15" },
       text: {
         headline: createLink("https://openai.com/index/sora/", "Sora"),
-        text: "<p>OpenAI demos Sora, a text-to-video model that generates short clips from descriptions.</p>",
+        text: "<p>OpenAI demos Sora, a text-to-video model that can generate short clips from written descriptions.</p>"
       },
       chinese: {
         headline: createLink("https://openai.com/index/sora/", "Sora"),
-        text: "<p>OpenAI 展示了 Sora，一款根据文字描述生成短视频的文本转视频模型。</p>",
+        text: "<p>OpenAI 演示了 Sora，这是一个文本到视频模型，可以从书面描述生成短片。</p>"
       },
       importance: 2.5,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "03", day: "04" },
       text: {
-        headline: createLink(
-          "https://www.anthropic.com/news/claude-3-family",
-          "Claude 3"
-        ),
-        text: "<p>Anthropic releases the Claude 3 series of models. Claude 3 Opus quickly becomes a fan favorite.</p>",
+        headline: createLink("https://www.anthropic.com/news/claude-3-family", "Claude 3"),
+        text: "<p>Anthropic releases the Claude 3 series of models. Claude 3 Opus would instantly become a fan favorite.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.anthropic.com/news/claude-3-family",
-          "Claude 3"
-        ),
-        text: "<p>Anthropic 发布了 Claude 3 系列模型，其中 Claude 3 Opus 迅速成为粉丝最爱的产品。</p>",
+        headline: createLink("https://www.anthropic.com/news/claude-3-family", "Claude 3"),
+        text: "<p>Anthropic 发布了 Claude 3 系列模型。Claude 3 Opus 会立即成为粉丝的最爱。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "03", day: "12" },
       text: {
-        headline: createLink(
-          "https://x.com/cognition_labs/status/1767548763134964000",
-          "Devin"
-        ),
-        text: "<p>Startup Cognition Labs demos Devin, a prototype of an autonomous software engineer agent.</p>",
+        headline: createLink("https://x.com/cognition_labs/status/1767548763134964000", "Devin"),
+        text: "<p>Startup Cognition Labs demo Devin, a prototype of a fully autonomous software engineer agent.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/cognition_labs/status/1767548763134964000",
-          "Devin"
-        ),
-        text: "<p>初创公司 Cognition Labs 展示了 Devin，一个完全自主的软件工程师代理原型。</p>",
+        headline: createLink("https://x.com/cognition_labs/status/1767548763134964000", "Devin"),
+        text: "<p>初创公司 Cognition Labs 演示了 Devin，这是一个完全自主的软件工程师代理的原型。</p>"
       },
       importance: 2,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "04", day: "11" },
       text: {
-        headline: createLink(
-          "https://cybernews.com/news/openai-researchers-leaking-information/",
-          "OpenAI fires leakers"
-        ),
-        text: "<p>Researchers Leopold Aschenbrenner and Pavel Izmailov from the superalignment team are fired for leaking information.</p>",
+        headline: createLink("https://cybernews.com/news/openai-researchers-leaking-information/", "OpenAI fires leakers"),
+        text: "<p>Leopold Aschenbrenner and Pavel Izmailov, two researchers from the superalignment team, are fired for \"leaking\".</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://cybernews.com/news/openai-researchers-leaking-information/",
-          "OpenAI fires leakers"
-        ),
-        text: '<p>超对齐团队的研究员 Leopold Aschenbrenner 与 Pavel Izmailov 因"泄露"信息而被解雇。</p>',
+        headline: createLink("https://cybernews.com/news/openai-researchers-leaking-information/", "OpenAI fires leakers"),
+        text: "<p>来自超对齐团队的两名研究人员 Leopold Aschenbrenner 和 Pavel Izmailov 因“泄密”而被解雇。</p>"
       },
       importance: 1,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "04", day: "18" },
       text: {
-        headline: createLink(
-          "https://ai.meta.com/blog/meta-llama-3/",
-          "LLaMA 3.0"
-        ),
-        text: "<p>Meta releases and open-sources the LLaMA 3.0 series of models.</p>",
+        headline: createLink("https://ai.meta.com/blog/meta-llama-3/", "LLaMA 3.0"),
+        text: "<p>Meta releases and open-sources the LLaMA 3.0 series of models.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://ai.meta.com/blog/meta-llama-3/",
-          "LLaMA 3.0"
-        ),
-        text: "<p>Meta 发布并开源了 LLaMA 3.0 系列模型。</p>",
+        headline: createLink("https://ai.meta.com/blog/meta-llama-3/", "LLaMA 3.0"),
+        text: "<p>Meta 发布并开源了 LLaMA 3.0 系列模型。</p>"
       },
       importance: 1,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "05", day: "13" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/hello-gpt-4o/",
-          "GPT-4o"
-        ),
-        text: "<p>The first omni-model trained natively on text, image, and audio.</p>",
+        headline: createLink("https://openai.com/index/hello-gpt-4o/", "GPT-4o"),
+        text: "<p>The first omni-model trained natively on text, image, and audio.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/hello-gpt-4o/",
-          "GPT-4o"
-        ),
-        text: "<p>首个原生在文本、图像和音频上训练的全能模型。</p>",
+        headline: createLink("https://openai.com/index/hello-gpt-4o/", "GPT-4o"),
+        text: "<p>第一个在文本、图像和音频上进行原生训练的全能模型。</p>"
       },
       importance: 2.5,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "05", day: "14" },
       text: {
-        headline: createLink(
-          "https://x.com/ilyasut/status/1790517455628198322",
-          "Ilya quits OpenAI"
-        ),
-        text: "<p>OpenAI founder Ilya Sutskever quits after months of silence amid board disputes.</p>",
+        headline: createLink("https://x.com/ilyasut/status/1790517455628198322", "Ilya quits OpenAI"),
+        text: "<p>Ilya Sutskever, founder of OpenAI, quits after months of silence, originating from the Board dispute.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/ilyasut/status/1790517455628198322",
-          "Ilya quits OpenAI"
-        ),
-        text: "<p>OpenAI 创始人 Ilya Sutskever 在数月沉默后离职，起因于董事会争议。</p>",
+        headline: createLink("https://x.com/ilyasut/status/1790517455628198322", "Ilya quits OpenAI"),
+        text: "<p>OpenAI 创始人 Ilya Sutskever 在因董事会纠纷而沉默数月后辞职。</p>"
       },
       importance: 1,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "05", day: "21" },
       text: {
-        headline: createLink(
-          "https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law",
-          "EU AI Act"
-        ),
-        text: "<p>The EU AI Act is voted into law after contentious debates.</p>",
+        headline: createLink("https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law", "EU AI Act"),
+        text: "<p>The EU AI Act is voted into law after contentious debates.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law",
-          "EU AI Act"
-        ),
-        text: "<p>经过激烈辩论，欧盟 AI 法案最终被表决通过成文为法律。</p>",
+        headline: createLink("https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law", "EU AI Act"),
+        text: "<p>经过激烈的辩论，欧盟人工智能法案被投票通过成为法律。</p>"
       },
       importance: 2,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2024", month: "06", day: "04" },
       text: {
-        headline: createLink(
-          "https://situational-awareness.ai/",
-          "Situational Awareness"
-        ),
-        text: "<p>Leopold Aschenbrenner publishes a contentious and influential essay series claiming AGI will arrive sooner than expected and may be nationalized.</p>",
+        headline: createLink("https://situational-awareness.ai/", "Situational Awareness"),
+        text: "<p>Leopold Aschenbrenner publishes a contentious and influential essay series, claiming that AGI will arrive sooner than people think and is likely to be nationalized.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://situational-awareness.ai/",
-          "Situational Awareness"
-        ),
-        text: "<p>Leopold Aschenbrenner 发表了一系列具争议且影响深远的文章，声称 AGI 的到来比人们预期得更早，并可能被国有化。</p>",
+        headline: createLink("https://situational-awareness.ai/", "Situational Awareness"),
+        text: "<p>Leopold Aschenbrenner 发表了一系列有争议且有影响力的文章，声称 AGI 的到来将比人们想象的要早，并且很可能被国有化。</p>"
       },
       importance: 3,
-      category: CATEGORIES.CULTURE,
+      category: CATEGORIES.CULTURE
     },
     {
       start_date: { year: "2024", month: "06", day: "19" },
       text: {
-        headline: createLink(
-          "https://x.com/ilyasut/status/1803472978753303014",
-          "SSI founded"
-        ),
-        text: "<p>Ilya Sutskever starts a new lab called Safe Superintelligence Inc, promising to release only a safe superintelligence product.</p>",
+        headline: createLink("https://x.com/ilyasut/status/1803472978753303014", "SSI founded"),
+        text: "<p>Ilya Sutskever starts a new lab called Safe Superintelligence Inc, which pledges to only have one product: safe superintelligence.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/ilyasut/status/1803472978753303014",
-          "SSI founded"
-        ),
-        text: "<p>Ilya Sutskever 创立了新实验室 Safe Superintelligence Inc，承诺只推出一种产品：安全的超级智能。</p>",
+        headline: createLink("https://x.com/ilyasut/status/1803472978753303014", "SSI founded"),
+        text: "<p>Ilya Sutskever 成立了一家名为 Safe Superintelligence Inc 的新实验室，该实验室承诺只生产一种产品：安全的超级智能。</p>"
       },
       importance: 3,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "06", day: "20" },
       text: {
-        headline: createLink(
-          "https://www.anthropic.com/news/claude-3-5-sonnet",
-          "Claude 3.5 Sonnet"
-        ),
-        text: "<p>Anthropic releases Claude 3.5 Sonnet, a version that quickly becomes a fan favorite, later dubbed 'Berkeley's most eligible bachelor'.</p>",
+        headline: createLink("https://www.anthropic.com/news/claude-3-5-sonnet", "Claude 3.5 Sonnet"),
+        text: "<p>Anthropic releases Claude 3.5 Sonnet, which would become a fan favorite and was later called 'Berkeley's most eligible bachelor'.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.anthropic.com/news/claude-3-5-sonnet",
-          "Claude 3.5 Sonnet"
-        ),
-        text: '<p>Anthropic 发布了 Claude 3.5 Sonnet，该产品迅速受到粉丝喜爱，后来被称为"伯克利最受欢迎的单身汉"。</p>',
+        headline: createLink("https://www.anthropic.com/news/claude-3-5-sonnet", "Claude 3.5 Sonnet"),
+        text: "<p>Anthropic 发布了 Claude 3.5 Sonnet，它将成为粉丝的最爱，后来被称为“伯克利最合格的单身汉”。</p>"
       },
       importance: 3,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "08", day: "23" },
       text: {
-        headline: createLink(
-          "https://x.com/karpathy/status/1827143768459637073",
-          "Cursor"
-        ),
-        text: "<p>After a viral tweet by Andrej Karpathy, the Cursor AI Code Editor quickly gains popularity among developers.</p>",
+        headline: createLink("https://x.com/karpathy/status/1827143768459637073", "Cursor"),
+        text: "<p>After a viral tweet by Andrej Karpathy, the Cursor AI Code Editor explodes in popularity among developers.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/karpathy/status/1827143768459637073",
-          "Cursor"
-        ),
-        text: "<p>在 Andrej Karpathy 的一条病毒式推文之后，Cursor AI 代码编辑器在开发者中迅速爆红。</p>",
+        headline: createLink("https://x.com/karpathy/status/1827143768459637073", "Cursor"),
+        text: "<p>在 Andrej Karpathy 发布了一条病毒式推文后，Cursor AI 代码编辑器在开发者中迅速走红。</p>"
       },
       importance: 1,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "09", day: "02" },
       text: {
-        headline: createLink(
-          "https://x.com/elonmusk/status/1830650370336473253",
-          "xAI Colossus"
-        ),
-        text: "<p>xAI launches Colossus, the world's most powerful AI training system with a cluster of 100,000 H100 GPUs, built in just 19 days.</p>",
+        headline: createLink("https://x.com/elonmusk/status/1830650370336473253", "xAI Colossus"),
+        text: "<p>xAI launches Colossus, the world's most powerful AI training system at the time with a cluster of 100,000 H100 GPUs. Taking only 19 days from the arrival of the first hardware rack to the commencement of training operations, the speed with which xAI built the cluster spooked other AI labs.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/elonmusk/status/1830650370336473253",
-          "xAI Colossus"
-        ),
-        text: "<p>xAI 推出了 Colossus，当时是全球最强的 AI 训练系统，由 100,000 个 H100 GPU 构成。从第一台硬件到训练开始仅用了 19 天，其速度令其他 AI 实验室瞠目结舌。</p>",
+        headline: createLink("https://x.com/elonmusk/status/1830650370336473253", "xAI Colossus"),
+        text: "<p>xAI 推出了 Colossus，这是当时世界上最强大的人工智能训练系统，拥有 100,000 个 H100 GPU 集群。 从第一个硬件机架到达到着手开始训练操作仅用了 19 天，xAI 构建集群的速度让其他 AI 实验室感到震惊。</p>"
       },
       importance: 1,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "09", day: "12" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/introducing-openai-o1-preview/",
-          "o1-preview"
-        ),
-        text: "<p>OpenAI releases o1-preview, introducing a new paradigm for scaling during inference.</p>",
+        headline: createLink("https://openai.com/index/introducing-openai-o1-preview/", "o1-preview"),
+        text: "<p>OpenAI releases o1-preview, introducing the inference-time scaling paradigm.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/introducing-openai-o1-preview/",
-          "o1-preview"
-        ),
-        text: "<p>OpenAI 发布了 o1-preview，提出了推理时扩展的新范式。</p>",
+        headline: createLink("https://openai.com/index/introducing-openai-o1-preview/", "o1-preview"),
+        text: "<p>OpenAI 发布了 o1-preview, 介绍了推理时扩展范式。</p>"
       },
       importance: 2,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
       start_date: { year: "2024", month: "09", day: "25" },
       text: {
-        headline: createLink(
-          "https://x.com/miramurati/status/1839025700009030027",
-          "Murati quits"
-        ),
-        text: "<p>OpenAI's CTO Mira Murati leaves the company.</p>",
+        headline: createLink("https://x.com/miramurati/status/1839025700009030027", "Murati quits"),
+        text: "<p>OpenAI's CTO Mira Murati departs the company.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://x.com/miramurati/status/1839025700009030027",
-          "Murati quits"
-        ),
-        text: "<p>OpenAI 的 CTO Mira Murati 离开了公司。</p>",
+        headline: createLink("https://x.com/miramurati/status/1839025700009030027", "Murati quits"),
+        text: "<p>OpenAI 的首席技术官 Mira Murati 离开了公司。</p>"
       },
       importance: 1.5,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2024", month: "09", day: "29" },
       text: {
-        headline: createLink(
-          "https://www.gov.ca.gov/wp-content/uploads/2024/09/SB-1047-Veto-Message.pdf",
-          "SB1047 Vetoed"
-        ),
-        text: "<p>California Governor Gavin Newsom vetoes Senate Bill 1047, sparking heated debates between AI safety advocates and accelerationists.</p>",
+        headline: createLink("https://www.gov.ca.gov/wp-content/uploads/2024/09/SB-1047-Veto-Message.pdf", "SB1047 Vetoed"),
+        text: "<p>Governor Gavin Newsom vetoes California senate bill 1047, which sparked lots of vitriolic debate between AI safety and accelerationist crowds and became one of the main stories of 2024.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.gov.ca.gov/wp-content/uploads/2024/09/SB-1047-Veto-Message.pdf",
-          "SB1047 Vetoed"
-        ),
-        text: "<p>加州州长 Gavin Newsom 否决了参议院法案 1047，此举引发了 AI 安全派与加速主义者之间的激烈辩论，成为 2024 年的重要事件之一。</p>",
+        headline: createLink("https://www.gov.ca.gov/wp-content/uploads/2024/09/SB-1047-Veto-Message.pdf", "SB1047 Vetoed"),
+        text: "<p>州长 Gavin Newsom 否决了加州参议院 1047 号法案，该法案引发了 AI 安全和加速主义人群之间的大量尖刻辩论，并成为 2024 年的主要事件之一。</p>"
       },
       importance: 2,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2024", month: "10", day: "08" },
       text: {
         headline: createLink("", "Hinton/Hassabis Nobel Prizes"),
-        text: "<p>Surprisingly, Geoffrey Hinton (with John Hopfield) is awarded the Nobel Prize in Physics for his early work on neural networks; days later, Demis Hassabis (with John Jumper) is honored with the Nobel Prize in Chemistry for their work on AlphaFold.</p>",
+        text: "<p>In a surpise to everyone, Geoffrey Hinton (along with John Hopfield) is awarded the Nobel Prize in Physics for their early work on neural networks. A few days later, Demis Hassabis (along with John Jumper) is awarded the Nobel Prize in Chemistry for their work on AlphaFold.</p>"
       },
       chinese: {
         headline: createLink("", "Hinton/Hassabis Nobel Prizes"),
-        text: "<p>令人惊讶的是，Geoffrey Hinton（与 John Hopfield）因早期的神经网络研究获得诺贝尔物理学奖；几天后，Demis Hassabis（与 John Jumper）因 AlphaFold 工作获得诺贝尔化学奖。</p>",
+        text: "<p>令所有人惊讶的是，Geoffrey Hinton（与 John Hopfield 一起）因其在神经网络方面的早期工作而被授予诺贝尔物理学奖。几天后，Demis Hassabis（与 John Jumper 一起）因其在 AlphaFold 方面的工作而被授予诺贝尔化学奖。</p>"
       },
       importance: 1,
-      category: CATEGORIES.CULTURE,
+      category: CATEGORIES.CULTURE
     },
     {
       start_date: { year: "2024", month: "10", day: "11" },
       text: {
-        headline: createLink(
-          "https://darioamodei.com/machines-of-loving-grace",
-          "Machines of Loving Grace"
-        ),
-        text: "<p>Anthropic CEO Dario Amodei publishes an influential blog post exploring what the 5 years following AGI might look like.</p>",
+        headline: createLink("https://darioamodei.com/machines-of-loving-grace", "Machines of Loving Grace"),
+        text: "<p>Anthropic CEO Dario Amodei publishes an influential blogpost exploring what the 5 years immediately following AGI might look like.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://darioamodei.com/machines-of-loving-grace",
-          "Machines of Loving Grace"
-        ),
-        text: "<p>Anthropic CEO Dario Amodei 发表了一篇有影响力的博客，探讨了 AGI 出现后未来五年的可能情景。</p>",
+        headline: createLink("https://darioamodei.com/machines-of-loving-grace", "Machines of Loving Grace"),
+        text: "<p>Anthropic 首席执行官 Dario Amodei 发表了一篇有影响力的博文，探讨了紧随 AGI 之后的 5 年可能会是什么样子。</p>"
       },
       importance: 2,
-      category: CATEGORIES.CULTURE,
+      category: CATEGORIES.CULTURE
     },
     {
       start_date: { year: "2024", month: "10", day: "22" },
       text: {
-        headline: createLink(
-          "https://www.anthropic.com/news/3-5-models-and-computer-use",
-          "Claude Computer Use"
-        ),
-        text: "<p>Claude gains the ability to use computer interfaces. Anthropic also releases Claude 3.5 Haiku and an updated version of Claude 3.5 Sonnet.</p>",
+        headline: createLink("https://www.anthropic.com/news/3-5-models-and-computer-use", "Claude Computer Use"),
+        text: "<p>Claude gains the ability to use computer interfaces. Anthropic also releases Claude 3.5 Haiku and an updated version of Claude 3.5 Sonnet.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.anthropic.com/news/3-5-models-and-computer-use",
-          "Claude Computer Use"
-        ),
-        text: "<p>Claude 获得了使用计算机界面的能力。Anthropic 同时发布了 Claude 3.5 Haiku 以及更新版的 Claude 3.5 Sonnet。</p>",
+        headline: createLink("https://www.anthropic.com/news/3-5-models-and-computer-use", "Claude Computer Use"),
+        text: "<p>Claude 获得了使用计算机界面的能力。Anthropic 还发布了 Claude 3.5 Haiku 和 Claude 3.5 Sonnet 的更新版本。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "11", day: "01" },
       text: {
-        headline: createLink(
-          "https://www.nytimes.com/2024/11/01/us/politics/trump-2024-election.html",
-          "Trump elected"
-        ),
-        text: "<p>Donald Trump wins the 2024 election with strong backing from Elon Musk.</p>",
+        headline: createLink("https://www.nytimes.com/2024/11/01/us/politics/trump-2024-election.html", "Trump elected"),
+        text: "<p>Donald Trump wins the 2024 election with the vocal support of Elon Musk.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.nytimes.com/2024/11/01/us/politics/trump-2024-election.html",
-          "Trump elected"
-        ),
-        text: "<p>唐纳德·特朗普在 2024 年选举中获胜，并获得 Elon Musk 的大力支持。</p>",
+        headline: createLink("https://www.nytimes.com/2024/11/01/us/politics/trump-2024-election.html", "Trump elected"),
+        text: "<p>唐纳德·特朗普在埃隆·马斯克的声援下赢得 2024 年大选。</p>"
       },
       importance: 2,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2024", month: "11", day: "19" },
       text: {
-        headline: createLink(
-          "https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19/",
-          "China Commission"
-        ),
-        text: "<p>The US-China Economic and Security Review Commission calls for a Manhattan Project-style initiative for AGI development.</p>",
+        headline: createLink("https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19/", "China Commission"),
+        text: "<p>The US-China Economic and Security Review Commission calls for a Manhattan Project-style initiative for AGI development.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19/",
-          "China Commission"
-        ),
-        text: "<p>美中经济与安全审查委员会呼吁启动类似曼哈顿计划的 AGI 发展项目。</p>",
+        headline: createLink("https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19/", "China Commission"),
+        text: "<p>美中经济与安全审查委员会呼吁为 AGI 开发制定曼哈顿计划式倡议。</p>"
       },
       importance: 1,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2024", month: "12", day: "04" },
       text: {
-        headline: createLink(
-          "https://thehill.com/policy/technology/5026959-venture-capitalist-david-sacks-white-house/",
-          "David Sacks is AI Czar"
-        ),
-        text: '<p>President-elect Donald Trump appoints venture capitalist David Sacks as the "White House AI and Crypto Czar" to oversee regulation of AI and cryptocurrency.</p>',
+        headline: createLink("https://thehill.com/policy/technology/5026959-venture-capitalist-david-sacks-white-house/", "David Sacks is AI Czar"),
+        text: "<p>President-elect Donald Trump appoints venture capitalist David Sacks as the \"White House AI and Crypto Czar\" to oversee regulation of artificial intelligence and cryptocurrency.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://thehill.com/policy/technology/5026959-venture-capitalist-david-sacks-white-house/",
-          "David Sacks is AI Czar"
-        ),
-        text: '<p>当选总统唐纳德·特朗普任命风险投资家 David Sacks 为"白宫 AI 与加密沙皇"，负责监督人工智能和加密货币领域的监管。</p>',
+        headline: createLink("https://thehill.com/policy/technology/5026959-venture-capitalist-david-sacks-white-house/", "David Sacks is AI Czar"),
+        text: "<p>当选总统唐纳德·特朗普任命风险投资家大卫·萨克斯为“白宫人工智能和加密货币沙皇”，负责监督人工智能和加密货币的监管。</p>"
       },
       importance: 1.5,
-      category: CATEGORIES.POLICY,
+      category: CATEGORIES.POLICY
     },
     {
       start_date: { year: "2024", month: "12", day: "11" },
       text: {
-        headline: createLink(
-          "https://blog.google/products/gemini/google-gemini-ai-collection-2024/",
-          "Gemini 2.0"
-        ),
-        text: "<p>Google announces its Gemini 2.0 models.</p>",
+        headline: createLink("https://blog.google/products/gemini/google-gemini-ai-collection-2024/", "Gemini 2.0"),
+        text: "<p>Google announces their Gemini 2.0 models</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://blog.google/products/gemini/google-gemini-ai-collection-2024/",
-          "Gemini 2.0"
-        ),
-        text: "<p>Google 宣布了其 Gemini 2.0 模型</p>",
+        headline: createLink("https://blog.google/products/gemini/google-gemini-ai-collection-2024/", "Gemini 2.0"),
+        text: "<p>Google 宣布了他们的 Gemini 2.0 模型</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "12", day: "16" },
       text: {
-        headline: createLink(
-          "https://deepmind.google/technologies/veo/veo-2/",
-          "Veo 2"
-        ),
-        text: "<p>Google unveils Veo 2, a video generation model with a huge leap in coherence over previous models.</p>",
+        headline: createLink("https://deepmind.google/technologies/veo/veo-2/", "Veo 2"),
+        text: "<p>Google unveils Veo 2, a video generation model with a shocking jump in coherence over previous models.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://deepmind.google/technologies/veo/veo-2/",
-          "Veo 2"
-        ),
-        text: "<p>Google 公布了 Veo 2，这是一款视频生成模型，其连贯性相较于前代产品有了惊人的提升。</p>",
+        headline: createLink("https://deepmind.google/technologies/veo/veo-2/", "Veo 2"),
+        text: "<p>Google 推出了 Veo 2，这是一款视频生成模型，其连贯性比以前的模型有了惊人的飞跃。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "12", day: "20" },
       text: {
         headline: createLink("https://openai.com/12-days/", "o3 evals"),
-        text: '<p>On the 12th day of "12 Days of OpenAI", OpenAI releases benchmark results for o3, achieving a breakthrough score of 87.5% on the ARC-AGI benchmark, suggesting AGI may be closer than many believed.</p>',
+        text: "<p>On the 12th day of '12 Days of OpenAI', OpenAI releases benchmark results for o3, shocking the world. The model achieves a breakthrough score of 87.5% on the <a href=\"https://arcprize.org/blog/oai-o3-pub-breakthrough\">ARC-AGI benchmark</a>, suggesting AGI may be nearer than many skeptics believed.</p>"
       },
       chinese: {
         headline: createLink("https://openai.com/12-days/", "o3 evals"),
-        text: '<p>在"OpenAI 的 12 天节"第 12 天，OpenAI 发布了 o3 的基准测试结果，震惊全球。该模型在 <a href="https://arcprize.org/blog/oai-o3-pub-breakthrough">ARC-AGI 基准测试</a> 中取得 87.5% 的突破性分数，表明 AGI 可能比许多怀疑者预期得更近。</p>',
+        text: "<p>在“OpenAI 的 12 天”的第 12 天，OpenAI 发布了 o3 的基准测试结果，震惊了世界。 该模型在 <a href=\"https://arcprize.org/blog/oai-o3-pub-breakthrough\">ARC-AGI 基准</a>测试中取得了 87.5% 的突破性分数，表明 AGI 可能比许多怀疑论者认为的更近。</p>"
       },
       importance: 2,
-      category: CATEGORIES.RESEARCH,
+      category: CATEGORIES.RESEARCH
     },
     {
       start_date: { year: "2024", month: "12", day: "26" },
       text: {
         headline: createLink("https://arxiv.org/abs/2412.19437", "DeepSeek v3"),
-        text: "<p>Chinese lab DeepSeek releases DeepSeek v3, a 671-billion parameter open-source model demonstrating strong performance at surprisingly low cost.</p>",
+        text: "<p>Chinese lab DeepSeek stuns with the release of DeepSeek v3, a 671-billion parameter open-source model that shows strong performance at a shockingly low cost.</p>"
       },
       chinese: {
         headline: createLink("https://arxiv.org/abs/2412.19437", "DeepSeek v3"),
-        text: "<p>中国实验室 DeepSeek 发布了参数达 6710 亿的开源模型 DeepSeek v3，展现了令人震惊的低成本下的强大性能。</p>",
+        text: "<p>中国实验室 DeepSeek 发布了 DeepSeek v3，这是一款 6710 亿参数的开源模型，该模型以惊人的低成本表现出强大的性能，令人震惊。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2025", month: "01", day: "20" },
       text: {
-        headline: createLink(
-          "https://api-docs.deepseek.com/news/news250120",
-          "DeepSeek R1"
-        ),
-        text: "<p>DeepSeek releases and open-sources R1, their reasoning model, matching state-of-the-art Western models.</p>",
+        headline: createLink("https://api-docs.deepseek.com/news/news250120", "DeepSeek R1"),
+        text: "<p>DeepSeek releases and open-sources R1, their reasoning model that shows competitive performance with state-of-the-art Western models.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://api-docs.deepseek.com/news/news250120",
-          "DeepSeek R1"
-        ),
-        text: "<p>DeepSeek 发布并开源了 R1，其推理模型在性能上与最先进的西方模型相匹敌。</p>",
+        headline: createLink("https://api-docs.deepseek.com/news/news250120", "DeepSeek R1"),
+        text: "<p>DeepSeek 发布并开源了 R1，他们的推理模型显示出与最先进的西方模型相比具有竞争力的性能。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2025", month: "01", day: "21" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/announcing-the-stargate-project/",
-          "Stargate Project"
-        ),
-        text: "<p>Donald Trump announces the Stargate Project, a $500 billion private partnership between SoftBank, OpenAI, Oracle, and MGX to build data centers in the US.</p>",
+        headline: createLink("https://openai.com/index/announcing-the-stargate-project/", "Stargate Project"),
+        text: "<p>Donald Trump announces the Stargate Project, a $500 billionaire private partnership between SoftBank, OpenAI, Oracle, and MGX to develop datacenters in the US.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/announcing-the-stargate-project/",
-          "Stargate Project"
-        ),
-        text: "<p>唐纳德·特朗普宣布了星际之门计划，这是软银、OpenAI、Oracle 与 MGX 之间一项价值 5000 亿美元的私人合作计划，用于在美国建设数据中心。</p>",
+        headline: createLink("https://openai.com/index/announcing-the-stargate-project/", "Stargate Project"),
+        text: "<p>唐纳德·特朗普宣布了星际之门项目，这是一项由软银、OpenAI、甲骨文和 MGX 之间建立的价值 500 亿美元的私人合作伙伴关系，用于在美国开发数据中心。</p>"
       },
       importance: 2,
-      category: CATEGORIES.BUSINESS,
+      category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2025", month: "01", day: "23" },
       text: {
-        headline: createLink(
-          "https://openai.com/index/introducing-operator/",
-          "Operator"
-        ),
-        text: "<p>OpenAI introduces Operator, an autonomous agent that can navigate the web.</p>",
+        headline: createLink("https://openai.com/index/introducing-operator/", "Operator"),
+        text: "<p>OpenAI introduces Operator, a computer use agent that can autonomoulsy navigate the web.</p>"
       },
       chinese: {
-        headline: createLink(
-          "https://openai.com/index/introducing-operator/",
-          "Operator"
-        ),
-        text: "<p>OpenAI 推出了 Operator，一种能够自主浏览网络的计算机使用代理。</p>",
+        headline: createLink("https://openai.com/index/introducing-operator/", "Operator"),
+        text: "<p>OpenAI 推出了 Operator，一种可以自主导航网络的计算机使用代理。</p>"
       },
       importance: 2,
-      category: CATEGORIES.MODEL_RELEASE,
-    },
-  ],
+      category: CATEGORIES.MODEL_RELEASE
+    }
+  ]
 };
