@@ -1347,6 +1347,58 @@ export const TIMELINE_DATA = {
       },
       importance: 2,
       category: CATEGORIES.MODEL_RELEASE
-    }
+    },
+    {
+      start_date: { year: "2025", month: "01", day: "27" },
+      text: {
+        headline: createLink("https://nymag.com/intelligencer/article/deepseek-r1-ai-panic-impact-commentary-analysis.html", "DeepSeek Panic"),
+        text: "<p>A week after the release of their R1 model, the West experiences a major panic over DeepSeek. Chip stocks crash overnight and the DeepSeek app rises to number one on the App Store. In a matter of days, the little-known Chinese AGI lab becomes a household name in the US.</p>"
+      },
+      chinese: {
+        headline: createLink("https://nymag.com/intelligencer/article/deepseek-r1-ai-panic-impact-commentary-analysis.html", "DeepSeek Panic"),
+        text: "<p>R1 模型发布一周后，西方国家对 DeepSeek 产生了巨大的恐慌。芯片股一夜暴跌，DeepSeek 应用程序升至 App Store 排名第一。几天之内，这个鲜为人知的中国通用人工智能实验室就在美国家喻户晓。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2025", month: "02", day: "02" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-deep-research/", "Deep Research"),
+            text: "<p>OpenAI unveils an agent called Deep Research that can go off and write 10-page research reports using repeated web searches.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-deep-research/", "Deep Research"),
+            text: "<p>OpenAI 推出了一款名为 Deep Research 的代理，它可以通过重复的网络搜索来撰写 10 页的研究报告。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "02", day: "24" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-3-7-sonnet", "Claude 3.7 Sonnet"),
+            text: "<p>Anthropic releases Claude 3.7 Sonnet, their first model with extended thinking ability and improved performance on math and code benchmarks. For fun, they also showcase its out-of-distribution ability to progress through a Pokemon video game. In addition, they release Claude Code, a powerful agentic coding tool.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-3-7-sonnet", "Claude 3.7 Sonnet"),
+            text: "<p>Anthropic 发布了 Claude 3.7 Sonnet，这是他们的第一个模型，具有扩展的思维能力和改进的数学和代码基准性能。为了好玩，他们还展示了其在口袋妖怪视频游戏中取得进展的非发行能力。此外，他们还发布了 Claude Code，一个强大的代理编码工具。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "02", day: "27" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-gpt-4-5/", "GPT-4.5"),
+            text: "<p>OpenAI releases GPT-4.5, their largest pretrained model and last non-reasoner. Despite not demonstrating large gains on benchmarks, the model was touted for its 'vibes' and more personable responses.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-gpt-4-5/", "GPT-4.5"),
+            text: "<p>OpenAI 发布了 GPT-4.5，这是他们最大的预训练模型和最后一个非推理模型。尽管在基准测试中没有表现出巨大的进步，但该模型因其“氛围”和更人性化的反应而受到吹捧。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
   ]
 };
