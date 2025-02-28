@@ -1375,6 +1375,19 @@ export const TIMELINE_DATA = {
         category: CATEGORIES.MODEL_RELEASE
     },
     {
+        start_date: { year: "2025", month: "02", day: "19" },
+        text: {
+            headline: createLink("https://x.ai/blog/grok-3", "Grok 3"),
+            text: "<p>xAI releases Grok 3, a state-of-the-art model with extended reasoning and a Deep Search feature. The release impressed many, showing that xAI was a strong contender in the race to build AGI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://x.ai/blog/grok-3", "Grok 3"),
+            text: "<p>xAI 发布了 Grok 3，这是一种具有扩展推理和深度搜索功能的最先进模型。这一发布给许多人留下了深刻的印象，表明 xAI 是构建 AGI 竞赛中的有力竞争者。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
         start_date: { year: "2025", month: "02", day: "24" },
         text: {
             headline: createLink("https://www.anthropic.com/news/claude-3-7-sonnet", "Claude 3.7 Sonnet"),
