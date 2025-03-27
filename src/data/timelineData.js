@@ -1112,7 +1112,7 @@ export const TIMELINE_DATA = {
         text: "<p>Anthropic 发布了 Claude 3.5 Sonnet，它将成为粉丝的最爱，后来被称为“伯克利最合格的单身汉”。</p>"
       },
       importance: 3,
-      category: CATEGORIES.BUSINESS
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "08", day: "23" },
@@ -1126,6 +1126,19 @@ export const TIMELINE_DATA = {
       },
       importance: 1,
       category: CATEGORIES.BUSINESS
+    },
+    {
+      start_date: { year: "2024", month: "08", day: "24" },
+      text: {
+        headline: createLink("https://x.ai/news/grok-2", "Grok 2"),
+        text: "<p>xAI release Grok 2, the next iteration of their frontier model. While not state-of-the-art, it showcased how fast xAI could move to catch up, despite starting from behind.</p>"
+      },
+      chinese: {
+        headline: createLink("https://x.ai/news/grok-2", "Grok 2"),
+        text: "<p>xAI 发布了 Grok 2，这是其前沿模型的下一代。虽然它不是最先进的，但它展示了 xAI 尽管起步较晚，但能够以多快的速度追赶上来。</p>"
+      },
+      importance: 1,
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "09", day: "02" },
@@ -1151,7 +1164,7 @@ export const TIMELINE_DATA = {
         text: "<p>OpenAI 发布了 o1-preview, 介绍了推理时扩展范式。</p>"
       },
       importance: 2,
-      category: CATEGORIES.RESEARCH
+      category: CATEGORIES.MODEL_RELEASE
     },
     {
       start_date: { year: "2024", month: "09", day: "25" },
@@ -1373,6 +1386,19 @@ export const TIMELINE_DATA = {
         },
         importance: 2,
         category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "02", day: "18" },
+        text: {
+            headline: createLink("https://x.com/thinkymachines/status/1891919141151572094", "Thinking Machines Lab"),
+            text: "<p>Key ex-OpenAI figures including Mira Murati and John Schulman found Thinking Machines Lab, a new AI lab focused on human-AI collaboration, personalizability, and open science.</p>"
+        },
+        chinese: {
+            headline: createLink("https://x.com/thinkymachines/status/1891919141151572094", "Thinking Machines Lab"),
+            text: "<p>包括 Mira Murati 和 John Schulman 在内的前 OpenAI 关键人物创立了 Thinking Machines Lab，这是一家专注于人机协作、个性化和开放科学的新型人工智能实验室。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
     },
     {
         start_date: { year: "2025", month: "02", day: "19" },
