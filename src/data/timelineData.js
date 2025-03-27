@@ -1413,5 +1413,44 @@ export const TIMELINE_DATA = {
         importance: 2,
         category: CATEGORIES.MODEL_RELEASE
     },
+    {
+        start_date: { year: "2025", month: "03", day: "05" },
+        text: {
+            headline: createLink("https://www.nationalsecurity.ai/", "MAIM"),
+            text: "<p>Dan Hendrycks, Eric Schmidt, and Alexandr Wang release a report titled \"Superintelligence Strategy\" presenting a path to navigate the geopolitics of strong AI and introducing the term \"Mutually Assured AI Malfunction\" (MAIM)."
+        },
+        chinese: {
+            headline: createLink("https://www.nationalsecurity.ai/", "MAIM"),
+            text: "Dan Hendrycks, Eric Schmidt, Alexandr Wang 发布了一份题为“超级智能战略”的报告，提出了一条应对强人工智能地缘政治的路径，并提出了“相互保证人工智能故障”（MAIM）一词。"
+        },
+        importance: 1,
+        category: CATEGORIES.POLICY
+    },
+    {
+      start_date: { year: "2025", month: "03", day: "25" },
+      text: {
+          headline: createLink("https://blog.google/technology/google-deepmind/gemini-model-thinking-updates-march-2025/", "Gemini 2.5 Pro"),
+          text: "<p>Google release Gemini 2.5 Pro, their most capable model yet and topping many common benchmarks.</p>"
+      },
+      chinese: {
+          headline: createLink("https://blog.google/technology/google-deepmind/gemini-model-thinking-updates-march-2025/", "Gemini 2.5 Pro"),
+          text: "<p>谷歌发布了 Gemini 2.5 Pro，这是该公司迄今为止功能最强大的型号，在许多常见的基准测试中名列前茅。</p>"
+      },
+      importance: 2,
+      category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "03", day: "25" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-4o-image-generation/", "GPT-4o Image Generation"),
+            text: "<p>OpenAI release GPT-4o's native image generation capabilities, further pushing the frontier of image generation. As a result, Twitter becomes flooded with images in the style of studio ghibli.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-4o-image-generation/", "GPT-4o Image Generation"),
+            text: "<p>OpenAI 发布 GPT-4o 原生图像生成功能，进一步推动图像生成的前沿。因此，推特上充斥着吉卜力工作室风格的图像。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
   ]
 };
