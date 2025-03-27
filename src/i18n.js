@@ -1,7 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-
-// Translation resources for English and Chinese
+// Translation resources for English, Chinese and Spanish
 const resources = {
   en: {
     translation: {
@@ -73,8 +72,42 @@ const resources = {
       loading: "正在加载时间轴...",
     },
   },
+  es: {
+    translation: {
+      hero: {
+        title: "El camino hacia la AGI",
+        dateRange: "2015 - {{year}}",
+        description1:
+          "Esta línea de tiempo intenta contar la historia de la última década en inteligencia artificial, desde tendencias culturales hasta avances técnicos. Cada evento es un enlace que se puede hacer clic para acceder al material de origen.",
+        description2:
+          "Nota: La selección es inherentemente subjetiva, y es posible que se hayan omitido muchos eventos. Si deseas contribuir, visita el ",
+        githubLink: "GitHub",
+        description3: " del proyecto o envía un evento ",
+        formLink: "aquí",
+        description4: ".",
+        imageAlt: "Portada TIME 100 AI 2023",
+      },
+      switchToCards: "Cambiar a Tarjetas",
+      switchToTimeline: "Cambiar a Línea de Tiempo",
+      zoomOut: "Alejar",
+      zoomIn: "Acercar",
+      zoom: "Zoom: {{value}}px/día",
+      categories: {
+        MODEL_RELEASE: "Lanzamiento de Modelos",
+        CULTURE: "Cultura y Sociedad",
+        BUSINESS: "Negocios e Industria",
+        RESEARCH: "Investigación y Publicaciones",
+        POLICY: "Política y Regulación",
+      },
+      footer: {
+        createdBy: "© {{year}} AGI Timeline. Creado por",
+        and: "y",
+        contributors: "Colaboradores de código abierto:",
+      },
+      loading: "Cargando línea de tiempo...",
+    },
+  },
 };
-
 i18n
   .use(initReactI18next) // Integrates with React
   .init({
@@ -85,5 +118,4 @@ i18n
       escapeValue: false, // React already safes from xss
     },
   });
-
 export default i18n;
