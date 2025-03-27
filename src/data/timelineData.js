@@ -1421,10 +1421,23 @@ export const TIMELINE_DATA = {
         },
         chinese: {
             headline: createLink("https://www.nationalsecurity.ai/", "MAIM"),
-            text: "Dan Hendrycks, Eric Schmidt, Alexandr Wang 发布了一份题为“超级智能战略”的报告，提出了一条应对强人工智能地缘政治的路径，并提出了“相互保证人工智能故障”（MAIM）一词。"
+            text: "<p>Dan Hendrycks, Eric Schmidt, Alexandr Wang 发布了一份题为“超级智能战略”的报告，提出了一条应对强人工智能地缘政治的路径，并提出了“相互保证人工智能故障”（MAIM）一词。</p>"
         },
         importance: 1,
         category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2025", month: "03", day: "05" },
+        text: {
+            headline: createLink("https://x.com/ManusAI_HQ/status/1897294098945728752", "Manus"),
+            text: "<p>An LLM agent called Manus is launched by a Chinese company and shows SOTA performance on benchmarks like GAIA. It goes viral in the West, in part due to fears over Chinese AI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://x.com/ManusAI_HQ/status/1897294098945728752", "Manus"),
+            text: "<p>一家中国公司推出了一款名为 Manus 的 LLM 代理，在 GAIA 等基准测试中表现出 SOTA 性能。这款代理在西方迅速走红，部分原因是人们对中国人工智能的担忧。</p>"
+        },
+        importance: 1,
+        category: CATEGORIES.BUSINESS
     },
     {
       start_date: { year: "2025", month: "03", day: "25" },
