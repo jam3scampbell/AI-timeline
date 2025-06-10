@@ -1491,5 +1491,31 @@ export const TIMELINE_DATA = {
         importance: 2,
         category: CATEGORIES.MODEL_RELEASE
     },
+    {
+        start_date: { year: "2025", month: "05", day: "20" },
+        text: {
+            headline: createLink("https://mashable.com/article/google-veo-3-ai-video", "Veo 3"),
+            text: "<p>As part of Google I/O, Google reveal Veo 3, a state-of-the-art video generator that now includes audio. Veo 3 takes social media by storm when users prompt characters into a situationally aware state.</p>"
+        },
+        chinese: {
+            headline: createLink("https://mashable.com/article/google-veo-3-ai-video", "Veo 3"),
+            text: "<p>作为 Google I/O 大会的一部分，谷歌发布了 Veo 3，这是一款先进的视频生成器，现已添加音频功能。当用户引导角色进入情境感知状态时，Veo 3 便会在社交媒体上引起轰动。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "05", day: "22" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-4", "Claude 4"),
+            text: "<p>Anthropic release Claude Sonnet 4 and Claude Opus 4, which are state-of-the-art. This launched marked Anthropic's first model to achieve achieve ASL-3.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-4", "Claude 4"),
+            text: "<p>Anthropic 发布了 Claude Sonnet 4 和 Claude Opus 4，这两款产品堪称尖端科技。此次发布标志着 Anthropic 首款达到 ASL-3 标准的型号。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
   ]
 };
