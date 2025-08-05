@@ -1517,5 +1517,18 @@ export const TIMELINE_DATA = {
         importance: 3,
         category: CATEGORIES.MODEL_RELEASE
     },
+    {
+        start_date: { year: "2025", month: "08", day: "05" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-gpt-oss/", "OpenAI gpt-oss"),
+            text: "<p>OpenAI releases two state-of-the-art open-weight language models.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-gpt-oss/", "OpenAI gpt-oss"),
+            text: "<p>OpenAI 发布了两个最先进的开源语言模型。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
   ]
 };
