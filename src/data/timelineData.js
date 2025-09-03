@@ -1517,5 +1517,18 @@ export const TIMELINE_DATA = {
         importance: 3,
         category: CATEGORIES.MODEL_RELEASE
     },
+    {
+        start_date: { year: "2025", month: "08", day: "05" },
+        text: {
+            headline: createLink("https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/", "Genie 3"),
+            text: "<p>Anthropic releases Genie 3, a general purpose world model that can generate an unprecedented diversity of interactive environments.</p>"
+        },
+        chinese: {
+            headline: createLink("https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/", "Genie 3"),
+            text: "<p>Anthropic 发布了 Genie 3，这是一种通用的世界模型，能够生成前所未有多样化的交互式环境。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
   ]
 };
