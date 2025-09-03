@@ -1492,6 +1492,19 @@ export const TIMELINE_DATA = {
         category: CATEGORIES.MODEL_RELEASE
     },
     {
+      start_date: { year: "2025", month: "04", day: "05" },
+      text: {
+        headline: createLink("https://ai.meta.com/blog/llama-4-multimodal-intelligence/", "Llama 4"),
+        text: "<p>Meta releases Llama 4 models, continuing the trend of powerful open-source large language models.</p>",
+      },
+      chinese: {
+        headline: createLink("https://ai.meta.com/blog/llama-4-multimodal-intelligence/", "Llama 4"),
+        text: "<p>Meta 发布 Llama 4 模型，延续了强大的开源大型语言模型的趋势。</p>",
+      },
+      importance: 2,
+      category: CATEGORIES.MODEL_RELEASE
+    },
+    {
         start_date: { year: "2025", month: "05", day: "20" },
         text: {
             headline: createLink("https://mashable.com/article/google-veo-3-ai-video", "Veo 3"),
@@ -1542,6 +1555,7 @@ export const TIMELINE_DATA = {
         },
         importance: 3,
         category: CATEGORIES.MODEL_RELEASE
+    },
     },
   ]
 };
