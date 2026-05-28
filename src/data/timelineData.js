@@ -1,7 +1,5 @@
 // src/data/timelineData.js
 
-import { text } from "framer-motion/client";
-
 export const CATEGORIES = {
   MODEL_RELEASE: "MODEL_RELEASE",
   CULTURE: "CULTURE",
@@ -1531,6 +1529,45 @@ export const TIMELINE_DATA = {
         category: CATEGORIES.MODEL_RELEASE
     },
     {
+        start_date: { year: "2025", month: "06", day: "12" },
+        text: {
+            headline: createLink("https://scale.com/blog/scale-ai-announces-next-phase-of-company-evolution", "Meta Superintelligence Labs"),
+            text: "<p>Meta invests $14.3 billion for a 49% stake in Scale AI, valuing it at over $29 billion, and founder Alexandr Wang joins to lead the newly formed Meta Superintelligence Labs. The deal ignites an industry-wide war for top AI talent.</p>"
+        },
+        chinese: {
+            headline: createLink("https://scale.com/blog/scale-ai-announces-next-phase-of-company-evolution", "Meta 超级智能实验室"),
+            text: "<p>Meta 斥资 143 亿美元收购 Scale AI 49% 的股份，使其估值超过 290 亿美元；创始人 Alexandr Wang 加入 Meta，领导新成立的超级智能实验室（Superintelligence Labs）。此举掀起了全行业争夺顶尖人工智能人才的激烈竞争。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2025", month: "07", day: "09" },
+        text: {
+            headline: createLink("https://x.ai/news/grok-4", "Grok 4"),
+            text: "<p>xAI releases Grok 4 with native tool use and real-time search. Its top-end Grok 4 Heavy variant uses parallel test-time compute and becomes the first model to score 50% on Humanity's Last Exam.</p>"
+        },
+        chinese: {
+            headline: createLink("https://x.ai/news/grok-4", "Grok 4"),
+            text: "<p>xAI 发布 Grok 4，具备原生工具调用和实时搜索能力。其顶配版本 Grok 4 Heavy 采用并行测试时计算，成为首个在“人类最后的考试”（Humanity's Last Exam）中得分达到 50% 的模型。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "07", day: "23" },
+        text: {
+            headline: createLink("https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf", "America's AI Action Plan"),
+            text: "<p>The Trump administration releases \"Winning the Race: America's AI Action Plan,\" outlining over 90 federal actions across innovation, infrastructure, and international diplomacy, alongside executive orders to speed data center permitting and AI exports.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf", "美国人工智能行动计划"),
+            text: "<p>特朗普政府发布《赢得竞赛：美国人工智能行动计划》，提出在创新、基础设施和国际外交三大支柱下的 90 多项联邦举措，并签署行政命令以加快数据中心审批和美国人工智能技术出口。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
         start_date: { year: "2025", month: "08", day: "05" },
         text: {
             headline: createLink("https://openai.com/index/introducing-gpt-oss/", "OpenAI gpt-oss"),
@@ -1554,6 +1591,318 @@ export const TIMELINE_DATA = {
             text: "<p>Google DeepMind 发布了 Genie 3，这是一种通用的世界模型，能够生成前所未有多样化的交互式环境。</p>"
         },
         importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "08", day: "07" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-gpt-5/", "GPT-5"),
+            text: "<p>OpenAI releases GPT-5, its most capable system yet and a unified model that automatically decides when to answer quickly and when to reason for longer. It rolls out to all ChatGPT users, with a GPT-5 Pro tier for extended reasoning.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-gpt-5/", "GPT-5"),
+            text: "<p>OpenAI 发布迄今最强大的系统 GPT-5。这是一个统一模型，能够自动判断何时快速作答、何时进行更长时间的推理。该模型向所有 ChatGPT 用户开放，并提供用于扩展推理的 GPT-5 Pro 版本。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "02" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/anthropic-raises-series-f-at-usd183b-post-money-valuation", "Anthropic raises $13B"),
+            text: "<p>Anthropic closes a $13 billion Series F at a $183 billion post-money valuation, led by ICONIQ, Fidelity, and Lightspeed, nearly tripling its valuation in six months as enterprise and coding revenue surges.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/anthropic-raises-series-f-at-usd183b-post-money-valuation", "Anthropic 融资 130 亿美元"),
+            text: "<p>Anthropic 完成 130 亿美元的 F 轮融资，投后估值达 1830 亿美元，由 ICONIQ、富达和 Lightspeed 领投。在企业和编程收入激增的推动下，其估值在六个月内近乎翻三倍。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2025", month: "10", day: "28" },
+        text: {
+            headline: createLink("https://openai.com/index/built-to-benefit-everyone/", "OpenAI Restructuring"),
+            text: "<p>OpenAI completes its recapitalization: its for-profit arm becomes a public benefit corporation (OpenAI Group PBC) controlled by the nonprofit OpenAI Foundation, alongside a new deal giving Microsoft a roughly 27% stake and extending its IP rights through 2032.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/built-to-benefit-everyone/", "OpenAI 重组"),
+            text: "<p>OpenAI 完成资本重组：其营利部门转变为受非营利组织 OpenAI 基金会控制的公益公司（OpenAI Group PBC）；同时与微软达成新协议，微软持有约 27% 的股份，并将其知识产权使用权延长至 2032 年。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2025", month: "11", day: "18" },
+        text: {
+            headline: createLink("https://blog.google/products-and-platforms/products/gemini/gemini-3/", "Gemini 3"),
+            text: "<p>Google releases Gemini 3, its most intelligent model, deployed on day one across Search, the Gemini app, AI Studio, and Vertex AI. It tops the LMArena leaderboard and ships alongside the new Antigravity agentic coding platform.</p>"
+        },
+        chinese: {
+            headline: createLink("https://blog.google/products-and-platforms/products/gemini/gemini-3/", "Gemini 3"),
+            text: "<p>谷歌发布其最智能的模型 Gemini 3，并在发布首日即覆盖搜索、Gemini 应用、AI Studio 和 Vertex AI。该模型登顶 LMArena 排行榜，并随附全新的 Antigravity 智能体编程平台。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "11", day: "24" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-5", "Claude Opus 4.5"),
+            text: "<p>Anthropic releases Claude Opus 4.5, calling it the best model in the world for coding, agents, and computer use. It becomes the first model to exceed 80% on SWE-bench Verified and arrives with sharply lower pricing.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-5", "Claude Opus 4.5"),
+            text: "<p>Anthropic 发布 Claude Opus 4.5，称其为全球在编程、智能体和计算机操作方面最强的模型。它成为首个在 SWE-bench Verified 上得分超过 80% 的模型，并大幅下调了定价。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "02", day: "02" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html", "SpaceX acquires xAI"),
+            text: "<p>SpaceX acquires Elon Musk's xAI in an all-stock deal valuing the combined company at $1.25 trillion—the largest merger ever—uniting rockets, Starlink, X, and Grok, with a stated goal of building orbital data centers.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html", "SpaceX 收购 xAI"),
+            text: "<p>SpaceX 以全股票交易收购埃隆·马斯克旗下的 xAI，合并后公司估值达 1.25 万亿美元，成为史上最大并购案。此举整合了火箭、Starlink、X 和 Grok，并宣称目标是建造轨道数据中心。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "03", day: "31" },
+        text: {
+            headline: createLink("https://openai.com/index/accelerating-the-next-phase-ai/", "OpenAI raises $122B"),
+            text: "<p>OpenAI closes the largest private funding round in history—$122 billion of committed capital at an $852 billion post-money valuation—anchored by Amazon, Nvidia, SoftBank, and Microsoft, as the company gears up for a potential IPO.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/accelerating-the-next-phase-ai/", "OpenAI 融资 1220 亿美元"),
+            text: "<p>OpenAI 完成史上最大规模的私募融资——1220 亿美元的承诺资本，投后估值达 8520 亿美元，由亚马逊、英伟达、软银和微软领衔。该公司正为可能的首次公开募股做准备。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "20" },
+        text: {
+            headline: createLink("https://www.bloomberg.com/graphics/2026-spacex-ipo-stock-market-nasdaq-listings/", "SpaceX files for IPO"),
+            text: "<p>SpaceX files to go public on the Nasdaq under the ticker SPCX, targeting a valuation of roughly $1.75 trillion—what would be the largest IPO in history. The offering bundles in Starlink and the newly merged xAI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.bloomberg.com/graphics/2026-spacex-ipo-stock-market-nasdaq-listings/", "SpaceX 申请 IPO"),
+            text: "<p>SpaceX 提交在纳斯达克上市的申请，股票代码为 SPCX，目标估值约 1.75 万亿美元，有望成为史上最大规模的首次公开募股。此次发行涵盖 Starlink 以及新近合并的 xAI。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "28" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/05/28/anthropic-open-ai-startup-value.html", "Anthropic raises $65B"),
+            text: "<p>Anthropic announces a $65 billion Series H at a $965 billion valuation, nearly tripling its February valuation and surpassing OpenAI to become the world's most valuable AI startup as the leading labs head toward public markets.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/05/28/anthropic-open-ai-startup-value.html", "Anthropic 融资 650 亿美元"),
+            text: "<p>Anthropic 宣布完成 650 亿美元的 H 轮融资，估值达 9650 亿美元，较 2 月估值近乎翻三倍，超越 OpenAI 成为全球估值最高的人工智能初创公司。与此同时，各大领先实验室纷纷迈向公开市场。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "04", day: "06" },
+        text: {
+            headline: createLink("https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth", "Anthropic hits $30B ARR"),
+            text: "<p>Anthropic discloses its revenue run-rate has surged past $30 billion—up from roughly $9 billion at the end of 2025—pulling ahead of OpenAI's ~$24 billion for the first time, driven largely by demand for its coding tools.</p>"
+        },
+        chinese: {
+            headline: createLink("https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth", "Anthropic 年化收入达 300 亿美元"),
+            text: "<p>Anthropic 披露其年化收入运营率已突破 300 亿美元——较 2025 年底的约 90 亿美元大幅增长——首次超过 OpenAI 约 240 亿美元的水平，增长主要由其编程工具的需求推动。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "04", day: "07" },
+        text: {
+            headline: createLink("https://red.anthropic.com/2026/mythos-preview/", "Claude Mythos Preview"),
+            text: "<p>Anthropic reveals Claude Mythos Preview, a model a full tier above Opus that can autonomously find and exploit software zero-days. Rather than ship it broadly, Anthropic restricts it to Project Glasswing partners for cybersecurity defense and publishes a system card for the unreleased model.</p>"
+        },
+        chinese: {
+            headline: createLink("https://red.anthropic.com/2026/mythos-preview/", "Claude Mythos 预览版"),
+            text: "<p>Anthropic 公布 Claude Mythos 预览版，这是一款比 Opus 高出整整一个层级的模型，能够自主发现并利用软件零日漏洞。Anthropic 没有将其广泛发布，而是限制为 Project Glasswing 合作伙伴用于网络安全防御，并为这款尚未发布的模型发布了系统卡。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "04", day: "16" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-7", "Claude Opus 4.7"),
+            text: "<p>Anthropic releases Claude Opus 4.7, a notable step up on the hardest software-engineering tasks that lets users hand off their most difficult, long-running coding work with greater confidence.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-7", "Claude Opus 4.7"),
+            text: "<p>Anthropic 发布 Claude Opus 4.7，在最具难度的软件工程任务上有显著提升，使用户能够更有信心地将最棘手、耗时最长的编程工作交给它处理。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "04", day: "23" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-gpt-5-5/", "GPT-5.5"),
+            text: "<p>OpenAI releases GPT-5.5 (codename \"Spud\"), a frontier model for complex agentic coding and knowledge work that the company says outperforms Anthropic's Claude Opus 4.7 and Google's Gemini 3.1 Pro across a wide range of tasks.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-gpt-5-5/", "GPT-5.5"),
+            text: "<p>OpenAI 发布 GPT-5.5（代号“Spud”），这是一款面向复杂智能体编程和知识工作的前沿模型。该公司称其在广泛的任务中超越了 Anthropic 的 Claude Opus 4.7 和谷歌的 Gemini 3.1 Pro。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "14" },
+        text: {
+            headline: createLink("https://www.anthropic.com/research/2028-ai-leadership", "Two Scenarios for AI Leadership"),
+            text: "<p>Anthropic publishes \"2028: Two scenarios for global AI leadership,\" arguing that the US and its allies must tighten compute export controls and curb distillation by Chinese labs to avoid a future of authoritarian AI leadership.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/research/2028-ai-leadership", "全球人工智能领导力的两种情景"),
+            text: "<p>Anthropic 发表《2028：全球人工智能领导力的两种情景》，主张美国及其盟友必须收紧对算力的出口管制，并遏制中国实验室的“蒸馏”行为，以避免出现由威权主义主导人工智能的未来。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "28" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-8", "Claude Opus 4.8"),
+            text: "<p>Anthropic upgrades its flagship to Claude Opus 4.8, billed as its most honest model yet—around four times less likely to let a flaw in its own code slip by—with a 3× cheaper fast mode and a new dynamic workflows feature for codebase-scale agentic coding.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-4-8", "Claude Opus 4.8"),
+            text: "<p>Anthropic 将其旗舰模型升级为 Claude Opus 4.8，称其为迄今最诚实的模型——让自身代码中的缺陷被忽略的概率降低约四倍——同时快速模式成本降低至原来的三分之一，并新增了面向代码库级智能体编程的动态工作流功能。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "06" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/05/06/anthropic-spacex-data-center-capacity.html", "Anthropic–SpaceXAI compute deal"),
+            text: "<p>Anthropic strikes a deal to use all of the compute at SpaceX's Colossus 1 data center—220,000+ GPUs and 300+ MW—paying a reported $1.25 billion per month through 2029. The same day, Musk says xAI will be folded into the merged company, now called SpaceXAI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/05/06/anthropic-spacex-data-center-capacity.html", "Anthropic 与 SpaceXAI 算力协议"),
+            text: "<p>Anthropic 达成协议，将使用 SpaceX 旗下 Colossus 1 数据中心的全部算力——超过 22 万块 GPU 和 300 多兆瓦电力——据报道每月支付 12.5 亿美元，直至 2029 年。同一天，马斯克表示 xAI 将并入合并后的公司，即现在的 SpaceXAI。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "19" },
+        text: {
+            headline: createLink("https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/", "Karpathy joins Anthropic"),
+            text: "<p>Andrej Karpathy—OpenAI co-founder and former Tesla AI director—joins Anthropic's pre-training team to start a group using Claude to accelerate pre-training research, a marquee hire in the intensifying war for AI talent.</p>"
+        },
+        chinese: {
+            headline: createLink("https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/", "Karpathy 加入 Anthropic"),
+            text: "<p>OpenAI 联合创始人、前特斯拉人工智能总监 Andrej Karpathy 加入 Anthropic 的预训练团队，组建一个利用 Claude 来加速预训练研究的小组。在日益激烈的人工智能人才争夺战中，这是一次重磅招募。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "20" },
+        text: {
+            headline: createLink("https://openai.com/index/model-disproves-discrete-geometry-conjecture/", "AI Cracks the Unit Distance Problem"),
+            text: "<p>OpenAI announces that an internal general-purpose reasoning model autonomously disproved Erdős's 80-year-old planar unit distance conjecture—the first time AI has solved a prominent open problem central to a field of mathematics. The proof, drawing on algebraic number theory, was checked by leading mathematicians.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/model-disproves-discrete-geometry-conjecture/", "AI 攻克单位距离问题"),
+            text: "<p>OpenAI 宣布，一个内部通用推理模型自主推翻了埃尔德什提出、已有 80 年历史的平面单位距离猜想——这是 AI 首次自主解决某一数学领域的著名开放性问题。该证明运用了代数数论的工具，并已由顶尖数学家验证。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2025", month: "05", day: "21" },
+        text: {
+            headline: createLink("https://openai.com/sam-and-jony/", "OpenAI acquires io"),
+            text: "<p>OpenAI acquires io, the device startup co-founded by legendary Apple designer Jony Ive, in a ~$6.5 billion all-stock deal—its largest acquisition—to build a family of AI-native hardware devices.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/sam-and-jony/", "OpenAI 收购 io"),
+            text: "<p>OpenAI 以约 65 亿美元的全股票交易收购由传奇苹果设计师 Jony Ive 联合创立的硬件初创公司 io，这是其规模最大的一笔收购，旨在打造一系列原生人工智能硬件设备。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "01", day: "08" },
+        text: {
+            headline: createLink("https://technode.com/2026/01/08/zhipu-ai-becomes-the-worlds-first-public-company-centered-on-agi-foundation-models-with-hong-kong-listing/", "Z.ai goes public"),
+            text: "<p>China's Zhipu AI (Z.ai) lists on the Hong Kong Stock Exchange, becoming the world's first publicly traded large language model company—going public well ahead of still-private OpenAI and Anthropic.</p>"
+        },
+        chinese: {
+            headline: createLink("https://technode.com/2026/01/08/zhipu-ai-becomes-the-worlds-first-public-company-centered-on-agi-foundation-models-with-hong-kong-listing/", "Z.ai 上市"),
+            text: "<p>中国的智谱 AI（Z.ai）在香港交易所挂牌上市，成为全球首家公开上市的大语言模型公司——远早于仍处于私有状态的 OpenAI 和 Anthropic。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "02", day: "11" },
+        text: {
+            headline: createLink("https://huggingface.co/blog/mlabonne/glm-5", "GLM-5"),
+            text: "<p>Zhipu's Z.ai releases GLM-5, a 744B-parameter open-weight (MIT) model that tops open-model leaderboards—and was trained entirely on Huawei Ascend chips with no Nvidia hardware, a milestone for China's domestic compute stack under US export controls.</p>"
+        },
+        chinese: {
+            headline: createLink("https://huggingface.co/blog/mlabonne/glm-5", "GLM-5"),
+            text: "<p>智谱旗下的 Z.ai 发布 GLM-5，这是一款拥有 7440 亿参数的开源权重（MIT 许可）模型，登顶开源模型排行榜；并且完全基于华为昇腾芯片训练，未使用任何英伟达硬件，成为美国出口管制下中国本土算力体系的一个里程碑。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "04", day: "24" },
+        text: {
+            headline: createLink("https://venturebeat.com/technology/deepseek-v4-arrives-with-near-state-of-the-art-intelligence-at-1-6th-the-cost-of-opus-4-7-gpt-5-5", "DeepSeek V4"),
+            text: "<p>DeepSeek releases V4, an open-weight (MIT) Mixture-of-Experts family with a 1M-token context window that nears frontier performance at roughly one-sixth the cost of GPT-5.5 and Claude Opus 4.7—hailed as a 'second DeepSeek moment.'</p>"
+        },
+        chinese: {
+            headline: createLink("https://venturebeat.com/technology/deepseek-v4-arrives-with-near-state-of-the-art-intelligence-at-1-6th-the-cost-of-opus-4-7-gpt-5-5", "DeepSeek V4"),
+            text: "<p>DeepSeek 发布 V4，这是一个采用 MIT 许可的开源权重混合专家（MoE）模型家族，拥有 100 万 token 的上下文窗口，性能接近前沿水平，而成本仅约为 GPT-5.5 和 Claude Opus 4.7 的六分之一，被誉为“第二个 DeepSeek 时刻”。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "18" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/05/18/musk-altman-openai-trial-verdict.html", "Musk v. Altman verdict"),
+            text: "<p>A California jury unanimously rejects Elon Musk's lawsuit against OpenAI, Sam Altman, and Greg Brockman, finding his 'breach of charitable trust' claims fell outside the statute of limitations. Musk calls it a 'calendar technicality' and vows to appeal.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/05/18/musk-altman-openai-trial-verdict.html", "马斯克诉奥尔特曼案裁决"),
+            text: "<p>加利福尼亚的一个陪审团一致驳回了埃隆·马斯克对 OpenAI、Sam Altman 和 Greg Brockman 的诉讼，认定其“违反慈善信托”的主张已超过诉讼时效。马斯克称这是“日历上的技术性问题”，并誓言上诉。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "19" },
+        text: {
+            headline: createLink("https://blog.google/innovation-and-ai/sundar-pichai-io-2026/", "Google I/O 2026"),
+            text: "<p>At Google I/O, Google ushers in its 'agentic Gemini era,' unveiling Gemini 3.5 Flash, the any-input-to-any-output Gemini Omni model, and Gemini Spark, a 24/7 personal agent—while the Gemini app passes 900 million monthly users.</p>"
+        },
+        chinese: {
+            headline: createLink("https://blog.google/innovation-and-ai/sundar-pichai-io-2026/", "谷歌 I/O 2026"),
+            text: "<p>在谷歌 I/O 大会上，谷歌开启“智能体 Gemini 时代”，发布 Gemini 3.5 Flash、可实现任意输入到任意输出的 Gemini Omni 模型，以及全天候个人智能体 Gemini Spark；与此同时，Gemini 应用的月活跃用户突破 9 亿。</p>"
+        },
+        importance: 2,
         category: CATEGORIES.MODEL_RELEASE
     },
   ]

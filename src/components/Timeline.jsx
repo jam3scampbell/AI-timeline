@@ -5,10 +5,9 @@ import React, {
   useRef,
   useMemo,
   useLayoutEffect,
-  useCallback,
 } from "react";
 import { TIMELINE_DATA, CATEGORIES } from "../data/timelineData";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const MIN_CARD_WIDTH = 180;
@@ -24,69 +23,64 @@ const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 const BASE_ROW_COUNT_CARDS = 5;
 const BASE_TIMELINE_ROWS = 6;
 const MIN_ROW_COUNT = 4;
-const MAX_ROW_COUNT = 12;
+const MAX_ROW_COUNT = 14;
+
+const MAX_CARD_WIDTH = 260;
+const CARD_H_GAP = 14;
+const EXPANDED_CARD_WIDTH = 300;
+// Headline ~ Tailwind text-lg (1.125rem) on a 13px root ≈ 14.6px EB Garamond.
+const HEADLINE_FONT = '400 14.6px "EB Garamond", "Times New Roman", serif';
+
+// Deterministically estimate a card's rendered width from its headline text so
+// row-packing can reserve the correct horizontal space and avoid overlaps.
+let _measureCtx = null;
+function estimateCardWidth(headlineHTML) {
+  const text = headlineHTML.replace(/<[^>]*>/g, "");
+  let textWidth = text.length * 8; // fallback when canvas/fonts are unavailable
+  if (typeof document !== "undefined") {
+    if (!_measureCtx) {
+      _measureCtx = document.createElement("canvas").getContext("2d");
+    }
+    _measureCtx.font = HEADLINE_FONT;
+    textWidth = _measureCtx.measureText(text).width;
+  }
+  // Add room for card padding, content padding, and the external-link icon.
+  const w = Math.ceil(textWidth) + 44;
+  return Math.max(MIN_CARD_WIDTH, Math.min(MAX_CARD_WIDTH, w));
+}
 
 // Cards view components
-const CardsView = React.memo(function CardsView({
-  events,
-  activeCategories,
-  hoveredEvent,
-  setHoveredEvent,
-}) {
+const CardsView = React.memo(function CardsView({ events, activeCategories }) {
   const timelineRef = useRef(null);
-  const spineRef = useRef(null);
   const { i18n, t } = useTranslation();
   const [activeEventIndex, setActiveEventIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [spineOffset, setSpineOffset] = useState(0);
   const [backgroundProgress, setBackgroundProgress] = useState(0);
 
-  const filteredEvents = events.filter(
-    (event) => activeCategories[event.category]
+  const filteredEvents = useMemo(
+    () => events.filter((event) => activeCategories[event.category]),
+    [events, activeCategories]
   );
   const currentEvent = filteredEvents[activeEventIndex];
 
-  // Calculate which event is in view and update scroll progress
+  // Track which card is closest to the viewport center while scrolling.
+  // getBoundingClientRect() is viewport-relative (scrollY cancels out), so the
+  // listener can be installed a single time for the component's lifetime.
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
     let scrollTimeout;
 
-    const handleScroll = () => {
-      lastScrollY = window.scrollY;
-
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateSpinePosition(lastScrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-
-      // Debounce the active card update
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        updateActiveCard(lastScrollY);
-      }, 100); // Wait for scroll to settle
-    };
-
-    const updateActiveCard = (scrollY) => {
+    const updateActiveCard = () => {
       if (!timelineRef.current) return;
 
       const cards = timelineRef.current.getElementsByClassName("event-card");
-      const viewportHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const viewportMiddle = scrollY + viewportHeight / 2;
+      const viewportMiddle = window.innerHeight / 2;
 
-      // Find the card closest to the middle of the viewport
       let closestCard = 0;
       let minDistance = Infinity;
-
       Array.from(cards).forEach((card, index) => {
         const rect = card.getBoundingClientRect();
-        const cardMiddle = scrollY + rect.top + rect.height / 2;
+        const cardMiddle = rect.top + rect.height / 2;
         const distance = Math.abs(cardMiddle - viewportMiddle);
-
         if (distance < minDistance) {
           minDistance = distance;
           closestCard = index;
@@ -96,9 +90,28 @@ const CardsView = React.memo(function CardsView({
       setActiveEventIndex(closestCard);
     };
 
-    const updateSpinePosition = (scrollY) => {
-      if (!currentEvent) return;
+    const handleScroll = () => {
+      // Debounce until the scroll settles.
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateActiveCard, 100);
+    };
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    updateActiveCard();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
+
+  // Position the spine/background from the active event. This depends only on
+  // the event's date and the viewport height (not scroll position), so it runs
+  // when the active event changes or on resize.
+  useEffect(() => {
+    if (!currentEvent) return;
+
+    const updateSpinePosition = () => {
       const currentDate = new Date(
         currentEvent.start_date.year,
         currentEvent.start_date.month - 1,
@@ -110,13 +123,11 @@ const CardsView = React.memo(function CardsView({
       const daysPassed = (currentDate - startDate) / (1000 * 60 * 60 * 24);
       const progress = daysPassed / totalDays;
 
+      setBackgroundProgress(Math.max(0, Math.min(1, progress)));
+
       const viewportHeight = window.innerHeight;
       const spineHeight = 1200;
       const dotPosition = 60 + progress * (spineHeight - 120);
-
-      // Calculate background progress based on dot position
-      const normalizedProgress = Math.max(0, Math.min(1, progress));
-      setBackgroundProgress(normalizedProgress);
 
       if (dotPosition > viewportHeight - 180) {
         const overflow = dotPosition - (viewportHeight - 180);
@@ -126,39 +137,10 @@ const CardsView = React.memo(function CardsView({
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, [events.length, activeEventIndex, filteredEvents, currentEvent]);
-
-  const scrollToEvent = useCallback((index) => {
-    const cards = timelineRef.current.getElementsByClassName("event-card");
-    if (cards[index]) {
-      const card = cards[index];
-      const cardRect = card.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const offset =
-        window.scrollY +
-        cardRect.top -
-        viewportHeight / 2 +
-        cardRect.height / 2;
-
-      // Handle edge cases
-      const maxScroll =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const finalOffset = Math.max(0, Math.min(offset, maxScroll));
-
-      // Use native smooth scrolling
-      window.scrollTo({
-        top: finalOffset,
-        behavior: "smooth",
-      });
-    }
-  }, []);
+    updateSpinePosition();
+    window.addEventListener("resize", updateSpinePosition);
+    return () => window.removeEventListener("resize", updateSpinePosition);
+  }, [currentEvent]);
 
   return (
     <div
@@ -171,7 +153,7 @@ const CardsView = React.memo(function CardsView({
         className="grid grid-cols-[70px_1fr]  mb-10 relative"
       >
         {/* Left column: Timeline spine */}
-        <div ref={spineRef} className="sticky top-0 pl-6 h-screen">
+        <div className="sticky top-0 pl-6 h-screen">
           {/* Timeline container */}
           <div className="relative h-full">
             <div
@@ -355,10 +337,10 @@ const EventCard = React.memo(function EventCard({
   event,
   position,
   row,
-  totalRows,
   isHovered,
   onHover,
   rowHeight,
+  cardWidth,
   setActiveEventPositions,
 }) {
   const { i18n, t } = useTranslation();
@@ -366,41 +348,26 @@ const EventCard = React.memo(function EventCard({
     i18n.language === "zh" && event.chinese ? event.chinese : event.text;
   const baseOpacity = (Math.min(event.importance + 0.15, 3) / 3) * 0.4 - 0.2;
   const contentRef = useRef(null);
-  const expandedContentRef = useRef(null);
-  const [width, setWidth] = useState(MIN_CARD_WIDTH);
   const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
 
-  // Add effect to update active position
   useEffect(() => {
     if (isHovered) {
       setActiveEventPositions(new Set([position]));
     }
   }, [isHovered, position]);
 
-  useEffect(() => {
-    setWidth(MIN_CARD_WIDTH);
-  }, [event.id]);
-
+  // Measure the fully-expanded content height *before paint* so the card
+  // animates straight to its correct size (no second "correction" animation).
+  // Width snaps to its expanded value (it's not transitioned), so this
+  // measurement reflects how the description actually wraps when open.
   useLayoutEffect(() => {
-    let mounted = true;
-    if (contentRef.current && mounted) {
-      const contentWidth = contentRef.current.offsetWidth;
-      setWidth(Math.max(MIN_CARD_WIDTH, contentWidth + 40));
+    if (isHovered && contentRef.current) {
+      const full = contentRef.current.scrollHeight;
+      setExpandedHeight(Math.max(MIN_EXPANDED_HEIGHT, full + 20));
     }
-    return () => {
-      mounted = false;
-    };
-  }, [event.text.headline, event.id]);
+  }, [isHovered, localizedContent, i18n.language]);
 
-  useEffect(() => {
-    if (isHovered && expandedContentRef.current) {
-      const baseHeight = contentRef.current.offsetHeight;
-      const expandedContent = expandedContentRef.current.scrollHeight;
-      const totalHeight = baseHeight + expandedContent + 32;
-      setExpandedHeight(Math.max(MIN_EXPANDED_HEIGHT, totalHeight));
-    }
-  }, [isHovered]);
-
+  const expandedWidth = Math.max(cardWidth, EXPANDED_CARD_WIDTH);
   const topPos = row * rowHeight + TIME_MARKER_HEIGHT + ROW_GAP * row;
 
   return (
@@ -409,17 +376,15 @@ const EventCard = React.memo(function EventCard({
       style={{
         left: `${position - 20}px`,
         top: `${topPos}px`,
-        width: isHovered ? `${width + 40}px` : `${width}px`,
+        // Width snaps (no transition) so the height measurement above reflects
+        // the open layout; only height/shadow animate, keeping it snappy.
+        width: isHovered ? `${expandedWidth}px` : `${cardWidth}px`,
         height: isHovered ? `${expandedHeight}px` : `${MIN_CARD_HEIGHT}px`,
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "height 0.2s ease, box-shadow 0.2s ease",
         zIndex: isHovered ? Z_INDEX_HOVER : Z_INDEX_BASE,
       }}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      whileHover={{
-        scale: 1.03,
-        zIndex: Z_INDEX_HOVER,
-      }}
+      animate={{ opacity: 1 }}
       onMouseEnter={() => {
         onHover(event);
         setActiveEventPositions(new Set([position]));
@@ -431,10 +396,9 @@ const EventCard = React.memo(function EventCard({
     >
       <div
         className={`
-                    h-full rounded-lg border p-2 transition-all duration-200
+                    h-full rounded-lg border p-2 overflow-hidden
                     ${isHovered ? "border-white/30" : "border-white/5"}
                     ${event.importance >= 2.5 ? "border-white/30" : ""}
-                    ${isHovered ? "transform -translate-y-1" : ""} 
                 `}
         style={{
           backgroundColor: isHovered
@@ -459,7 +423,8 @@ const EventCard = React.memo(function EventCard({
                             inset 0 0 20px rgba(255, 255, 255, 0.05)
                           `
             : "none",
-          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition:
+            "background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
         }}
       >
         <div className="relative z-10" ref={contentRef}>
@@ -482,18 +447,12 @@ const EventCard = React.memo(function EventCard({
           >
             {t("categories." + event.category)}
           </div>
-          <AnimatePresence>
-            {isHovered && (
-              <motion.div
-                ref={expandedContentRef}
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="text-sm font-sans text-white/80 mt-1 overflow-hidden"
-                dangerouslySetInnerHTML={{ __html: localizedContent.text }}
-              />
-            )}
-          </AnimatePresence>
+          {isHovered && (
+            <div
+              className="text-sm font-sans text-white/80 mt-2"
+              dangerouslySetInnerHTML={{ __html: localizedContent.text }}
+            />
+          )}
         </div>
       </div>
     </motion.div>
@@ -607,7 +566,16 @@ const TickMarker = React.memo(function TickMarker({
 });
 
 export default function Timeline() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  // Recompute card widths once web fonts load so packing matches the rendered
+  // text metrics (avoids overlap from fallback-font estimates on first paint).
+  const [fontsReady, setFontsReady] = useState(false);
+  useEffect(() => {
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(() => setFontsReady(true));
+    }
+  }, []);
 
   const [activeCategories, setActiveCategories] = useState(() => {
     const categoriesRecord = {};
@@ -620,7 +588,7 @@ export default function Timeline() {
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(0);
-  const [zoomIndex, setZoomIndex] = useState(2);
+  const [zoomIndex, setZoomIndex] = useState(3);
   const [viewMode, setViewMode] = useState("timeline");
   const [isMobile, setIsMobile] = useState(false);
   const pixelsPerDay = ZOOM_LEVELS[zoomIndex];
@@ -662,22 +630,29 @@ export default function Timeline() {
   }, []);
 
   const events = useMemo(() => {
-    return [...TIMELINE_DATA.events].sort((a, b) => {
-      const dateA = new Date(
-        a.start_date.year,
-        a.start_date.month - 1,
-        a.start_date.day
-      );
-      const dateB = new Date(
-        b.start_date.year,
-        b.start_date.month - 1,
-        b.start_date.day
-      );
-      return dateA - dateB;
-    });
+    return [...TIMELINE_DATA.events]
+      .sort((a, b) => {
+        const dateA = new Date(
+          a.start_date.year,
+          a.start_date.month - 1,
+          a.start_date.day
+        );
+        const dateB = new Date(
+          b.start_date.year,
+          b.start_date.month - 1,
+          b.start_date.day
+        );
+        return dateA - dateB;
+      })
+      .map((event, index) => ({
+        ...event,
+        // The source data has no stable id; derive one so React keys and
+        // per-card effects (width/height measurement) are unique and stable.
+        id: event.id ?? `event-${index}`,
+      }));
   }, []);
 
-  const rowCount = useMemo(() => {
+  const baseRowCount = useMemo(() => {
     if (viewMode === "cards") {
       return BASE_ROW_COUNT_CARDS;
     }
@@ -691,25 +666,13 @@ export default function Timeline() {
       (event) => activeCategories[event.category]
     );
 
-    // Instead of storing arrays of positions, store the "rightmost X" per row
-    let rowRightEdges = Array(rowCount).fill(0);
+    // Rightmost occupied X per row (cards render at `left: position - 20`).
+    // Starts with the baseline rows and grows on demand up to MAX_ROW_COUNT so
+    // dense clusters get their own rows instead of overlapping.
+    const rowRightEdges = Array(baseRowCount).fill(-Infinity);
 
-    // Sort filtered events by ascending date
-    const sortedEvents = [...filteredEvents].sort((a, b) => {
-      const dateA = new Date(
-        a.start_date.year,
-        a.start_date.month - 1,
-        a.start_date.day
-      );
-      const dateB = new Date(
-        b.start_date.year,
-        b.start_date.month - 1,
-        b.start_date.day
-      );
-      return dateA - dateB;
-    });
-
-    return sortedEvents.map((event) => {
+    // `events` is already sorted ascending by date and `filter` preserves order.
+    return filteredEvents.map((event) => {
       const date = new Date(
         event.start_date.year,
         event.start_date.month - 1,
@@ -717,49 +680,67 @@ export default function Timeline() {
       );
       const daysSinceStart = (date - startDate) / (1000 * 60 * 60 * 24);
       const position = daysSinceStart * pixelsPerDay;
+      const leftEdge = position - 20;
 
-      // Try to find the row with the best fit
-      let chosenRow = 0;
+      const headline = (
+        i18n.language === "zh" && event.chinese ? event.chinese : event.text
+      ).headline;
+      const width = estimateCardWidth(headline);
+
+      // Prefer the "most behind" row that this card fully clears (keeps rows
+      // balanced and reuses freed space).
+      let chosenRow = -1;
       let bestRightEdge = Infinity;
-
-      for (let i = 0; i < rowCount; i++) {
-        // If this row's right edge is sufficiently behind this event's position, it won't overlap
-        // We can allow some small buffer. Let's say 0.8 * MIN_CARD_WIDTH as a safety margin
-        if (rowRightEdges[i] + MIN_CARD_WIDTH * 0.8 < position) {
-          // This row is a viable candidate.
-          // We choose the row that is the "most behind" but still doesn't overlap
-          // so we fill from top to bottom, left to right.
-          if (rowRightEdges[i] < bestRightEdge) {
-            bestRightEdge = rowRightEdges[i];
-            chosenRow = i;
+      for (let i = 0; i < rowRightEdges.length; i++) {
+        if (rowRightEdges[i] <= leftEdge && rowRightEdges[i] < bestRightEdge) {
+          bestRightEdge = rowRightEdges[i];
+          chosenRow = i;
+        }
+      }
+      if (chosenRow === -1) {
+        if (rowRightEdges.length < MAX_ROW_COUNT) {
+          // No clear row: add one rather than overlapping an occupied card.
+          chosenRow = rowRightEdges.length;
+          rowRightEdges.push(-Infinity);
+        } else {
+          // At the row cap: fall back to the row with the smallest right edge.
+          let minRowIndex = 0;
+          for (let i = 1; i < rowRightEdges.length; i++) {
+            if (rowRightEdges[i] < rowRightEdges[minRowIndex]) {
+              minRowIndex = i;
+            }
           }
+          chosenRow = minRowIndex;
         }
       }
 
-      // If we never updated bestRightEdge (still Infinity), it means no row was sufficiently behind.
-      // So just pick whichever row has the smallest right edge, to minimize overlap
-      if (bestRightEdge === Infinity) {
-        let minRowIndex = 0;
-        for (let i = 1; i < rowCount; i++) {
-          if (rowRightEdges[i] < rowRightEdges[minRowIndex]) {
-            minRowIndex = i;
-          }
-        }
-        chosenRow = minRowIndex;
-      }
-
-      // Update that row's right edge. We'll assume a base width for the event.
-      // A typical guess might be MIN_CARD_WIDTH to keep it simple, or you could try to store
-      // event-specific widths in some array once they're rendered.
-      rowRightEdges[chosenRow] = position + MIN_CARD_WIDTH;
+      rowRightEdges[chosenRow] = leftEdge + width + CARD_H_GAP;
 
       return {
         ...event,
         position,
         row: chosenRow,
+        width,
       };
     });
-  }, [events, pixelsPerDay, activeCategories, rowCount]);
+  }, [
+    events,
+    pixelsPerDay,
+    activeCategories,
+    baseRowCount,
+    i18n.language,
+    fontsReady,
+  ]);
+
+  // Effective number of rows actually used (>= baseline). Drives the timeline
+  // height and tick line lengths.
+  const rowCount = useMemo(() => {
+    let maxRow = baseRowCount - 1;
+    for (const e of positionedEvents) {
+      if (e.row > maxRow) maxRow = e.row;
+    }
+    return maxRow + 1;
+  }, [positionedEvents, baseRowCount]);
 
   const timeMarkers = useMemo(() => {
     const startDate = new Date(2015, 1, 1);
@@ -841,7 +822,6 @@ export default function Timeline() {
         position,
         isYearTick: false,
         hasEvent: eventDates.has(dateString),
-        isActive: activeEventPositions.has(position),
         rowHeight: positionToRowHeight[position],
       });
       currentDate.setDate(currentDate.getDate() + 1);
@@ -857,7 +837,6 @@ export default function Timeline() {
           position,
           isYearTick: true,
           hasEvent: eventDates.has(dateString),
-          isActive: activeEventPositions.has(position),
           rowHeight: positionToRowHeight[position],
         });
       }
@@ -866,7 +845,10 @@ export default function Timeline() {
     ticks.sort((a, b) => a.position - b.position);
 
     return ticks;
-  }, [pixelsPerDay, events, activeEventPositions, positionedEvents, rowCount]);
+    // `activeEventPositions` is intentionally excluded: it changes on every
+    // hover and would otherwise rebuild ~3.6k tick objects each time. The
+    // active state is applied at render time instead.
+  }, [pixelsPerDay, events, positionedEvents, rowCount]);
 
   const totalWidth = useMemo(() => {
     const startDate = new Date(2015, 1, 1);
@@ -934,7 +916,7 @@ export default function Timeline() {
     if (viewMode === "cards") {
       // Find the first event from 2022
       const events2022Index = events.findIndex(
-        (event) => event.start_date.year >= "2022"
+        (event) => Number(event.start_date.year) >= 2022
       );
       if (events2022Index !== -1) {
         // Calculate approximate scroll position (assuming each card is about 300px tall)
@@ -1093,20 +1075,20 @@ export default function Timeline() {
                     position={marker.position}
                     isYearTick={marker.isYearTick}
                     hasEvent={marker.hasEvent}
-                    isActive={marker.isActive}
+                    isActive={activeEventPositions.has(marker.position)}
                     rowHeights={marker.rowHeight}
                   />
                 ))}
               </div>
 
               <div className="relative z-10">
-                {positionedEvents.map((event, index) => (
+                {positionedEvents.map((event) => (
                   <EventCard
-                    key={`${event.id}-${activeCategories[event.category]}`}
+                    key={event.id}
                     event={event}
                     position={event.position}
                     row={event.row}
-                    totalRows={rowCount}
+                    cardWidth={event.width}
                     isHovered={hoveredEvent === event}
                     onHover={setHoveredEvent}
                     rowHeight={ROW_HEIGHT}
@@ -1117,12 +1099,7 @@ export default function Timeline() {
             </div>
           </div>
         ) : (
-          <CardsView
-            events={events}
-            activeCategories={activeCategories}
-            hoveredEvent={hoveredEvent}
-            setHoveredEvent={setHoveredEvent}
-          />
+          <CardsView events={events} activeCategories={activeCategories} />
         )}
       </div>
     </div>

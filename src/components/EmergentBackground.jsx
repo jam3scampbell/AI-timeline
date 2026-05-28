@@ -1,10 +1,6 @@
 // src/components/EmergentBackground.jsx
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const DEFAULT_CONFIG = {
   layers: 5,

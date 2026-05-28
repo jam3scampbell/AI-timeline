@@ -1,12 +1,11 @@
 // src/App.jsx
 import React, { Suspense, lazy } from "react";
-// import Starfield from "./components/Starfield";
-import Starfield from "./components/EmergentBackground";
-// import Timeline from "./components/Timeline"; // REMOVE this import
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
-// LAZY import for Timeline
+// Lazy-load the heavy chunks (Three.js background + the timeline itself) so
+// they stay out of the critical initial bundle.
+const Starfield = lazy(() => import("./components/EmergentBackground"));
 const Timeline = lazy(() => import("./components/Timeline"));
 
 export default function App() {
@@ -20,8 +19,10 @@ export default function App() {
           <LanguageSwitcher />
         </div>
 
-        {/* Starfield canvas behind everything */}
-        <Starfield />
+        {/* Starfield canvas behind everything (decorative, lazy-loaded) */}
+        <Suspense fallback={null}>
+          <Starfield />
+        </Suspense>
 
         <div className="relative z-10 mx-auto">
           {/* Hero Section */}
