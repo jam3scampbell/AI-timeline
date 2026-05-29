@@ -23,7 +23,7 @@ const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
 const BASE_ROW_COUNT_CARDS = 5;
 const BASE_TIMELINE_ROWS = 6;
 const MIN_ROW_COUNT = 4;
-const MAX_ROW_COUNT = 14;
+const MAX_ROW_COUNT = 16;
 
 const MAX_CARD_WIDTH = 260;
 const CARD_H_GAP = 14;
@@ -588,7 +588,7 @@ export default function Timeline() {
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(0);
-  const [zoomIndex, setZoomIndex] = useState(3);
+  const [zoomIndex, setZoomIndex] = useState(4);
   const [viewMode, setViewMode] = useState("timeline");
   const [isMobile, setIsMobile] = useState(false);
   const pixelsPerDay = ZOOM_LEVELS[zoomIndex];

@@ -1905,5 +1905,44 @@ export const TIMELINE_DATA = {
         importance: 2,
         category: CATEGORIES.MODEL_RELEASE
     },
+    {
+        start_date: { year: "2026", month: "05", day: "04" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/enterprise-ai-services-company", "Anthropic Services Firm"),
+            text: "<p>Anthropic teams up with Blackstone, Hellman & Friedman, and Goldman Sachs to launch a ~$1.5 billion enterprise AI services firm that embeds engineers inside mid-market and PE-owned companies to deploy Claude in their core operations.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/enterprise-ai-services-company", "Anthropic 企业 AI 服务公司"),
+            text: "<p>Anthropic 联合 Blackstone、Hellman & Friedman 和高盛成立一家约 15 亿美元的企业级人工智能服务公司，将工程师派驻到中型企业和私募股权持有的公司内部，把 Claude 部署到其核心业务流程中。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "04" },
+        text: {
+            headline: createLink("https://www.morningstar.com/news/business-wire/20260504231235/long-lake-agrees-to-acquire-american-express-global-business-travel-the-worlds-largest-corporate-travel-platform-for-63-billion-with-support-from-general-catalyst-and-alpha-wave", "Long Lake buys Amex GBT"),
+            text: "<p>Long Lake—a two-year-old AI holding company backed by General Catalyst, Thrive, and Alpha Wave—agrees to take American Express Global Business Travel private for $6.3 billion, one of the largest 'AI rollups' yet, planning to run its Nexus AI platform across the world's biggest corporate-travel operation.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.morningstar.com/news/business-wire/20260504231235/long-lake-agrees-to-acquire-american-express-global-business-travel-the-worlds-largest-corporate-travel-platform-for-63-billion-with-support-from-general-catalyst-and-alpha-wave", "Long Lake 收购 Amex GBT"),
+            text: "<p>Long Lake——一家成立两年、由 General Catalyst、Thrive 和 Alpha Wave 支持的人工智能控股公司——同意以 63 亿美元将美国运通全球商务旅行（Amex GBT）私有化，这是迄今最大的“人工智能整合收购（AI rollup）”之一，计划在这家全球最大的商务旅行运营商中部署其 Nexus AI 平台。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "11" },
+        text: {
+            headline: createLink("https://openai.com/index/openai-launches-the-deployment-company/", "OpenAI Deployment Company"),
+            text: "<p>OpenAI launches the OpenAI Deployment Company (\"DeployCo\"), a majority-owned subsidiary backed by over $4 billion from 19 investors led by TPG, to embed Forward Deployed Engineers in enterprises—and acquires the consultancy Tomoro to seed it with ~150 engineers.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/openai-launches-the-deployment-company/", "OpenAI 部署公司"),
+            text: "<p>OpenAI 成立 OpenAI 部署公司（“DeployCo”），这是一家由 TPG 领投、19 家投资方提供逾 40 亿美元支持的控股子公司，向企业派驻“前置部署工程师”（FDE）；同时收购咨询公司 Tomoro，为其注入约 150 名工程师。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
   ]
 };
