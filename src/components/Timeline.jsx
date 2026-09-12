@@ -15,10 +15,28 @@ const ROW_GAP = 10;
 const TIME_MARKER_HEIGHT = 40;
 const Z_INDEX_BASE = 20;
 const Z_INDEX_HOVER = 100;
-const MIN_CARD_HEIGHT = 70;
+const MIN_CARD_HEIGHT = 58;
 const MIN_EXPANDED_HEIGHT = 120;
-const ROW_HEIGHT = 70;
+const ROW_HEIGHT = 58;
 const ZOOM_LEVELS = [1, 2, 3, 4, 6, 8];
+
+// Muted per-category accents (left border + hovered category label).
+const CATEGORY_COLORS = {
+  [CATEGORIES.MODEL_RELEASE]: "rgba(96, 165, 250, 0.6)",
+  [CATEGORIES.RESEARCH]: "rgba(167, 139, 250, 0.6)",
+  [CATEGORIES.BUSINESS]: "rgba(52, 211, 153, 0.55)",
+  [CATEGORIES.CULTURE]: "rgba(251, 191, 36, 0.55)",
+  [CATEGORIES.POLICY]: "rgba(244, 114, 182, 0.55)",
+};
+
+function formatEventDate(startDate, language) {
+  const date = new Date(startDate.year, startDate.month - 1, startDate.day);
+  return date.toLocaleDateString(language === "zh" ? "zh-CN" : "en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 const BASE_ROW_COUNT_CARDS = 5;
 const BASE_TIMELINE_ROWS = 6;
@@ -228,59 +246,12 @@ const CardsView = React.memo(function CardsView({ events, activeCategories }) {
                         transform: "translate(-100%, -50%)",
                       }}
                     >
-                      <span className="text-xl font-medium whitespace-nowrap text-white/90 year-glow">
+                      <span className="text-xl font-medium whitespace-nowrap text-white/80">
                         {year}
                       </span>
                     </div>
                   );
                 });
-              })()}
-
-              {/* Month markers - update positioning */}
-              {(() => {
-                const startDate = new Date(2015, 0, 1);
-                const endDate = new Date(2025, 11, 31);
-                const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-                const markers = [];
-                let currentDate = new Date(startDate);
-
-                const totalSpacing = 1200;
-                const topPadding = 60;
-                const bottomPadding = 60;
-                const usableHeight = totalSpacing - topPadding - bottomPadding;
-
-                while (currentDate <= endDate) {
-                  const isYearStart = currentDate.getMonth() === 0;
-
-                  if (!isYearStart) {
-                    const daysPassed =
-                      (currentDate - startDate) / (1000 * 60 * 60 * 24);
-                    const progress = daysPassed / totalDays;
-                    const position = topPadding + progress * usableHeight;
-
-                    markers.push(
-                      <div
-                        key={currentDate.toISOString()}
-                        className="absolute left-1/2 transform -translate-x-full pr-4 text-right"
-                        style={{
-                          top: `${position}px`,
-                          transform: "translate(-100%, -50%)",
-                        }}
-                      >
-                        <span className="text-sm font-medium whitespace-nowrap text-white/40">
-                          {currentDate.toLocaleDateString("en-US", {
-                            month: "short",
-                          })}
-                        </span>
-                      </div>
-                    );
-                  }
-
-                  // Advance by 3 months instead of 2 for more spacing
-                  currentDate.setMonth(currentDate.getMonth() + 3);
-                }
-
-                return markers;
               })()}
             </div>
           </div>
@@ -301,13 +272,8 @@ const CardsView = React.memo(function CardsView({ events, activeCategories }) {
                   index === activeEventIndex ? "active" : ""
                 }`}
               >
-                <div className="text-sm text-white/60 font-medium tracking-wide">
-                  {`${event.start_date.year}-${String(
-                    event.start_date.month
-                  ).padStart(2, "0")}-${String(event.start_date.day).padStart(
-                    2,
-                    "0"
-                  )}`}
+                <div className="text-sm text-white/50 font-sans tracking-wide">
+                  {formatEventDate(event.start_date, i18n.language)}
                 </div>
                 <div
                   className="font-serif text-2xl font-normal text-white leading-snug mt-2"
@@ -316,7 +282,10 @@ const CardsView = React.memo(function CardsView({ events, activeCategories }) {
                     __html: localizedContent.headline,
                   }}
                 />
-                <div className="text-xs font-sans mt-1 text-white/40">
+                <div
+                  className="text-xs font-sans mt-1"
+                  style={{ color: CATEGORY_COLORS[event.category] }}
+                >
                   {t("categories." + event.category)}
                 </div>
                 <div
@@ -346,7 +315,10 @@ const EventCard = React.memo(function EventCard({
   const { i18n, t } = useTranslation();
   const localizedContent =
     i18n.language === "zh" && event.chinese ? event.chinese : event.text;
-  const baseOpacity = (Math.min(event.importance + 0.15, 3) / 3) * 0.4 - 0.2;
+  // Flat fill whose brightness scales with importance (~0.06 to ~0.11 alpha).
+  const baseAlpha = 0.03 + (Math.min(event.importance, 3) / 3) * 0.08;
+  const accentColor =
+    CATEGORY_COLORS[event.category] || "rgba(255,255,255,0.3)";
   const contentRef = useRef(null);
   const [expandedHeight, setExpandedHeight] = useState(MIN_EXPANDED_HEIGHT);
 
@@ -385,6 +357,7 @@ const EventCard = React.memo(function EventCard({
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      tabIndex={0}
       onMouseEnter={() => {
         onHover(event);
         setActiveEventPositions(new Set([position]));
@@ -393,35 +366,26 @@ const EventCard = React.memo(function EventCard({
         onHover(null);
         setActiveEventPositions(new Set());
       }}
+      onFocus={() => {
+        onHover(event);
+        setActiveEventPositions(new Set([position]));
+      }}
+      onBlur={() => {
+        onHover(null);
+        setActiveEventPositions(new Set());
+      }}
     >
       <div
         className={`
                     h-full rounded-lg border p-2 overflow-hidden
-                    ${isHovered ? "border-white/30" : "border-white/5"}
-                    ${event.importance >= 2.5 ? "border-white/30" : ""}
+                    ${isHovered ? "border-white/25" : "border-white/[0.07]"}
                 `}
         style={{
           backgroundColor: isHovered
-            ? "rgba(58, 58, 102, 0.95)"
-            : `rgba(255, 255, 255, ${baseOpacity})`,
-          backgroundImage: isHovered
-            ? "radial-gradient(transparent 1px, rgba(255, 255, 255, 0.12) 1px)"
-            : "radial-gradient(transparent 1px, rgba(255, 255, 255, 0.05) 1px)",
-          backgroundSize: "4px 4px",
-          WebkitMaskImage: isHovered
-            ? "none"
-            : "linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)",
-          maskImage: isHovered
-            ? "none"
-            : "linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)",
+            ? "rgba(28, 28, 38, 0.97)"
+            : `rgba(255, 255, 255, ${baseAlpha})`,
           boxShadow: isHovered
-            ? `
-                            0 0 0 1px rgba(255, 255, 255, 0.1),
-                            0 4px 6px -1px rgba(0, 0, 0, 0.2),
-                            0 12px 24px -4px rgba(0, 0, 0, 0.5),
-                            0 0 20px rgba(255, 255, 255, 0.1),
-                            inset 0 0 20px rgba(255, 255, 255, 0.05)
-                          `
+            ? "0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 12px 28px -6px rgba(0, 0, 0, 0.55)"
             : "none",
           transition:
             "background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
@@ -430,28 +394,31 @@ const EventCard = React.memo(function EventCard({
         <div className="relative z-10" ref={contentRef}>
           <div
             className={`
-                            font-serif leading-snug mb-1 text-lg
+                            font-serif leading-snug mb-0.5 text-lg
                             ${isHovered ? "text-white" : "text-white/90"}
                         `}
             dangerouslySetInnerHTML={{ __html: localizedContent.headline }}
           />
-          <div className="text-sm font-sans text-white/60 font-medium">
-            {`${String(event.start_date.month).padStart(2, "0")}/${String(
-              event.start_date.day
-            ).padStart(2, "0")}/${event.start_date.year}`}
-          </div>
-          <div
-            className={`text-xs font-sans mt-1 ${
-              isHovered ? "text-gray/50" : "text-white/0"
-            }`}
-          >
-            {t("categories." + event.category)}
+          <div className="flex items-center gap-1.5 text-xs font-sans text-white/45">
+            <span
+              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+              style={{ backgroundColor: accentColor }}
+            />
+            {formatEventDate(event.start_date, i18n.language)}
           </div>
           {isHovered && (
-            <div
-              className="text-sm font-sans text-white/80 mt-2"
-              dangerouslySetInnerHTML={{ __html: localizedContent.text }}
-            />
+            <>
+              <div
+                className="text-xs font-sans mt-1.5"
+                style={{ color: accentColor }}
+              >
+                {t("categories." + event.category)}
+              </div>
+              <div
+                className="text-sm font-sans text-white/80 mt-1"
+                dangerouslySetInnerHTML={{ __html: localizedContent.text }}
+              />
+            </>
           )}
         </div>
       </div>
@@ -490,9 +457,8 @@ const YearMarker = React.memo(function YearMarker({ year, position }) {
       <div className="relative">
         <div
           className="
-                        absolute text-xl font-sans text-white/60 font-medium
+                        absolute text-xl font-sans text-white/50 font-medium
                         whitespace-nowrap transform -translate-x-1/2
-                        year-glow
                     "
         >
           {year}
@@ -788,7 +754,7 @@ export default function Timeline() {
     // Create a map of positions to row heights
     const positionToRowHeight = {};
     const totalHeight =
-      rowCount * (ROW_HEIGHT + ROW_GAP) + TIME_MARKER_HEIGHT + 130;
+      rowCount * (ROW_HEIGHT + ROW_GAP) + TIME_MARKER_HEIGHT + 70;
 
     positionedEvents.forEach((event) => {
       const rowMiddle =
@@ -895,20 +861,30 @@ export default function Timeline() {
     };
   }, [viewMode]);
 
-  // Add this useEffect to set initial scroll position
+  // Set the initial scroll position once the timeline container is mounted.
+  // The container only exists while viewMode === "timeline", so depending on
+  // viewMode re-runs this effect when it mounts (refs are attached before
+  // effects run in the same commit).
   useEffect(() => {
-    if (containerRef.current && viewMode === "timeline") {
-      // Calculate position for 2022
-      const startDate = new Date(2015, 1, 1);
-      const targetDate = new Date(2022, 1, 1);
-      const daysSinceStart = (targetDate - startDate) / (1000 * 60 * 60 * 24);
-      const scrollPosition = daysSinceStart * pixelsPerDay;
+    if (viewMode !== "timeline") return;
 
-      // Set the scroll position after a short delay to ensure the component is fully rendered
-      setTimeout(() => {
-        containerRef.current.scrollLeft = scrollPosition;
-      }, 100);
-    }
+    // Calculate position for 2022
+    const startDate = new Date(2015, 1, 1);
+    const targetDate = new Date(2022, 1, 1);
+    const daysSinceStart = (targetDate - startDate) / (1000 * 60 * 60 * 24);
+    const scrollPosition = daysSinceStart * pixelsPerDay;
+
+    // Defer slightly so the container has its final layout. By the time this
+    // fires the container may have unmounted (e.g. viewMode flipped to "cards"
+    // on a narrow viewport), so re-check the ref and cancel on cleanup.
+    const timeoutId = setTimeout(() => {
+      const container = containerRef.current;
+      if (container) {
+        container.scrollLeft = scrollPosition;
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [viewMode, pixelsPerDay]);
 
   // For cards view, add initial scroll position
@@ -983,28 +959,39 @@ export default function Timeline() {
         <div className="py-4">
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
             <div className="flex gap-2 flex-wrap">
-              {Object.values(CATEGORIES).map((categoryKey) => (
-                <button
-                  key={categoryKey}
-                  onClick={() => toggleCategory(categoryKey)}
-                  className={`
-                                        px-3 py-1 rounded-full text-sm font-sans transition-all backdrop-blur-[1px]
+              {Object.values(CATEGORIES).map((categoryKey) => {
+                const isActive = activeCategories[categoryKey];
+                return (
+                  <button
+                    key={categoryKey}
+                    onClick={() => toggleCategory(categoryKey)}
+                    aria-pressed={isActive}
+                    className={`
+                                        flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-sans border transition-all
+                                        focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/50
                                         ${
-                                          activeCategories[categoryKey]
-                                            ? "bg-white/20 text-white"
-                                            : "bg-white/5 text-white/40"
+                                          isActive
+                                            ? "border-white/15 bg-white/10 text-white/90"
+                                            : "border-white/[0.07] bg-transparent text-white/35 hover:text-white/60"
                                         }
-                                        hover:bg-white/30
                                     `}
-                >
-                  {t("categories." + categoryKey)}
-                </button>
-              ))}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{
+                        backgroundColor: CATEGORY_COLORS[categoryKey],
+                        opacity: isActive ? 1 : 0.35,
+                      }}
+                    />
+                    {t("categories." + categoryKey)}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="flex gap-2 font-sans text-sm sm:ml-auto">
               <button
-                className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
+                className="bg-white/10 text-white/90 px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/50"
                 onClick={() =>
                   setViewMode(viewMode === "timeline" ? "cards" : "timeline")
                 }
@@ -1016,20 +1003,23 @@ export default function Timeline() {
               {viewMode === "timeline" && (
                 <>
                   <button
-                    className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
+                    className="bg-white/10 text-white/90 w-8 py-1 my-auto rounded hover:bg-white/20 transition disabled:opacity-30 disabled:hover:bg-white/10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/50"
                     onClick={zoomOut}
+                    disabled={zoomIndex === 0}
+                    aria-label={t("zoomOut")}
+                    title={t("zoomOut")}
                   >
-                    {t("zoomOut")}
+                    &minus;
                   </button>
                   <button
-                    className="bg-white/10 text-white px-4 py-1 my-auto rounded hover:bg-white/20 transition whitespace-nowrap backdrop-blur-[1px]"
+                    className="bg-white/10 text-white/90 w-8 py-1 my-auto rounded hover:bg-white/20 transition disabled:opacity-30 disabled:hover:bg-white/10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/50"
                     onClick={zoomIn}
+                    disabled={zoomIndex === ZOOM_LEVELS.length - 1}
+                    aria-label={t("zoomIn")}
+                    title={t("zoomIn")}
                   >
-                    {t("zoomIn")}
+                    +
                   </button>
-                  <span className="text-white/60 ml-2 my-auto">
-                    {t("zoom", { value: pixelsPerDay })}
-                  </span>
                 </>
               )}
             </div>
@@ -1047,9 +1037,7 @@ export default function Timeline() {
               style={{
                 width: `${totalWidth}px`,
                 height: `${
-                  rowCount * (ROW_HEIGHT + 10) +
-                  TIME_MARKER_HEIGHT +
-                  (rowCount - 1) * (ROW_GAP + 5)
+                  rowCount * (ROW_HEIGHT + ROW_GAP) + TIME_MARKER_HEIGHT + 30
                 }px`,
                 padding: "0 2rem",
               }}

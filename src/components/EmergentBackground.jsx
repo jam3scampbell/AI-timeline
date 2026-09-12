@@ -4,14 +4,37 @@ import * as THREE from "three";
 
 const DEFAULT_CONFIG = {
   layers: 5,
-  particlesPerLayer: 700,
+  particlesPerLayer: 400,
   baseColor: new THREE.Color(0.2, 0.3, 0.8),
-  baseSize: 1.5,
-  baseOpacity: 0.4,
+  baseSize: 2.2,
+  baseOpacity: 0.28,
   rotationSpeed: 0.05,
   waveSpeed: 0.0008,
   cameraDistance: 300,
 };
+
+// Soft circular sprite so particles render as glowing dots instead of the
+// hard-edged squares THREE.Points draws by default.
+function createParticleTexture() {
+  const size = 64;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  const gradient = ctx.createRadialGradient(
+    size / 2,
+    size / 2,
+    0,
+    size / 2,
+    size / 2,
+    size / 2
+  );
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.35, "rgba(255,255,255,0.5)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(canvas);
+}
 
 export default function EmergentBackground({ config = {} }) {
   const progressRef = useRef(0);
@@ -26,6 +49,7 @@ export default function EmergentBackground({ config = {} }) {
     let scene, camera, renderer;
     let particles = [];
     let time = 0;
+    const particleTexture = createParticleTexture();
 
     class ParticleLayer {
       constructor(layerIndex) {
@@ -47,13 +71,14 @@ export default function EmergentBackground({ config = {} }) {
 
         const material = new THREE.PointsMaterial({
           size: finalConfig.baseSize,
+          map: particleTexture,
           color: new THREE.Color(
             finalConfig.baseColor.r + layerIndex * 0.15,
             finalConfig.baseColor.g + layerIndex * 0.02,
             finalConfig.baseColor.b - layerIndex * 0.15
           ),
           transparent: true,
-          opacity: finalConfig.baseOpacity - layerIndex * 0.05,
+          opacity: finalConfig.baseOpacity - layerIndex * 0.04,
           blending: THREE.AdditiveBlending,
           depthWrite: false,
           depthTest: false,
@@ -200,6 +225,7 @@ export default function EmergentBackground({ config = {} }) {
         renderer.dispose();
       }
       particles.forEach((layer) => layer.dispose());
+      particleTexture.dispose();
     };
   }, [config]);
 

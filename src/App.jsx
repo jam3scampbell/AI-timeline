@@ -31,38 +31,32 @@ export default function App() {
             className="pt-16 pb-8 text-center mx-auto max-w-[800px]"
           >
             <div className="flex flex-col items-center">
-              <img
-                src="time100cover.jpg"
-                alt={t("hero.imageAlt", "TIME 100 AI 2023 Cover")}
-                className="w-[120px] mb-5 border border-gray-600 shadow-lg"
-              />
-
               <h1 className="font-serif text-4xl md:text-5xl font-normal text-white leading-tight mb-6">
                 {t("hero.title", "The Road to AGI")}
                 <br />
                 {t("hero.dateRange", { year: new Date().getFullYear() })}
               </h1>
-              <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed mb-1 justify">
+              <p className="text-gray-200 font-sans max-w-xl px-2 text-lg leading-relaxed mb-3">
                 {t(
                   "hero.description1",
                   "This timeline attempts to tell the story of the last decade in artificial intelligence, from cultural trends to technical advancements. Each event is a clickable link to source material."
                 )}
               </p>
-              <p className="text-gray-100 font-sans max-w-xl px-2 text-lg leading-relaxed">
+              <p className="text-gray-500 font-sans max-w-xl px-2 text-sm leading-relaxed">
                 {t(
                   "hero.description2",
                   "Note: Curation is inherently subjective, and many events may have been missed. If you'd like to contribute, visit the project's "
                 )}
                 <a
                   href="https://github.com/jam3scampbell/ai-timeline"
-                  className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200"
+                  className="text-gray-400 hover:text-white underline underline-offset-2 transition-colors duration-200"
                 >
                   {t("hero.githubLink", "GitHub")}
                 </a>
                 {t("hero.description3", " or submit an event ")}
                 <a
                   href="https://forms.gle/SgW7LYM6pjajUTxw8"
-                  className="text-blue-400 hover:text-blue-300 underline decoration-2 hover:decoration-blue-300 transition-colors duration-200"
+                  className="text-gray-400 hover:text-white underline underline-offset-2 transition-colors duration-200"
                 >
                   {t("hero.formLink", "here")}
                 </a>
