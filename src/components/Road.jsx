@@ -660,7 +660,11 @@ function MobileTimeline({ events, lang }) {
         if (last == null || mi > last) last = mi;
       }
     }
-    if (first != null) setWin([first, last + 1]);
+    // Only re-render when the visible range actually changes.
+    if (first != null)
+      setWin((w) =>
+        w[0] === first && w[1] === last + 1 ? w : [first, last + 1]
+      );
     // Collapse an expanded row once it has scrolled out of view, so the
     // rest of the list isn't left dimmed.
     const openEl = document.querySelector(".m-row.open");
@@ -702,12 +706,11 @@ function MobileTimeline({ events, lang }) {
     }
   };
 
-  return (
-    <section
-      className="road-mobile"
-      onClick={(e) => !e.target.closest(".m-row") && setOpen(null)}
-    >
-      {groups.map((y) => (
+  // Rows only depend on the events and which one is open; scrolling (which
+  // just moves the scrubber window) doesn't re-render them.
+  const list = useMemo(
+    () =>
+      groups.map((y) => (
         <div className="m-yearblock" key={y.y}>
           <div className="m-year" id={`m-year-${y.y}`}>
             {y.y}
@@ -746,7 +749,9 @@ function MobileTimeline({ events, lang }) {
                           <span className="ev-title">{e.title}</span>
                           <span className="ev-date">{formatDate(e, lang)}</span>
                         </span>
-                        {isOpen && <span className="ev-desc">{e.text}</span>}
+                        {/* Always in the DOM (collapsed rows hide it) so search
+                            engines index every description. */}
+                        <span className="ev-desc">{e.text}</span>
                       </span>
                     </a>
                   );
@@ -755,7 +760,16 @@ function MobileTimeline({ events, lang }) {
             ))}
           </div>
         </div>
-      ))}
+      )),
+    [groups, open, lang]
+  );
+
+  return (
+    <section
+      className="road-mobile"
+      onClick={(e) => !e.target.closest(".m-row") && setOpen(null)}
+    >
+      {list}
       <div className="m-scrub">
         <Scrubber
           events={events}

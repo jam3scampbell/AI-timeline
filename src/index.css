@@ -665,6 +665,9 @@ body {
   font-size: 14px;
   line-height: 21px;
 }
+.m-row:not(.open) .ev-desc {
+  display: none;
+}
 .m-scrub {
   position: fixed;
   left: 0;
@@ -676,4 +679,41 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--bd);
+}
+
+/* ─── No-JS fallback (crawlers, reader modes) ─── */
+
+.seo {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font: 400 15px/24px var(--sans);
+  color: var(--desc);
+}
+.seo h1,
+.seo h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: var(--ink);
+}
+.seo h1 {
+  font-size: 34px;
+  line-height: 40px;
+  margin-bottom: 12px;
+}
+.seo h2 {
+  font-size: 26px;
+  line-height: 32px;
+  margin: 32px 0 8px;
+}
+.seo li {
+  margin: 8px 0;
+}
+.seo time {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--mu);
+}
+.seo a {
+  color: var(--ink);
 }
