@@ -71,12 +71,6 @@ function useFontsReady() {
   return ready;
 }
 
-const Arrow = () => (
-  <svg className="ev-arrow" viewBox="0 0 12 12" aria-hidden="true">
-    <path d="M3 9 9 3M4.5 3H9v4.5" />
-  </svg>
-);
-
 /* ───────────────────────── Header ───────────────────────── */
 
 function Header({ cat, setCat }) {
@@ -222,11 +216,24 @@ function sidePadFor(width) {
   return Math.round(Math.min(96, Math.max(20, width * 0.066)));
 }
 
+// Where an event's open card sits. It never moves from its resting corner;
+// it only grows rightward and away from the axis, getting wider (not taller)
+// when vertical room is short.
+function openGeometry(it, axis, height) {
+  const left =
+    it.kind === "minor" ? it.x - 4 : it.kind === "dot" ? it.dateX - 12 : it.x;
+  const up = it.side === "up";
+  const base = it.kind === "dot" ? axis + GAP_DOWN : it.slotTop;
+  const space = up ? base + CARD_H - 16 : height - base - 16;
+  let w = Math.max(it.w, 280);
+  while (expandedHeight(it.e, w) > space && w < 640) w += 40;
+  return { left, up, base, w };
+}
+
 function TrackEvent({
   it,
   lang,
   state,
-  view,
   height,
   axis,
   onEnter,
@@ -241,24 +248,13 @@ function TrackEvent({
   let style;
   if (open) {
     cls += " open";
-    // The title stays exactly where it was and the description grows away
-    // from the axis: downward below it, upward (stacked above the title)
-    // above it. Minor labels and dots open onto the same baseline.
-    const w = Math.max(280, it.w);
-    const h = expandedHeight(e, w);
-    let left =
-      it.kind === "minor" ? it.x - 4 : it.kind === "dot" ? it.dateX - 12 : it.x;
-    let top;
-    if (it.side === "up") {
-      cls += " up";
-      top = Math.max(4, it.slotTop + CARD_H - h);
-    } else {
-      top = it.kind === "dot" ? axis + GAP_DOWN : it.slotTop;
-      if (top + h > height - 4) top = Math.max(axis + 8, height - 4 - h);
-    }
-    const maxL = view.left + view.content - w - 4;
-    if (left > maxL) left = Math.max(maxL, view.left + 4);
-    style = { left, top, width: w };
+    const { left, up, base, w } = openGeometry(it, axis, height);
+    // Above the axis the card is pinned by its bottom edge so it grows
+    // upward on its own; below, by its top edge.
+    if (up) cls += " up";
+    style = up
+      ? { left, bottom: height - (base + CARD_H), width: w }
+      : { left, top: base, width: w };
     if (it.kind === "dot") {
       // Invisible bridge from the dot down to its card keeps the hover alive.
       cls += " from-dot";
@@ -296,10 +292,7 @@ function TrackEvent({
       ) : (
         <>
           <span className="ev-row">
-            <span className="ev-title">
-              {e.title}
-              {open && <Arrow />}
-            </span>
+            <span className="ev-title">{e.title}</span>
             <span className="ev-date">{formatDate(e, lang)}</span>
           </span>
           {open && <span className="ev-desc">{e.text}</span>}
@@ -329,7 +322,6 @@ function DesktopTimeline({ events, lang }) {
   const [left, setLeft] = useState(0);
   const [hover, setHover] = useState(null);
   const content = vw - 2 * pad;
-  const view = { left, content };
 
   useLayoutEffect(() => {
     const measure = () => {
@@ -451,6 +443,17 @@ function DesktopTimeline({ events, lang }) {
     clearTimeout(leaveTimer.current);
     setHover(id);
   }, []);
+
+  // A card opening near the right edge would run off-screen; glide the
+  // timeline just far enough to show it (the card itself never moves).
+  useEffect(() => {
+    const it = L.items.find((x) => x.e.id === hover);
+    const el = scroller.current;
+    if (!it || !el) return;
+    const { left: l, w } = openGeometry(it, L.axis, L.height);
+    const over = l + w - (el.scrollLeft + content + pad * 0.4);
+    if (over > 0) el.scrollBy({ left: over + 8, behavior: "smooth" });
+  }, [hover, L, content, pad]);
 
   const seek = (fm) => {
     const el = scroller.current;
@@ -611,7 +614,6 @@ function DesktopTimeline({ events, lang }) {
               key={it.e.id}
               it={it}
               lang={lang}
-              view={view}
               height={L.height}
               axis={L.axis}
               state={
@@ -763,10 +765,7 @@ function MobileTimeline({ events, lang }) {
                       <span className="m-dot" />
                       <span className="m-body">
                         <span className="ev-row">
-                          <span className="ev-title">
-                            {e.title}
-                            {isOpen && <Arrow />}
-                          </span>
+                          <span className="ev-title">{e.title}</span>
                           <span className="ev-date">{formatDate(e, lang)}</span>
                         </span>
                         {isOpen && <span className="ev-desc">{e.text}</span>}
