@@ -2,17 +2,17 @@
 
 :root {
   --bg: #0b0c12;
-  --ink: #ededf2;
-  --mu: #8a8da0;
+  --ink: #f4f4f7;
+  --mu: #9497a8;
   --faint: #5e6175;
-  --card: #13151e;
+  --card: #14161f;
   --bd: #252838;
   --lm-bd: #3a3f58;
   --stem: #2a2d3d;
   --axis: #3a3d50;
   --acc: #8fa8ff;
   --acc-bg: #161a2c;
-  --desc: #a3a6b8;
+  --desc: #b9bbc8;
   --bar: #262938;
   --serif: "EB Garamond", Georgia, serif;
   --sans: Geist, system-ui, -apple-system, sans-serif;
@@ -316,8 +316,8 @@ body {
   border-left: 1px solid var(--stem);
 }
 .minor-t {
-  font: 400 13px/16px var(--sans);
-  color: var(--mu);
+  font: 400 14px/16px var(--sans);
+  color: #adb0bf;
   white-space: nowrap;
 }
 .ev.minor:hover .minor-t {
@@ -346,12 +346,12 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font: 500 13px/18px var(--sans);
+  font: 500 14px/18px var(--sans);
   color: var(--ink);
   white-space: nowrap;
 }
 .t3 .ev-title {
-  font: 500 18px/20px var(--serif);
+  font: 500 19px/20px var(--serif);
 }
 .ev.minor.open .ev-title {
   font-weight: 400;
@@ -360,14 +360,14 @@ body {
 .ev-date {
   font: 400 10px/13px var(--mono);
   letter-spacing: 0.06em;
-  color: var(--faint);
+  color: #6f7286;
   white-space: nowrap;
 }
 .open .ev-date {
   color: var(--acc);
 }
 .ev-desc {
-  font: 400 13px/19px var(--sans);
+  font: 400 14px/20px var(--sans);
   color: var(--desc);
   white-space: normal;
   animation: ev-in 0.16s ease-out;
@@ -442,6 +442,18 @@ body {
 }
 .road-foot a:hover {
   color: var(--ink);
+}
+.road-credits {
+  font-size: 11px;
+  line-height: 16px;
+  color: #45485a;
+}
+.road-credits a {
+  color: inherit;
+  text-decoration: none;
+}
+.road-credits a:hover {
+  color: var(--mu);
 }
 
 /* ─── Phone ─── */

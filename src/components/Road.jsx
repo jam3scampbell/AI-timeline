@@ -57,9 +57,9 @@ function useFontsReady() {
   useEffect(() => {
     let live = true;
     Promise.all([
-      document.fonts.load("500 18px 'EB Garamond'"),
-      document.fonts.load("500 13px Geist"),
-      document.fonts.load("400 13px Geist"),
+      document.fonts.load("500 19px 'EB Garamond'"),
+      document.fonts.load("500 14px Geist"),
+      document.fonts.load("400 14px Geist"),
       document.fonts.load("400 10px 'Geist Mono'"),
     ])
       .catch(() => {})
@@ -224,7 +224,7 @@ function openGeometry(it, axis, height) {
     it.kind === "minor" ? it.x - 4 : it.kind === "dot" ? it.dateX - 12 : it.x;
   const up = it.side === "up";
   const base = it.kind === "dot" ? axis + GAP_DOWN : it.slotTop;
-  const space = up ? base + CARD_H - 16 : height - base - 16;
+  const space = up ? base + CARD_H - 28 : height - base - 28;
   let w = Math.max(it.w, 280);
   while (expandedHeight(it.e, w) > space && w < 640) w += 40;
   return { left, up, base, w };
@@ -330,7 +330,7 @@ function DesktopTimeline({ events, lang }) {
       if (!el) return;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const free = window.innerHeight - top - 104;
-      setTrackH(Math.round(Math.max(300, Math.min(720, free))));
+      setTrackH(Math.round(Math.max(300, Math.min(640, free))));
     };
     measure();
     window.addEventListener("resize", measure);

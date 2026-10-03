@@ -23,7 +23,7 @@ export default function App() {
           <a href="https://forms.gle/SgW7LYM6pjajUTxw8">{t("hero.formLink")}</a>
           {t("hero.description4")}
         </p>
-        <p>
+        <p className="road-credits">
           {t("footer.createdBy", { year: new Date().getFullYear() })}{" "}
           <a href="https://x.com/jam3scampbell">James Campbell</a>{" "}
           {t("footer.and")}{" "}

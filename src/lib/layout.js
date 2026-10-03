@@ -11,7 +11,7 @@ export const CARD_H = 32;
 export const ROW_STEP = 40; // card height + gap
 export const GAP_UP = 18; // axis → bottom of the first row above
 export const GAP_DOWN = 30; // axis → top of the first row below (month labels live here)
-const RESERVE = 96; // free space beyond the outer rows for expansions
+const RESERVE = 116; // free space beyond the outer rows for expansions
 
 // Semantic zoom. Zooming out first turns minor events into bare dots, then
 // majors too, so the track never becomes a wall of cards; zooming in just
@@ -25,21 +25,20 @@ export const ZOOM_LEVELS = [
 ];
 export const DEFAULT_ZOOM = 2;
 
-// Connector from the event's date on the axis to the near edge of its card.
-// Nudged cards get an elbow: out from the date, then across to the card.
+// Straight connector from the event's date on the axis to its card.
 export function stemPath(it, axis) {
   if (it.kind === "dot") return "";
-  const x0 = it.dateX + 0.5;
-  const x1 = it.x + 0.5;
+  const x = it.dateX + 0.5;
   const minor = it.kind === "minor";
-  if (it.side === "up") {
-    const edge = minor ? it.y + 16 : it.slotTop + CARD_H;
-    if (x1 - x0 < 1) return `M${x0} ${axis}V${edge}`;
-    return `M${x0} ${axis}V${it.slotTop + CARD_H + 6}H${x1}V${edge}`;
-  }
-  const edge = minor ? it.y : it.slotTop;
-  if (x1 - x0 < 1) return `M${x0} ${axis}V${edge}`;
-  return `M${x0} ${axis}V${it.slotTop - 6}H${x1}V${edge}`;
+  const edge =
+    it.side === "up"
+      ? minor
+        ? it.y + 16
+        : it.slotTop + CARD_H
+      : minor
+        ? it.y
+        : it.slotTop;
+  return `M${x} ${axis}V${edge}`;
 }
 
 const daysIn = (y, m) => new Date(y, m, 0).getDate();
@@ -56,7 +55,7 @@ export function cardWidth(e, lang) {
 }
 
 export function expandedHeight(e, width) {
-  return 45 + lineCount(e.text, FONTS.desc, width - 26) * 19;
+  return 45 + lineCount(e.text, FONTS.desc, width - 26) * 20;
 }
 
 export function layoutTimeline(
@@ -75,7 +74,7 @@ export function layoutTimeline(
     2,
     Math.floor((height - axis - GAP_DOWN - CARD_H - RESERVE) / ROW_STEP) + 1
   );
-  const fillRows = Math.max(3, Math.round((rowsUp + rowsDown) * 0.75));
+  const fillRows = Math.max(3, Math.round((rowsUp + rowsDown) * 0.6));
   const kindOf = (e) =>
     e.tier >= Z.cardTier ? "card" : Z.minors && e.tier === 1 ? "minor" : "dot";
 
@@ -108,9 +107,8 @@ export function layoutTimeline(
     months.push({ i, y: 2015 + Math.floor(i / 12), m: (i % 12) + 1, x, w });
     x += w;
   }
-  const total = x;
 
-  const xOf = (e) => {
+  const baseX = (e) => {
     const mo = months[monthIndex(e.y, e.m)];
     return mo.x + (mo.w * (e.d - 1)) / daysIn(e.y, e.m);
   };
@@ -123,8 +121,14 @@ export function layoutTimeline(
   }
   const right = slots.map(() => -Infinity);
   const items = [];
+  // Every card sits exactly on its date. When no row is free there, the time
+  // axis itself opens a small gap at that moment (everything later shifts
+  // right), so connectors are always straight.
+  const gaps = []; // [base x, extra px]
+  let shift = 0;
   for (const e of events) {
-    const ex = xOf(e);
+    const b = baseX(e);
+    let ex = b + shift;
     const kind = kindOf(e);
     if (kind === "dot") {
       items.push({
@@ -139,25 +143,25 @@ export function layoutTimeline(
       });
       continue;
     }
-    // Nearest slot that fits; if none does, the one needing the smallest
-    // sideways nudge (same-day events would otherwise stack forever).
     const w = widths.get(e.id);
-    let best = null;
-    for (let s = 0; s < slots.length; s++) {
-      const left = Math.max(ex, right[s] + 10);
-      const cost = left - ex + s * 3;
-      if (!best || cost < best.cost) best = { s, left, cost };
-      if (left === ex) break;
+    let s = slots.findIndex((_, k) => right[k] + 10 <= ex);
+    if (s < 0) {
+      s = 0;
+      for (let k = 1; k < slots.length; k++) if (right[k] < right[s]) s = k;
+      const need = right[s] + 10 - ex;
+      gaps.push([b, need]);
+      shift += need;
+      ex += need;
     }
-    right[best.s] = best.left + w;
-    const { side, r } = slots[best.s];
+    right[s] = ex + w;
+    const { side, r } = slots[s];
     const slotTop =
       side === "up"
         ? axis - GAP_UP - CARD_H - r * ROW_STEP
         : axis + GAP_DOWN + r * ROW_STEP;
     items.push({
       e,
-      x: best.left,
+      x: ex,
       dateX: ex,
       w,
       kind,
@@ -166,6 +170,20 @@ export function layoutTimeline(
       y: slotTop + (kind === "minor" ? 8 : 0),
     });
   }
+  // Fold the gaps back into the months so labels and the scrubber line up.
+  if (gaps.length) {
+    let gi = 0;
+    let acc = 0;
+    for (const mo of months) {
+      const end = mo.x + mo.w;
+      let inside = 0;
+      while (gi < gaps.length && gaps[gi][0] < end) inside += gaps[gi++][1];
+      mo.x += acc;
+      mo.w += inside;
+      acc += inside;
+    }
+  }
+  const total = x + shift;
 
   // x (track px) → fractional month index, for the scrubber.
   const monthAt = (px) => {

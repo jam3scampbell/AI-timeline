@@ -31,10 +31,10 @@ export function lineCount(text, font, width) {
 }
 
 export const FONTS = {
-  landmark: "500 18px 'EB Garamond'",
-  major: "500 13px Geist",
-  minor: "400 13px Geist",
+  landmark: "500 19px 'EB Garamond'",
+  major: "500 14px Geist",
+  minor: "400 14px Geist",
   date: "400 10px 'Geist Mono'",
-  desc: "400 13px Geist",
+  desc: "400 14px Geist",
   descMobile: "400 14px Geist",
 };
