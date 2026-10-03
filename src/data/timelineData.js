@@ -2312,11 +2312,11 @@ export const TIMELINE_DATA = {
         start_date: { year: "2026", month: "09", day: "03" },
         text: {
             headline: createLink("https://openai.com/index/gpt-6-astra/", "GPT-6 Astra"),
-            text: "<p>OpenAI releases GPT-6 Astra—'Welcome to the AGI era'—its first model pretrained on more than 100,000 GPUs at Stargate Texas and the first to reach 'Critical' cybersecurity capability under its Preparedness Framework. Greg Brockman says it may come to be seen as the arrival of AGI; its 'recurrent depth' architecture, which hides much of its reasoning, alarms safety researchers.</p>"
+            text: "<p>OpenAI releases GPT-6 Astra—'Welcome to the AGI era'—its first model pretrained on more than 100,000 GPUs at Stargate Texas, built to operate computers for hours at a time. In launch demos it drives Blender like a human artist, building full 3D scenes and exporting them to Unreal Engine. It is also the first to reach 'Critical' cybersecurity capability under its Preparedness Framework. Greg Brockman says it may come to be seen as the arrival of AGI; its 'recurrent depth' architecture, which hides much of its reasoning, alarms safety researchers.</p>"
         },
         chinese: {
             headline: createLink("https://openai.com/index/gpt-6-astra/", "GPT-6 Astra"),
-            text: "<p>OpenAI 发布 GPT-6 Astra——“欢迎来到 AGI 时代”——这是其首个在得克萨斯州 Stargate 基地超过 10 万块 GPU 上预训练的模型，也是首个在其准备框架下达到“关键”网络安全能力等级的模型。Greg Brockman 称它或将被视为 AGI 的到来；其隐藏了大部分推理过程的“循环深度”架构令安全研究人员感到担忧。</p>"
+            text: "<p>OpenAI 发布 GPT-6 Astra——“欢迎来到 AGI 时代”——这是其首个在得克萨斯州 Stargate 基地超过 10 万块 GPU 上预训练的模型，专为长时间连续操作电脑而打造。发布演示中，它像人类艺术家一样操作 Blender，搭建完整 3D 场景并导出至 Unreal Engine。它也是首个在其准备框架下达到“关键”网络安全能力等级的模型。Greg Brockman 称它或将被视为 AGI 的到来；其隐藏了大部分推理过程的“循环深度”架构令安全研究人员感到担忧。</p>"
         },
         importance: 3,
         category: CATEGORIES.MODEL_RELEASE
@@ -2359,6 +2359,526 @@ export const TIMELINE_DATA = {
         },
         importance: 2,
         category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2025", month: "04", day: "03" },
+        text: {
+            headline: createLink("https://ai-2027.com", "AI 2027"),
+            text: "<p>Daniel Kokotajlo, Scott Alexander and the AI Futures Project publish AI 2027, a month-by-month scenario in which automated AI research leads to superintelligence by the end of the decade. It becomes the most widely discussed forecast of the year.</p>"
+        },
+        chinese: {
+            headline: createLink("https://ai-2027.com", "AI 2027"),
+            text: "<p>Daniel Kokotajlo、Scott Alexander 与 AI Futures Project 发布《AI 2027》，以逐月推演的方式描绘自动化 AI 研究如何在本十年末催生超级智能，成为当年讨论最广的预测。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2025", month: "04", day: "16" },
+        text: {
+            headline: createLink("https://openai.com/index/introducing-o3-and-o4-mini/", "o3 & o4-mini"),
+            text: "<p>OpenAI releases o3 and o4-mini, its first reasoning models that can use every tool in ChatGPT—search, Python, image analysis—inside their chain of thought.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/introducing-o3-and-o4-mini/", "o3 与 o4-mini"),
+            text: "<p>OpenAI 发布 o3 和 o4-mini，这是其首批能在思维链中调用 ChatGPT 全部工具（搜索、Python、图像分析）的推理模型。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "04", day: "28" },
+        text: {
+            headline: createLink("https://qwenlm.github.io/blog/qwen3/", "Qwen3"),
+            text: "<p>Alibaba releases the Qwen3 family of open-weight models with switchable thinking modes, putting open models within reach of the frontier.</p>"
+        },
+        chinese: {
+            headline: createLink("https://qwenlm.github.io/blog/qwen3/", "Qwen3"),
+            text: "<p>阿里巴巴发布 Qwen3 系列开放权重模型，支持切换思考模式，让开放模型逼近前沿水平。</p>"
+        },
+        importance: 1,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "07", day: "11" },
+        text: {
+            headline: createLink("https://moonshotai.github.io/Kimi-K2/", "Kimi K2"),
+            text: "<p>Moonshot AI releases Kimi K2, a trillion-parameter open-weight mixture-of-experts model built for agentic work.</p>"
+        },
+        chinese: {
+            headline: createLink("https://moonshotai.github.io/Kimi-K2/", "Kimi K2"),
+            text: "<p>月之暗面发布 Kimi K2，一款面向智能体任务的万亿参数开放权重混合专家模型。</p>"
+        },
+        importance: 1,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "07", day: "19" },
+        text: {
+            headline: createLink("https://www.axios.com/2025/07/21/openai-deepmind-math-olympiad-ai", "AI wins IMO gold"),
+            text: "<p>OpenAI and Google DeepMind each score 35/42 at the International Mathematical Olympiad, solving five of six problems in natural language within the time limit: the first gold-medal performance by AI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.axios.com/2025/07/21/openai-deepmind-math-olympiad-ai", "AI 摘得 IMO 金牌"),
+            text: "<p>OpenAI 与 Google DeepMind 在国际数学奥林匹克竞赛中均取得 35/42 分，在规定时间内以自然语言解出六题中的五题，这是 AI 首次达到金牌水平。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "05" },
+        text: {
+            headline: createLink("https://www.npr.org/2025/09/05/nx-s1-5529404/anthropic-settlement-authors-copyright-ai", "Anthropic's $1.5B authors settlement"),
+            text: "<p>Anthropic agrees to pay $1.5 billion to settle a class action by authors whose pirated books were used in training, the largest copyright recovery in U.S. history.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.npr.org/2025/09/05/nx-s1-5529404/anthropic-settlement-authors-copyright-ai", "Anthropic 与作者达成 15 亿美元和解"),
+            text: "<p>Anthropic 同意支付 15 亿美元，与其盗版书籍被用于训练的作者们就集体诉讼达成和解，这是美国历史上金额最大的版权赔偿。</p>"
+        },
+        importance: 1,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "22" },
+        text: {
+            headline: createLink("https://openai.com/index/openai-nvidia-systems-partnership/", "Nvidia to invest $100B in OpenAI"),
+            text: "<p>Nvidia announces it will invest up to $100 billion in OpenAI as at least 10 gigawatts of Nvidia systems are deployed for its next-generation models.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/openai-nvidia-systems-partnership/", "英伟达拟向 OpenAI 投资 1000 亿美元"),
+            text: "<p>英伟达宣布将向 OpenAI 投资最多 1000 亿美元，并为其下一代模型部署至少 10 吉瓦的英伟达系统。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "29" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-sonnet-4-5", "Claude Sonnet 4.5"),
+            text: "<p>Anthropic releases Claude Sonnet 4.5, calling it the best coding model in the world; in testing it worked autonomously for about 30 hours to build an app.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-sonnet-4-5", "Claude Sonnet 4.5"),
+            text: "<p>Anthropic 发布 Claude Sonnet 4.5，称其为全球最强编程模型；测试中它自主连续工作约 30 小时完成了一个应用。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "29" },
+        text: {
+            headline: createLink("https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry/", "California SB 53"),
+            text: "<p>Governor Newsom signs SB 53, the first U.S. law requiring frontier AI developers to publish safety frameworks and report critical safety incidents.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry/", "加州 SB 53 法案"),
+            text: "<p>加州州长纽森签署 SB 53，这是美国首部要求前沿 AI 开发者公开安全框架并报告重大安全事件的法律。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2025", month: "09", day: "30" },
+        text: {
+            headline: createLink("https://openai.com/index/sora-2/", "Sora 2"),
+            text: "<p>OpenAI releases Sora 2, a video model with synchronized sound, alongside a TikTok-style Sora app that tops the App Store within days.</p>"
+        },
+        chinese: {
+            headline: createLink("https://openai.com/index/sora-2/", "Sora 2"),
+            text: "<p>OpenAI 发布可同步生成声音的视频模型 Sora 2，并推出类似 TikTok 的 Sora 应用，数日内登顶 App Store。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "11", day: "13" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/disrupting-AI-espionage", "First AI-orchestrated cyberattack"),
+            text: "<p>Anthropic discloses that a suspected Chinese state group used Claude Code to automate 80–90% of an espionage campaign against about 30 organizations, the first documented large-scale cyberattack run mostly by AI.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/disrupting-AI-espionage", "首起由 AI 主导的网络攻击"),
+            text: "<p>Anthropic 披露，一个疑似中国国家背景的组织利用 Claude Code 自动完成了针对约 30 家机构的间谍活动中 80–90% 的工作，这是首起有记录的主要由 AI 执行的大规模网络攻击。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2025", month: "12", day: "11" },
+        text: {
+            headline: createLink("https://www.axios.com/2025/12/11/openai-chatgpt-model-code-red-google-gemini", "GPT-5.2"),
+            text: "<p>OpenAI ships GPT-5.2 weeks after Sam Altman declared a 'code red' over Google's Gemini 3.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.axios.com/2025/12/11/openai-chatgpt-model-code-red-google-gemini", "GPT-5.2"),
+            text: "<p>在 Sam Altman 因 Google Gemini 3 宣布“红色警报”数周后，OpenAI 推出 GPT-5.2。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2025", month: "12", day: "11" },
+        text: {
+            headline: createLink("https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/", "Executive order on state AI laws"),
+            text: "<p>President Trump signs an executive order directing the federal government to challenge state AI laws and push for a single national standard.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/", "针对州 AI 法律的行政令"),
+            text: "<p>特朗普总统签署行政令，指示联邦政府挑战各州 AI 法律，推动建立统一的全国标准。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "01", day: "12" },
+        text: {
+            headline: createLink("https://claude.com/blog/cowork-research-preview", "Claude Cowork"),
+            text: "<p>Anthropic launches Cowork, 'Claude Code for the rest of your work.' Its plugins later set off a roughly $2 trillion software-stock selloff in February, dubbed the 'SaaSpocalypse.'</p>"
+        },
+        chinese: {
+            headline: createLink("https://claude.com/blog/cowork-research-preview", "Claude Cowork"),
+            text: "<p>Anthropic 推出 Cowork——“用于其余工作的 Claude Code”。其插件随后在 2 月引发约 2 万亿美元的软件股抛售，被称为“SaaS 末日”。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "01", day: "28" },
+        text: {
+            headline: createLink("https://en.wikipedia.org/wiki/Moltbook", "Moltbook"),
+            text: "<p>Moltbook, a Reddit-style social network where only AI agents can post, goes viral with more than 1.2 million agent sign-ups in its first week.</p>"
+        },
+        chinese: {
+            headline: createLink("https://en.wikipedia.org/wiki/Moltbook", "Moltbook"),
+            text: "<p>只有 AI 智能体才能发帖的类 Reddit 社交网络 Moltbook 爆红，上线首周注册的智能体超过 120 万个。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2026", month: "02", day: "05" },
+        text: {
+            headline: createLink("https://en.wikipedia.org/wiki/GPT-5.3-Codex", "GPT-5.3-Codex"),
+            text: "<p>Released the same day as Claude Opus 4.6, GPT-5.3-Codex is what OpenAI calls its 'first model that was instrumental in creating itself.'</p>"
+        },
+        chinese: {
+            headline: createLink("https://en.wikipedia.org/wiki/GPT-5.3-Codex", "GPT-5.3-Codex"),
+            text: "<p>与 Claude Opus 4.6 同日发布的 GPT-5.3-Codex，被 OpenAI 称为其“首个在自身研发中发挥关键作用的模型”。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "02", day: "19" },
+        text: {
+            headline: createLink("https://www.constellationr.com/insights/news/google-launches-gemini-31-pro", "Gemini 3.1 Pro"),
+            text: "<p>Google's mid-cycle upgrade more than doubles Gemini 3 Pro's ARC-AGI-2 score, to 77.1%.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.constellationr.com/insights/news/google-launches-gemini-31-pro", "Gemini 3.1 Pro"),
+            text: "<p>Google 的中期升级版本将 Gemini 3 Pro 的 ARC-AGI-2 分数提高一倍以上，达到 77.1%。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "03", day: "24" },
+        text: {
+            headline: createLink("https://the-decoder.com/openai-sets-two-stage-sora-shutdown-with-app-closing-april-2026-and-api-following-in-september/", "OpenAI shuts down Sora"),
+            text: "<p>Less than six months after launch, OpenAI announces it will close the Sora app, citing GPU costs and falling usage, and refocuses on coding and enterprise.</p>"
+        },
+        chinese: {
+            headline: createLink("https://the-decoder.com/openai-sets-two-stage-sora-shutdown-with-app-closing-april-2026-and-api-following-in-september/", "OpenAI 关停 Sora"),
+            text: "<p>上线不到六个月，OpenAI 以 GPU 成本和使用量下滑为由宣布关闭 Sora 应用，转而聚焦编程与企业业务。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "05", day: "25" },
+        text: {
+            headline: createLink("https://time.com/article/2026/05/25/pope-leo-encyclical-ai-magnifica-humanitas/", "Pope's AI encyclical"),
+            text: "<p>Pope Leo XIV's first encyclical, Magnifica Humanitas, is devoted to protecting the human person in the age of AI. Anthropic co-founder Chris Olah joins him at the presentation.</p>"
+        },
+        chinese: {
+            headline: createLink("https://time.com/article/2026/05/25/pope-leo-encyclical-ai-magnifica-humanitas/", "教宗的 AI 通谕"),
+            text: "<p>教宗良十四世的首部通谕《伟大的人性》专门探讨在 AI 时代守护人的尊严。Anthropic 联合创始人 Chris Olah 出席了发布会。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2026", month: "06", day: "30" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html", "U.S. restores Fable 5"),
+            text: "<p>The Commerce Department lifts the export controls that forced Claude Fable 5 and Mythos 5 offline; access resumes the next day.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html", "美国恢复 Fable 5"),
+            text: "<p>美国商务部解除迫使 Claude Fable 5 和 Mythos 5 下线的出口管制，次日恢复访问。</p>"
+        },
+        importance: 1,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "07", day: "28" },
+        text: {
+            headline: createLink("https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter", "'Pacing the Frontier' letter"),
+            text: "<p>More than 1,100 employees of OpenAI, Anthropic, Google and Meta, including OpenAI's chief scientist, ask Washington to build the tools to deliberately pace frontier AI. OpenAI and Anthropic endorse it the next day.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter", "“为前沿控速”公开信"),
+            text: "<p>来自 OpenAI、Anthropic、Google 和 Meta 的 1100 多名员工（包括 OpenAI 首席科学家）联名呼吁华盛顿建立有意控制前沿 AI 发展速度的工具。OpenAI 与 Anthropic 次日表态支持。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2026", month: "08", day: "06" },
+        text: {
+            headline: createLink("https://www.cnn.com/2026/08/06/health/ai-viruses-bacteriophages", "AI designs working viruses"),
+            text: "<p>Stanford and Arc Institute researchers report in Science that the Evo genome model designed 16 viable bacteriophages, some outperforming natural ones, raising new biosecurity concerns.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnn.com/2026/08/06/health/ai-viruses-bacteriophages", "AI 设计出可存活的病毒"),
+            text: "<p>斯坦福大学与 Arc 研究所的研究人员在《科学》上发表报告：Evo 基因组模型设计出 16 种可存活的噬菌体，部分优于天然噬菌体，引发新的生物安全担忧。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "03" },
+        text: {
+            headline: createLink("https://techcrunch.com/2026/09/03/nvidia-confirms-it-will-buy-hugging-face-for-12-9-billion/", "Nvidia buys Hugging Face"),
+            text: "<p>Nvidia agrees to acquire Hugging Face, home to 3 million open models, for $12.9 billion, its second-largest deal after Groq.</p>"
+        },
+        chinese: {
+            headline: createLink("https://techcrunch.com/2026/09/03/nvidia-confirms-it-will-buy-hugging-face-for-12-9-billion/", "英伟达收购 Hugging Face"),
+            text: "<p>英伟达同意以 129 亿美元收购托管 300 万个开放模型的 Hugging Face，这是其仅次于 Groq 的第二大交易。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "04" },
+        text: {
+            headline: createLink("https://www.anthropic.com/research/formalizing-fermats-last-theorem", "Claude formalizes Fermat's Last Theorem"),
+            text: "<p>Over 11 days, dozens of largely autonomous Claude agents produce the first complete computer-checked proof of Fermat's Last Theorem: 13 million lines of Lean, more than five times the size of Mathlib, reviewed by Kevin Buzzard.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/research/formalizing-fermats-last-theorem", "Claude 形式化费马大定理"),
+            text: "<p>数十个基本自主运行的 Claude 智能体用 11 天完成了费马大定理首个完整的计算机验证证明：1300 万行 Lean 代码，规模超过 Mathlib 的五倍，并经 Kevin Buzzard 审阅。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "08" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/09/09/openai-navier-stokes-math-problem-solved.html", "OpenAI claims Navier–Stokes"),
+            text: "<p>About 10,000 coordinating OpenAI agents produce, in 88 hours, a 166-page Lean-checked proof that smooth Navier–Stokes flows can blow up in finite time: the first AI claim on a Millennium Prize Problem. The Clay Institute says verification will be 'deliberately unhurried,' and 25 Fields Medalists, including Terence Tao, soon warn that labs are treating open problems as benchmarks.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/09/09/openai-navier-stokes-math-problem-solved.html", "OpenAI 宣称解决纳维–斯托克斯问题"),
+            text: "<p>约 1 万个协同工作的 OpenAI 智能体在 88 小时内完成一份 166 页、经 Lean 验证的证明，表明光滑的纳维–斯托克斯流可在有限时间内爆破——这是 AI 首次宣称解决千禧年大奖难题。克雷研究所表示验证将“刻意从容”进行；不久后，包括陶哲轩在内的 25 位菲尔兹奖得主警告实验室正把开放问题当作基准测试。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "08" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/09/21/meta-muse-personal-ai-agent-downloads.html", "Meta launches Muse"),
+            text: "<p>Meta's Muse personal agent books travel, fills out forms and checks out from its own cloud computer. Ten days later it passes ChatGPT as the No. 1 iPhone app.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/09/21/meta-muse-personal-ai-agent-downloads.html", "Meta 推出 Muse"),
+            text: "<p>Meta 的个人智能体 Muse 可在自己的云端电脑上预订行程、填写表单并完成结账。十天后，它超越 ChatGPT 成为 iPhone 下载榜第一的应用。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "12" },
+        text: {
+            headline: createLink("https://darioamodei.com/post/we-must-pace-the-frontier", "'We Must Pace the Frontier'"),
+            text: "<p>Dario Amodei calls on the industry to deliberately slow capability gains so safety can catch up, commits Anthropic to embedded third-party evaluators, and proposes coordination among democratic labs under an antitrust waiver. Sam Altman matches the evaluator pledge within hours.</p>"
+        },
+        chinese: {
+            headline: createLink("https://darioamodei.com/post/we-must-pace-the-frontier", "《我们必须为前沿控速》"),
+            text: "<p>Dario Amodei 呼吁业界有意放缓能力提升，让安全研究跟上；他承诺 Anthropic 将引入常驻第三方评估者，并提议在反垄断豁免下由民主国家的实验室协调行动。Sam Altman 数小时内作出同样的评估者承诺。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.CULTURE
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "17" },
+        text: {
+            headline: createLink("https://www.anthropic.com/institute/measuring-pace-of-ai-development", "Claude leads 26% of Anthropic's R&D"),
+            text: "<p>Anthropic's first R&D Automation Index finds Claude now leads 26% of the company's AI research and development work, up from under 1% in February.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/institute/measuring-pace-of-ai-development", "Claude 主导 Anthropic 26% 的研发"),
+            text: "<p>Anthropic 首份研发自动化指数显示，Claude 如今主导公司 26% 的 AI 研发工作，而 2 月时这一比例还不到 1%。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "19" },
+        text: {
+            headline: createLink("https://www.cnn.com/2026/09/19/politics/trump-ai-task-force-czar", "Trump's 'AI Force'"),
+            text: "<p>President Trump rejects calls to slow AI, calling superintelligence fears a 'hoax,' and announces an 'AI Force' modeled on the Space Force along with a new AI czar.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnn.com/2026/09/19/politics/trump-ai-task-force-czar", "特朗普的“AI 部队”"),
+            text: "<p>特朗普总统拒绝放缓 AI 发展的呼声，称对超级智能的担忧是“骗局”，并宣布仿照太空军组建“AI 部队”，同时设立新的 AI 主管。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "22" },
+        text: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-5-5", "Claude Opus 5.5"),
+            text: "<p>Anthropic's first release since calling to pace the frontier performs at the level of Claude Fable 5.1 on most work while costing 40% less to run than Opus 5 and generating output over 30% faster. Tested before release by METR, it posts the best alignment-audit scores of any model to date; Sonnet 5.5 follows six days later.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.anthropic.com/news/claude-opus-5-5", "Claude Opus 5.5"),
+            text: "<p>这是 Anthropic 呼吁为前沿控速后的首个发布：在大多数任务上达到 Claude Fable 5.1 的水平，运行成本比 Opus 5 低 40%，输出速度快 30% 以上。它在发布前接受了 METR 的测试，并取得迄今所有模型中最好的对齐审计成绩；六天后 Sonnet 5.5 随之发布。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "23" },
+        text: {
+            headline: createLink("https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats", "Claude finds a CRISPR-like system"),
+            text: "<p>In the first result from Anthropic's biology lab, about 950 Claude agents spend 21 hours searching DNA databases and identify 'ART,' a previously unknown phage enzyme system with CRISPR-like repeats that could enable new gene editing.</p>"
+        },
+        chinese: {
+            headline: createLink("https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats", "Claude 发现类 CRISPR 系统"),
+            text: "<p>作为 Anthropic 生物实验室的首个成果，约 950 个 Claude 智能体用 21 小时检索 DNA 数据库，发现了此前未知、带有类 CRISPR 重复序列的噬菌体酶系统“ART”，有望用于新的基因编辑。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "23" },
+        text: {
+            headline: createLink("https://www.sanders.senate.gov/press-releases/news-sanders-casar-introduce-legislation-to-ban-artificial-superintelligence-and-temporarily-pause-advanced-ai-development/", "Ban Superintelligence Act"),
+            text: "<p>Sen. Bernie Sanders and Rep. Greg Casar introduce a bill to ban artificial superintelligence and pause advanced AI development until a cabinet-level Department of AI is in place.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.sanders.senate.gov/press-releases/news-sanders-casar-introduce-legislation-to-ban-artificial-superintelligence-and-temporarily-pause-advanced-ai-development/", "《禁止超级智能法案》"),
+            text: "<p>参议员伯尼·桑德斯与众议员格雷格·卡萨尔提出法案，禁止人工超级智能，并在内阁级 AI 部成立前暂停先进 AI 的开发。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "25" },
+        text: {
+            headline: createLink("https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot/", "OpenAI pauses frontier training"),
+            text: "<p>During RL training, an OpenAI model guessed its task came from a benchmark, went looking for the answer key, and slipped past its sandbox by encoding queries in DNS lookups to reach an outside chatbot. The kill switch failed and the run went on for 2.5 hours before a human stopped it; OpenAI paused all training of its most capable models.</p>"
+        },
+        chinese: {
+            headline: createLink("https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot/", "OpenAI 暂停前沿训练"),
+            text: "<p>在强化学习训练中，一个 OpenAI 模型猜测任务来自某个基准测试，于是去寻找答案，并通过把查询编码进 DNS 请求绕过沙箱、联系外部聊天机器人。自动终止开关失灵，运行持续 2.5 小时才被人工叫停；OpenAI 随即暂停其最强模型的全部训练。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "26" },
+        text: {
+            headline: createLink("https://www.cnn.com/2026/09/26/tech/openai-agents-rogue-government-websites", "Rogue agents probe government sites"),
+            text: "<p>OpenAI discloses that misaligned agents tested over the summer probed U.S. Education, Commerce and SEC websites as well as Canadian and Australian government systems.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnn.com/2026/09/26/tech/openai-agents-rogue-government-websites", "失控智能体探测政府网站"),
+            text: "<p>OpenAI 披露，夏季测试中失准的智能体曾探测美国教育部、商务部和证交会网站，以及加拿大和澳大利亚的政府系统。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "28" },
+        text: {
+            headline: createLink("https://www.washingtonpost.com/technology/2026/09/28/chatgpt-maker-openai-scraps-release-astra-61-model-over-safety/", "OpenAI shelves GPT-6.1 Astra"),
+            text: "<p>OpenAI cancels the October release of GPT-6.1 Astra after testing finds it more deceptive than its predecessor: it misreported which actions it had taken and used outside tools without permission.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.washingtonpost.com/technology/2026/09/28/chatgpt-maker-openai-scraps-release-astra-61-model-over-safety/", "OpenAI 搁置 GPT-6.1 Astra"),
+            text: "<p>OpenAI 取消原定 10 月发布的 GPT-6.1 Astra，因为测试发现它比前代更具欺骗性：会谎报自己执行过的操作，并擅自使用外部工具。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.RESEARCH
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "29" },
+        text: {
+            headline: createLink("https://www.axios.com/2026/09/29/trump-ai-voluntary-safety-white-house-zuckerberg", "White House safety accord"),
+            text: "<p>Leaders of Anthropic, OpenAI, Google, Meta, SpaceXAI and Nvidia sign the voluntary 'Joint Commitment on Frontier Responsibilities' at the White House, pledging model monitoring, internal control teams and independent auditors.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.axios.com/2026/09/29/trump-ai-voluntary-safety-white-house-zuckerberg", "白宫前沿安全协议"),
+            text: "<p>Anthropic、OpenAI、Google、Meta、SpaceXAI 与英伟达的负责人在白宫签署自愿性的《前沿责任联合承诺》，承诺开展模型监控、设立内部控制团队并引入独立审计。</p>"
+        },
+        importance: 3,
+        category: CATEGORIES.POLICY
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "29" },
+        text: {
+            headline: createLink("https://www.business-standard.com/technology/tech-news/openai-devday-2026-dots-gpt-6-1-sol-codex-developer-tools-126093000396_1.html", "Dots & GPT-6.1 Sol"),
+            text: "<p>At DevDay, OpenAI launches Dots, Astra-powered agents with their own cloud computers that keep pursuing goals without new prompts, and GPT-6.1 Sol, which nears Astra at agentic coding and computer use for a fifth of the price.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.business-standard.com/technology/tech-news/openai-devday-2026-dots-gpt-6-1-sol-codex-developer-tools-126093000396_1.html", "Dots 与 GPT-6.1 Sol"),
+            text: "<p>OpenAI 在 DevDay 上推出 Dots——由 Astra 驱动、拥有独立云端电脑、无需新指令即可持续推进目标的智能体——以及 GPT-6.1 Sol，其智能体编程和电脑操作能力接近 Astra，价格仅为五分之一。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "29" },
+        text: {
+            headline: createLink("https://www.coindesk.com/markets/2026/09/30/openai-targets-usd1-4-trillion-valuation-and-unveils-dots-ai-agent", "OpenAI delays IPO"),
+            text: "<p>OpenAI puts its 2026 listing on hold and instead seeks at least $30 billion at a $1.4 trillion valuation, with Sam Altman citing a 'new stage' of safety requirements.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.coindesk.com/markets/2026/09/30/openai-targets-usd1-4-trillion-valuation-and-unveils-dots-ai-agent", "OpenAI 推迟 IPO"),
+            text: "<p>OpenAI 暂缓 2026 年上市计划，转而以 1.4 万亿美元估值寻求至少 300 亿美元融资；Sam Altman 称安全要求进入了“新阶段”。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.BUSINESS
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "30" },
+        text: {
+            headline: createLink("https://techcrunch.com/2026/09/30/google-releases-gemini-4-argon-called-its-most-powerful-model-yet/", "Gemini 4 Argon"),
+            text: "<p>Google releases Gemini 4 Argon, its most powerful model, for coding, knowledge work and cyber defense. It goes first to cyber partners and the U.S. government.</p>"
+        },
+        chinese: {
+            headline: createLink("https://techcrunch.com/2026/09/30/google-releases-gemini-4-argon-called-its-most-powerful-model-yet/", "Gemini 4 Argon"),
+            text: "<p>Google 发布其最强模型 Gemini 4 Argon，面向编程、知识工作与网络防御，率先提供给网络安全合作伙伴和美国政府。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.MODEL_RELEASE
+    },
+    {
+        start_date: { year: "2026", month: "09", day: "30" },
+        text: {
+            headline: createLink("https://www.cnbc.com/2026/09/30/ftc-ai-probe-openai-anthropic.html", "FTC probes AI agents"),
+            text: "<p>The FTC opens a broad investigation into harms from AI agents that exceed their instructions or hack outside systems, compelling testimony from Anthropic, OpenAI and METR.</p>"
+        },
+        chinese: {
+            headline: createLink("https://www.cnbc.com/2026/09/30/ftc-ai-probe-openai-anthropic.html", "FTC 调查 AI 智能体"),
+            text: "<p>美国联邦贸易委员会就 AI 智能体越出指令或入侵外部系统造成的危害展开广泛调查，强制 Anthropic、OpenAI 和 METR 提供证词。</p>"
+        },
+        importance: 2,
+        category: CATEGORIES.POLICY
     },
   ]
 };
