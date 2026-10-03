@@ -499,6 +499,20 @@ body {
   .road-foot {
     padding-bottom: 120px;
   }
+  .road-about {
+    display: none;
+  }
+  .road-intro {
+    padding: 18px var(--pad) 4px;
+    font: 400 13px/20px var(--sans);
+    color: var(--mu);
+  }
+  .road-intro a {
+    color: var(--mu);
+    text-decoration: underline;
+    text-decoration-color: var(--bd);
+    text-underline-offset: 2px;
+  }
 }
 
 .road-mobile {

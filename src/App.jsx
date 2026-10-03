@@ -5,21 +5,24 @@ import Road from "./components/Road";
 
 export default function App() {
   const { t } = useTranslation();
+  const about = (cls) => (
+    <p className={cls}>
+      {t("hero.description1")} {t("hero.description2")}
+      <a href="https://github.com/jam3scampbell/ai-timeline">
+        {t("hero.githubLink")}
+      </a>
+      {t("hero.description3")}
+      <a href="https://forms.gle/SgW7LYM6pjajUTxw8">{t("hero.formLink")}</a>
+      {t("hero.description4")}
+    </p>
+  );
 
   return (
     <div className="road">
-      <Road />
+      <Road intro={about("road-intro")} />
 
       <footer className="road-foot">
-        <p>
-          {t("hero.description1")} {t("hero.description2")}
-          <a href="https://github.com/jam3scampbell/ai-timeline">
-            {t("hero.githubLink")}
-          </a>
-          {t("hero.description3")}
-          <a href="https://forms.gle/SgW7LYM6pjajUTxw8">{t("hero.formLink")}</a>
-          {t("hero.description4")}
-        </p>
+        {about("road-about")}
         <p className="road-authors">
           {t("footer.createdBy", { year: new Date().getFullYear() })}{" "}
           <a href="https://x.com/jam3scampbell">James Campbell</a>{" "}

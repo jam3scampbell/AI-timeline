@@ -702,15 +702,6 @@ function MobileTimeline({ events, lang }) {
     }
   };
 
-  // Start where the story picks up, like the desktop view.
-  const started = useRef(false);
-  useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    const el = document.getElementById("m-year-2022");
-    if (el) window.scrollTo({ top: el.offsetTop - 8, behavior: "auto" });
-  }, []);
-
   return (
     <section
       className="road-mobile"
@@ -780,7 +771,9 @@ function MobileTimeline({ events, lang }) {
 
 /* ───────────────────────── Root ───────────────────────── */
 
-export default function Road() {
+// `intro` is the about text; phones show it under the header (on desktop it
+// lives in the footer).
+export default function Road({ intro }) {
   const { i18n } = useTranslation();
   const lang = i18n.language === "zh" ? "zh" : "en";
   const [cat, setCat] = useState("ALL");
@@ -795,6 +788,7 @@ export default function Road() {
   return (
     <>
       <Header cat={cat} setCat={setCat} />
+      {isPhone && intro}
       {isPhone ? (
         <MobileTimeline events={events} lang={lang} />
       ) : fontsReady ? (

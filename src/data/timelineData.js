@@ -355,7 +355,7 @@ export const TIMELINE_DATA = {
         ),
         text: "<p>Google Brain 发表了一篇论文，展示了通过让大型语言模型逐步思考可以提高其推理能力。尽管这是一种非常简单的技术，但链式思维推理后来成为 AI 的基础方法之一。</p>",
       },
-      importance: 1,
+      importance: 3,
       category: CATEGORIES.RESEARCH,
     },
     {
@@ -1005,7 +1005,7 @@ export const TIMELINE_DATA = {
         headline: createLink("https://x.com/cognition_labs/status/1767548763134964000", "Devin"),
         text: "<p>初创公司 Cognition Labs 演示了 Devin，这是一个完全自主的软件工程师代理的原型。</p>"
       },
-      importance: 2,
+      importance: 1,
       category: CATEGORIES.BUSINESS
     },
     {
