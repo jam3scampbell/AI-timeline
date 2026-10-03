@@ -306,11 +306,17 @@ function DesktopTimeline({ events, lang }) {
   useLayoutEffect(() => {
     const measure = () => {
       setVw(window.innerWidth);
-      const el = scroller.current;
-      if (!el) return;
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      const free = window.innerHeight - top - 104;
-      setTrackH(Math.round(Math.max(300, Math.min(640, free))));
+      // Height left for the track once the header, year bar, scrubber and
+      // footer have their share (the block is then centred in what remains).
+      const h = (sel) => document.querySelector(sel)?.offsetHeight || 0;
+      const free =
+        window.innerHeight -
+        h(".road-head") -
+        h(".road-bar") -
+        h(".road-scrub-wrap") -
+        h(".road-foot") -
+        48;
+      setTrackH(Math.round(Math.max(460, Math.min(640, free))));
     };
     measure();
     window.addEventListener("resize", measure);
