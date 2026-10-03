@@ -482,6 +482,89 @@ function DesktopTimeline({ events, lang }) {
     return out;
   }, [L, lang]);
 
+  // The track only re-renders when the layout or hover changes, not on every
+  // scroll frame (scrolling only moves the year label and scrubber window).
+  const trackBody = useMemo(
+    () => (
+      <>
+        <svg
+          className="road-svg"
+          width={L.total}
+          height={L.height}
+          aria-hidden="true"
+        >
+          <path
+            className="stems"
+            d={L.items
+              .filter((it) => it.e.id !== hover)
+              .map((it) => stemPath(it, L.axis))
+              .join("")}
+          />
+          <path className="axis" d={`M0 ${L.axis + 0.5}H${L.total}`} />
+          <path
+            className="ticks"
+            d={L.months
+              .map(
+                (mo) =>
+                  `M${mo.x + 0.5} ${L.axis}V${L.axis + (mo.m === 1 ? 8 : 4)}`
+              )
+              .join("")}
+          />
+          {L.items.map((it) =>
+            it.e.id === hover ? null : (
+              <circle
+                key={it.e.id}
+                cx={it.dateX + 0.5}
+                cy={L.axis + 0.5}
+                r={it.e.tier === 3 ? 3.2 : it.e.tier === 2 ? 2.6 : 2}
+                className={`dot t${it.e.tier}`}
+              />
+            )
+          )}
+          {hovered && (
+            <>
+              <path className="stem-on" d={stemPath(hovered, L.axis)} />
+              <circle
+                cx={hovered.dateX + 0.5}
+                cy={L.axis + 0.5}
+                r={8}
+                className="halo"
+              />
+              <circle
+                cx={hovered.dateX + 0.5}
+                cy={L.axis + 0.5}
+                r={4}
+                className="dot-on"
+              />
+            </>
+          )}
+        </svg>
+        {monthLabels.map(({ mo, label }) => (
+          <span
+            key={mo.i}
+            className={`mlabel${mo.m === 1 ? " jan" : ""}`}
+            style={{ left: mo.x + 6, top: L.axis + 9 }}
+          >
+            {label}
+          </span>
+        ))}
+        {L.items.map((it) => (
+          <TrackEvent
+            key={it.e.id}
+            it={it}
+            lang={lang}
+            height={L.height}
+            state={hover === it.e.id ? "open" : hover != null ? "dim" : "rest"}
+            onEnter={() => enter(it.e.id)}
+            onLeave={leave}
+            onTap={() => openNow(it.e.id)}
+          />
+        ))}
+      </>
+    ),
+    [L, hover, hovered, lang, monthLabels, enter, leave, openNow]
+  );
+
   return (
     <section className="road-desk" style={{ "--pad": `${pad}px` }}>
       <div className="road-bar">
@@ -527,81 +610,7 @@ function DesktopTimeline({ events, lang }) {
           className={`road-track${hover != null ? " has-hover" : ""}`}
           style={{ width: L.total, height: L.height }}
         >
-          <svg
-            className="road-svg"
-            width={L.total}
-            height={L.height}
-            aria-hidden="true"
-          >
-            <path
-              className="stems"
-              d={L.items
-                .filter((it) => it.e.id !== hover)
-                .map((it) => stemPath(it, L.axis))
-                .join("")}
-            />
-            <path className="axis" d={`M0 ${L.axis + 0.5}H${L.total}`} />
-            <path
-              className="ticks"
-              d={L.months
-                .map(
-                  (mo) =>
-                    `M${mo.x + 0.5} ${L.axis}V${L.axis + (mo.m === 1 ? 8 : 4)}`
-                )
-                .join("")}
-            />
-            {L.items.map((it) =>
-              it.e.id === hover ? null : (
-                <circle
-                  key={it.e.id}
-                  cx={it.dateX + 0.5}
-                  cy={L.axis + 0.5}
-                  r={it.e.tier === 3 ? 3.2 : it.e.tier === 2 ? 2.6 : 2}
-                  className={`dot t${it.e.tier}`}
-                />
-              )
-            )}
-            {hovered && (
-              <>
-                <path className="stem-on" d={stemPath(hovered, L.axis)} />
-                <circle
-                  cx={hovered.dateX + 0.5}
-                  cy={L.axis + 0.5}
-                  r={8}
-                  className="halo"
-                />
-                <circle
-                  cx={hovered.dateX + 0.5}
-                  cy={L.axis + 0.5}
-                  r={4}
-                  className="dot-on"
-                />
-              </>
-            )}
-          </svg>
-          {monthLabels.map(({ mo, label }) => (
-            <span
-              key={mo.i}
-              className={`mlabel${mo.m === 1 ? " jan" : ""}`}
-              style={{ left: mo.x + 6, top: L.axis + 9 }}
-            >
-              {label}
-            </span>
-          ))}
-          {L.items.map((it) => (
-            <TrackEvent
-              key={it.e.id}
-              it={it}
-              lang={lang}
-              height={L.height}
-              state={
-                hover === it.e.id ? "open" : hover != null ? "dim" : "rest"
-              }
-              onEnter={() => enter(it.e.id)}
-              onLeave={leave}
-              onTap={() => openNow(it.e.id)}
-            />
-          ))}
+          {trackBody}
         </div>
       </div>
       <div className="road-scrub-wrap">
@@ -786,12 +795,15 @@ export default function Road() {
   return (
     <>
       <Header cat={cat} setCat={setCat} />
-      {fontsReady &&
-        (isPhone ? (
-          <MobileTimeline events={events} lang={lang} />
-        ) : (
-          <DesktopTimeline events={events} lang={lang} />
-        ))}
+      {isPhone ? (
+        <MobileTimeline events={events} lang={lang} />
+      ) : fontsReady ? (
+        <DesktopTimeline events={events} lang={lang} />
+      ) : (
+        // Card widths are measured with the real fonts; hold the space (they
+        // are preloaded, so this is usually a frame or two).
+        <section className="road-desk" aria-busy="true" />
+      )}
     </>
   );
 }

@@ -1,17 +1,14 @@
 // src/App.jsx
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-
-const Road = lazy(() => import("./components/Road"));
+import Road from "./components/Road";
 
 export default function App() {
   const { t } = useTranslation();
 
   return (
     <div className="road">
-      <Suspense fallback={<div className="road-loading">{t("loading")}</div>}>
-        <Road />
-      </Suspense>
+      <Road />
 
       <footer className="road-foot">
         <p>
