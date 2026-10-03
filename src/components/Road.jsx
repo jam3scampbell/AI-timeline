@@ -25,7 +25,6 @@ import {
   expandedHeight,
   stemPath,
   CARD_H,
-  GAP_DOWN,
   ZOOM_LEVELS,
   DEFAULT_ZOOM,
 } from "../lib/layout";
@@ -219,27 +218,17 @@ function sidePadFor(width) {
 // Where an event's open card sits. It never moves from its resting corner;
 // it only grows rightward and away from the axis, getting wider (not taller)
 // when vertical room is short.
-function openGeometry(it, axis, height) {
-  const left =
-    it.kind === "minor" ? it.x - 4 : it.kind === "dot" ? it.dateX - 12 : it.x;
+function openGeometry(it, height) {
+  const left = it.kind === "minor" ? it.x - 4 : it.x;
   const up = it.side === "up";
-  const base = it.kind === "dot" ? axis + GAP_DOWN : it.slotTop;
+  const base = it.slotTop;
   const space = up ? base + CARD_H - 28 : height - base - 28;
   let w = Math.max(it.w, 280);
   while (expandedHeight(it.e, w) > space && w < 640) w += 40;
   return { left, up, base, w };
 }
 
-function TrackEvent({
-  it,
-  lang,
-  state,
-  height,
-  axis,
-  onEnter,
-  onLeave,
-  onTap,
-}) {
+function TrackEvent({ it, lang, state, height, onEnter, onLeave, onTap }) {
   const { e } = it;
   const open = state === "open";
   const pointer = useRef("mouse");
@@ -248,20 +237,13 @@ function TrackEvent({
   let style;
   if (open) {
     cls += " open";
-    const { left, up, base, w } = openGeometry(it, axis, height);
+    const { left, up, base, w } = openGeometry(it, height);
     // Above the axis the card is pinned by its bottom edge so it grows
     // upward on its own; below, by its top edge.
     if (up) cls += " up";
     style = up
       ? { left, bottom: height - (base + CARD_H), width: w }
       : { left, top: base, width: w };
-    if (it.kind === "dot") {
-      // Invisible bridge from the dot down to its card keeps the hover alive.
-      cls += " from-dot";
-      style["--bx"] = `${it.dateX - left - 12}px`;
-    }
-  } else if (it.kind === "dot") {
-    style = { left: it.dateX - 7, top: axis - 7 };
   } else {
     style = { left: it.x, top: it.y };
   }
@@ -285,9 +267,7 @@ function TrackEvent({
         }
       }}
     >
-      {it.kind === "dot" && !open ? (
-        <span className="sr-only">{e.title}</span>
-      ) : it.kind === "minor" && !open ? (
+      {it.kind === "minor" && !open ? (
         <span className="minor-t">{e.title}</span>
       ) : (
         <>
@@ -450,7 +430,7 @@ function DesktopTimeline({ events, lang }) {
     const it = L.items.find((x) => x.e.id === hover);
     const el = scroller.current;
     if (!it || !el) return;
-    const { left: l, w } = openGeometry(it, L.axis, L.height);
+    const { left: l, w } = openGeometry(it, L.height);
     const over = l + w - (el.scrollLeft + content + pad * 0.4);
     if (over > 0) el.scrollBy({ left: over + 8, behavior: "smooth" });
   }, [hover, L, content, pad]);
@@ -577,14 +557,7 @@ function DesktopTimeline({ events, lang }) {
             )}
             {hovered && (
               <>
-                <path
-                  className="stem-on"
-                  d={
-                    hovered.kind === "dot"
-                      ? `M${hovered.dateX + 0.5} ${L.axis}V${L.axis + GAP_DOWN}`
-                      : stemPath(hovered, L.axis)
-                  }
-                />
+                <path className="stem-on" d={stemPath(hovered, L.axis)} />
                 <circle
                   cx={hovered.dateX + 0.5}
                   cy={L.axis + 0.5}
@@ -615,7 +588,6 @@ function DesktopTimeline({ events, lang }) {
               it={it}
               lang={lang}
               height={L.height}
-              axis={L.axis}
               state={
                 hover === it.e.id ? "open" : hover != null ? "dim" : "rest"
               }

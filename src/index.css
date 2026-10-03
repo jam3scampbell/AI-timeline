@@ -175,14 +175,6 @@ body {
   stroke-width: 1.4;
   stroke-linecap: round;
 }
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
 .road-scroller {
   overflow-x: auto;
   overflow-y: hidden;
@@ -290,22 +282,6 @@ body {
 }
 .ev.card.t3 {
   border-color: var(--lm-bd);
-}
-.ev.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-}
-.ev.dot:hover {
-  background: rgba(143, 168, 255, 0.25);
-}
-.ev.from-dot::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: var(--bx);
-  width: 24px;
-  height: 40px;
 }
 .ev.open.up {
   flex-direction: column-reverse;
@@ -442,6 +418,19 @@ body {
 }
 .road-foot a:hover {
   color: var(--ink);
+}
+.road-authors {
+  margin-top: 6px;
+  font: 400 15px/22px var(--sans);
+  color: var(--mu);
+}
+.road-authors a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--lm-bd);
+}
+.road-authors a:hover {
+  border-color: var(--ink);
 }
 .road-credits {
   font-size: 11px;

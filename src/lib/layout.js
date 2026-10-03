@@ -13,21 +13,20 @@ export const GAP_UP = 18; // axis → bottom of the first row above
 export const GAP_DOWN = 30; // axis → top of the first row below (month labels live here)
 const RESERVE = 116; // free space beyond the outer rows for expansions
 
-// Semantic zoom. Zooming out first turns minor events into bare dots, then
-// majors too, so the track never becomes a wall of cards; zooming in just
-// gives every month more room.
+// Zoom never hides events. Zooming out packs months tighter so cards stack
+// into more rows (more of the timeline fits on screen); zooming in spreads
+// them out. `fill` is the share of rows a busy month is sized to fill.
 export const ZOOM_LEVELS = [
-  { cardTier: 3, minors: false, scale: 0.8, base: 18 },
-  { cardTier: 2, minors: false, scale: 0.85, base: 24 },
-  { cardTier: 2, minors: true, scale: 1, base: 36 },
-  { cardTier: 2, minors: true, scale: 1.5, base: 48 },
-  { cardTier: 2, minors: true, scale: 2.2, base: 64 },
+  { fill: 1.0, base: 8, scale: 0.8 },
+  { fill: 0.85, base: 20, scale: 0.9 },
+  { fill: 0.6, base: 36, scale: 1 },
+  { fill: 0.45, base: 48, scale: 1.3 },
+  { fill: 0.35, base: 64, scale: 1.7 },
 ];
 export const DEFAULT_ZOOM = 2;
 
 // Straight connector from the event's date on the axis to its card.
 export function stemPath(it, axis) {
-  if (it.kind === "dot") return "";
   const x = it.dateX + 0.5;
   const minor = it.kind === "minor";
   const edge =
@@ -74,9 +73,8 @@ export function layoutTimeline(
     2,
     Math.floor((height - axis - GAP_DOWN - CARD_H - RESERVE) / ROW_STEP) + 1
   );
-  const fillRows = Math.max(3, Math.round((rowsUp + rowsDown) * 0.6));
-  const kindOf = (e) =>
-    e.tier >= Z.cardTier ? "card" : Z.minors && e.tier === 1 ? "minor" : "dot";
+  const fillRows = Math.max(3, Math.round((rowsUp + rowsDown) * Z.fill));
+  const kindOf = (e) => (e.tier >= 2 ? "card" : "minor");
 
   const lastMonth = events.length
     ? monthIndex(events[events.length - 1].y, events[events.length - 1].m) + 2
@@ -92,12 +90,10 @@ export function layoutTimeline(
       const w = cardWidth(e, lang);
       widths.set(e.id, w);
       load[mi] += w + 10;
-    } else if (kind === "minor") {
+    } else {
       const w = Math.ceil(textWidth(e.title, FONTS.minor) + 22);
       widths.set(e.id, w);
       load[mi] += w + 10;
-    } else {
-      load[mi] += 14;
     }
   }
   const months = [];
@@ -130,19 +126,6 @@ export function layoutTimeline(
     const b = baseX(e);
     let ex = b + shift;
     const kind = kindOf(e);
-    if (kind === "dot") {
-      items.push({
-        e,
-        x: ex,
-        dateX: ex,
-        w: 0,
-        kind,
-        side: "down",
-        y: axis,
-        slotTop: axis + GAP_DOWN,
-      });
-      continue;
-    }
     const w = widths.get(e.id);
     let s = slots.findIndex((_, k) => right[k] + 10 <= ex);
     if (s < 0) {

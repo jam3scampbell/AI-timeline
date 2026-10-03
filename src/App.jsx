@@ -23,11 +23,13 @@ export default function App() {
           <a href="https://forms.gle/SgW7LYM6pjajUTxw8">{t("hero.formLink")}</a>
           {t("hero.description4")}
         </p>
-        <p className="road-credits">
+        <p className="road-authors">
           {t("footer.createdBy", { year: new Date().getFullYear() })}{" "}
           <a href="https://x.com/jam3scampbell">James Campbell</a>{" "}
           {t("footer.and")}{" "}
-          <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>.{" "}
+          <a href="https://x.com/Emiliano_GLopez">Emiliano Garcia-Lopez</a>
+        </p>
+        <p className="road-credits">
           {t("footer.contributors")}{" "}
           <a href="https://x.com/suntzoogway">suntzoogway</a>,{" "}
           <a href="https://github.com/puravparab">puravparab</a>,{" "}
